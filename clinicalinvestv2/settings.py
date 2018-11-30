@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'prj001.apps.Prj001Config',
     'myusers.apps.MyusersConfig',
     'projects.apps.ProjectsConfig',
-    'apidoc',
 ]
 
 AUTH_USER_MODEL = 'myusers.MyUser'
@@ -167,13 +166,4 @@ CLIENT_ID = "CWrbfzmJOhtG4cF0suVf0rGYSiJDWXeQBWxnne3g"
 REQUEST_URL = "http://localhost:8000/o/token/"
 
 
-SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'oauth2': {
-            'type': 'oauth2'
-        }
-    },
-    "LOGIN_URL": '/users/login/',
-    "LOGOUT_URL": 'rest_framework:logout',
-}
 
