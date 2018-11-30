@@ -14,15 +14,16 @@ create database clinical charset=utf8;
 mysql -uroot -p clinical < clinical.sql
 ```
 
-I. 后台管理员操作
-    1. url: http://localhost:8000/admin/
-    2. admin账号: 1@163.com
+## 数据管理后台与应用的创建
+1. 后台管理员操作
+    - url: http://localhost:8000/admin/
+    - admin账号: 1@163.com
        admin密码: admin111
 
-II. application的创建和修改
-    1. 创建
+2. application的创建和修改
+    - 创建
     访问 http://localhost:8000/o/applications/ 进行创建(注意设置项)
-    2. 修改settings
+    - 修改settings
     将文件中的 CLIENT_ID 进行修改成创建的application的 client_id
 
 
