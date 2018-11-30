@@ -19,19 +19,18 @@ from django.views.static import serve
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.documentation import include_docs_urls
-# from rest_framework_swagger.views import get_swagger_view
 
-# schema_view = get_swagger_view(title='Pastebin API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    path('api-docs/', include_docs_urls(title=u'临床流调API', authentication_classes=[], permission_classes=[])),
     # path('api-docs/', schema_view),
     path('users/', include('myusers.urls')),
     path('prj001/', include('prj001.urls')),
     path('projects/', include('projects.urls')),
+
+    path("api-docs/", include_docs_urls(title="API接口文档", authentication_classes=[], permission_classes=[])),
     # path('media/', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 
