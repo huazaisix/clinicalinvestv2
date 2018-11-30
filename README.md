@@ -5,7 +5,7 @@
 
 ### MYSQL数据库
 ```shell
-# 1. 注意: clinicalinvestv2/settings文件中P94、P95修改自己本地的账号和密码
+# 1. 注意: clinicalinvestv2/settings文件中LN94、LN95修改自己本地的账号和密码
 
 # 2. 本地创建数据库命令
 create database clinical charset=utf8;
