@@ -161,6 +161,6 @@ REST_FRAMEWORK = {
 
 # token生成需要的静态配置变量，关于application的生成的
 GRANT_TYPE = "password"
-CLIENT_ID = 222
+CLIENT_ID = "CWrbfzmJOhtG4cF0suVf0rGYSiJDWXeQBWxnne3g"
 
 REQUEST_URL = "http://localhost:8000/o/token/"
