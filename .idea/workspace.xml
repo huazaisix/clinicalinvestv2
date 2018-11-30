@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="25a3037f-9bcc-4579-884c-da5ab4871e40" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clinicalinvestv2/__init__.py" afterPath="$PROJECT_DIR$/clinicalinvestv2/__init__.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/clinicalinvestv2/settings.py" afterPath="$PROJECT_DIR$/clinicalinvestv2/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myusers/models.py" afterPath="$PROJECT_DIR$/myusers/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myusers/permissions.py" afterPath="$PROJECT_DIR$/myusers/permissions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myusers/serializers.py" afterPath="$PROJECT_DIR$/myusers/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myusers/urls.py" afterPath="$PROJECT_DIR$/myusers/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/myusers/views.py" afterPath="$PROJECT_DIR$/myusers/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prj001/models.py" afterPath="$PROJECT_DIR$/prj001/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prj001/permissions.py" afterPath="$PROJECT_DIR$/prj001/permissions.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prj001/serializers.py" afterPath="$PROJECT_DIR$/prj001/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prj001/urls.py" afterPath="$PROJECT_DIR$/prj001/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/prj001/views.py" afterPath="$PROJECT_DIR$/prj001/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,7 +43,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/prj001/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
@@ -61,6 +51,16 @@
               <folding>
                 <element signature="e#37#72#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="13" column="13" lean-forward="true" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -173,6 +173,7 @@
         <option value="$PROJECT_DIR$/utils/read_file_util/questionairetojson.py" />
         <option value="$PROJECT_DIR$/prj001/serializers.py" />
         <option value="$PROJECT_DIR$/prj001/views.py" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -629,11 +630,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16738197" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38795182" sideWeight="0.50429183" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38795182" sideWeight="0.50429183" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -684,14 +685,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/myusers/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="45" column="30" lean-forward="false" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/prj001/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4280">
@@ -1068,6 +1061,14 @@
           <folding>
             <element signature="e#37#72#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="13" column="13" lean-forward="true" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
         </state>
       </provider>
     </entry>
