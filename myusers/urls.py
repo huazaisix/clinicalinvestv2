@@ -2,12 +2,13 @@ from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from .views import MyUserList, MyUserDetail, UpdatePassword
-from .views import UserView, UserLoginView
+from .views import UserView, UserLoginView, UserLogoutView
 
 urlpatterns = [
 
     path("register/", UserView.as_view(), name="myuser-register"),
     path("login/", UserLoginView.as_view(), name="myuser-login"),
+    path("logout/", UserLogoutView.as_view(), name="myuser-logout"),
 
 
     path('', MyUserList.as_view(), name='myuser-list'),

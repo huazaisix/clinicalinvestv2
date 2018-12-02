@@ -28,8 +28,6 @@ class UserLoginView(views.APIView):
     def post(self, request):
         """
         用户登录时保存用户信息
-        :param request:
-        :return:
         """
         request_dict = request.data
 
@@ -74,6 +72,19 @@ class UserLoginView(views.APIView):
         resp_data["token"] = token
 
         return Response(resp_data)
+
+
+class UserLogoutView(views.APIView):
+    """
+    当前用户退出登录
+    """
+
+    permission_classes = [TokenHasScope, IsOwnerOrReadOnly]
+    required_scopes = ['users']
+
+    def get(self, request):
+        # data_dict = request.data
+        return Response()
 
 
 class MyUserList(generics.ListAPIView):

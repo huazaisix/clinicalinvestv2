@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_swagger',
-    'prj001.apps.Prj001Config',
-    'myusers.apps.MyusersConfig',
-    'projects.apps.ProjectsConfig',
+    'prj001',
+    'myusers',
+    'projects',
 ]
 
 AUTH_USER_MODEL = 'myusers.MyUser'
