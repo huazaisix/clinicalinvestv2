@@ -22,7 +22,20 @@ class CheckOperationPerm(permissions.BasePermission):# for details
     """
 
     def has_object_permission(self, request, view, obj):
+        user_params = request.user
+
+        obj_params = obj.owner
+
+        # # 当前用户和资料匹配，即可以查看也可以修改；不匹配，只可以查看。
+        # if request.method in permissions.SAFE_METHODS:
+        #     return True
+        # else:
+        #     if obj_params == user_params:
+        #         return True
+        #     else:
+        #         return False
         # Read permissions are allowed to SAFE request with granted permission,
+
         if request.method in permissions.SAFE_METHODS:
             if request.user.has_perm('prj001.prj001_operation'):
                 return True
@@ -33,3 +46,5 @@ class CheckOperationPerm(permissions.BasePermission):# for details
             if request.user.has_perm('prj001.prj001_operation'):
                 # Write permissions are only allowed to the owner of the GeneralInfo.
                 return obj.owner == request.user
+
+

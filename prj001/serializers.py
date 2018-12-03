@@ -33,10 +33,15 @@ class GeneralListSerializer(serializers.ModelSerializer):
     """
     信息列表序列化器
     """
+    menstruation = serializers.PrimaryKeyRelatedField(label="", read_only=True)
+    symptom = serializers.PrimaryKeyRelatedField(label="", read_only=True)
+    other = serializers.PrimaryKeyRelatedField(label="其他", read_only=True)
+    clinicalconclusion = serializers.PrimaryKeyRelatedField(label="", read_only=True)
+
     class Meta:
         model = GeneralInfo
 
-        fields = ("id", "name", "nation", "age", "height", "weight", "blood_type", "culture", "marriage", "career", "owner_id")
+        fields = ("id", "menstruation", "other", "clinicalconclusion", "symptom", "name", "nation", "age", "height", "weight", "blood_type", "culture", "marriage", "career", "owner_id")
 
 
 class GeneralInfoCreateSerializer(serializers.HyperlinkedModelSerializer):
@@ -134,13 +139,15 @@ class InvestFileUploadSerializer(serializers.ModelSerializer):
 
 
 # 保存数据库的多表序列化器
-class InfoSerializer(serializers.ModelSerializer):
-    c = ClinicalConclusionSerializer()
-    o = OtherSerializer()
-    s = SymptomSerializer()
-    m = MenstruationSerializer()
+class InfoSerializer(serializers.Serializer):
+    clinicalconclusion = ClinicalConclusionSerializer()
+    other = OtherSerializer()
+    symptom = SymptomSerializer()
+    menstruation = MenstruationSerializer()
 
     class Meta:
         model = GeneralInfo
         fields = "__all__"
+
+
 

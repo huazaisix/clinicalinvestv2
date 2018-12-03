@@ -363,3 +363,31 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
         self.queryset = InvestFileUpload.objects.all()
 
         return super(InvestFileUploadViewSet, self).list(request)
+
+
+class GetPatientInfoView(viewsets.ViewSet):
+    """
+    get:
+        获取患者的各项详细信息
+    """
+    permission_classes = [TokenHasScope, IsOwnerOrReadOnly]
+    required_scopes = ['prj001']
+
+    def get(self, request):
+
+        data_dict = request.query_params
+
+        gen_id = data_dict.get("id")
+
+        if not gen_id:
+            return Response({"msg": "请重新选择患者"})
+
+        gen_obj = GeneralInfo.objects.filter(id=gen_id)
+
+        if not gen_obj:
+            return Response({"msg": "该病患还没有录入信息"})
+
+        serializer = InfoSerializer(instance=gen_obj, many=True)
+
+        return Response(serializer.data)
+

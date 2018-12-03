@@ -4,6 +4,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 from .views import GeneralInfoList, GeneralInfoCreate, GeneralInfoDetails
 from .views import MenstruationViewSet, SymptomViewSet, OtherViewSet, ClinicalConclusionViewSet
 from .views import MyUserGenInfoDetail, InvestFileUploadViewSet, GeneralListView
+from .views import GetPatientInfoView
 
 menstruation_list = MenstruationViewSet.as_view({
     # 'get': 'list',
@@ -54,6 +55,11 @@ investfileupload_list = InvestFileUploadViewSet.as_view({
     'post': 'create'
 })
 
+patient_info_detail = GetPatientInfoView.as_view({
+    'get': 'get',
+})
+
+
 urlpatterns = [
     path('geninfo/', GeneralInfoList.as_view(), name='generalinfo'),
     path('geninfo/list/', GeneralListView.as_view(), name='generalinfo-list'),
@@ -75,6 +81,8 @@ urlpatterns = [
     path('users/<pk>/', MyUserGenInfoDetail.as_view(), name='prj001-myuser-detail'),
     # 用户上传excel文件
     path('upload/', investfileupload_list, name='investfileupload-list'),
+
+    path("patientInfo/", patient_info_detail, name="patient-info")
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)

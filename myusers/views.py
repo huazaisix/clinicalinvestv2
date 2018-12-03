@@ -29,45 +29,17 @@ class UserLoginView(views.APIView):
         """
         用户登录时保存用户信息
         """
-        request_dict = request.data
+        request_dict = request.POST
 
         resp_data = {
-            "msg": "",
-            "code": 0,
-            "token": "",
-            "ownerID": 0
+            "token": ""
         }
 
-        try:
-            user = MyUser.objects.get(email=request_dict.get("email"))
-        except Exception as e:
-            resp_data["msg"] = "用户不存在"
-            resp_data["code"] = status.HTTP_404_NOT_FOUND
+        if not request_dict:
+            resp_data["token"] = "null"
             return Response(resp_data)
 
-        if not user:
-            resp_data["msg"] = "用户不存在"
-            resp_data["code"] = status.HTTP_404_NOT_FOUND
-            return Response(resp_data)
-
-        if not user.check_password(request_dict.get("password")):
-            resp_data["msg"] = "用户账户或者密码错误"
-            resp_data["code"] = status.HTTP_406_NOT_ACCEPTABLE
-            return Response(resp_data)
-
-        resp_data["msg"] = "登录成功"
-        resp_data["code"] = status.HTTP_200_OK
-        resp_data["ownerID"] = user.id
-
-        from .utils import get_user_token
-
-        token = get_user_token(request_dict)
-
-        resp_data["username"] = user.user_name
-
-        if not token:
-            resp_data["msg"] = "登录成功，但是未进行生成token"
-            return Response(resp_data)
+        token = request_dict.get("token")
 
         resp_data["token"] = token
 
@@ -100,8 +72,12 @@ class MyUserList(generics.ListAPIView):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('$user_name', '$phone')
 
-    # myuser = MyUser.objects.get(pk=1)
-    # print(myuser.get_all_permissions())
+    # myuser = MyUser.objects.filter(id__in=range(1, 20))
+    # # print(myuser)
+    #
+    # for user in myuser:
+    #
+    #     print(user.get_all_permissions())
 
 
 class MyUserDetail(generics.RetrieveUpdateAPIView):
