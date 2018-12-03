@@ -110,3 +110,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserLoginSerializers(serializers.Serializer):
+
+    token = serializers.CharField(label="token值", required=True, max_length=35)
+
+
+
+

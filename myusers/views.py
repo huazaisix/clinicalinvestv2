@@ -8,7 +8,7 @@ from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, Token
 from .models import MyUser
 from .permissions import CheckOperationPerm, IsOwnerOrReadOnly
 from .serializers import MyUserListSerializer, MyUserDetailSerializer, ChangePasswordSerializer
-from .serializers import CreateUserSerializer
+from .serializers import CreateUserSerializer, UserLoginSerializers
 
 
 class UserView(generics.CreateAPIView):
@@ -24,6 +24,7 @@ class UserLoginView(views.APIView):
     post - 用户登录
     """
     permission_classes = [permissions.AllowAny]
+    serializer_class = UserLoginSerializers
 
     def post(self, request):
         """
@@ -31,19 +32,11 @@ class UserLoginView(views.APIView):
         """
         request_dict = request.POST
 
-        resp_data = {
-            "token": ""
-        }
+        serializer = UserLoginSerializers(data=request_dict)
 
-        if not request_dict:
-            resp_data["token"] = "null"
-            return Response(resp_data)
+        serializer.is_valid(raise_exception=True)
 
-        token = request_dict.get("token")
-
-        resp_data["token"] = token
-
-        return Response(resp_data)
+        return Response(serializer.data)
 
 
 class UserLogoutView(views.APIView):
