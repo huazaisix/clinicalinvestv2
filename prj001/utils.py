@@ -13,7 +13,7 @@ def save_table_data(data_dict):
     other = data_dict.get("other")
     conclusion = data_dict.get("conclusion")
 
-    owner_id = data_dict.get("owner")
+    owner_id = data_dict.get("owner_id")
 
     # 1.一般情况
     #######
@@ -36,8 +36,20 @@ def save_table_data(data_dict):
 
     try:
         men_info.save()
+    except Exception as e:
+        raise e
+
+    try:
         sy_info.save()
+    except Exception as e:
+        raise e
+
+    try:
         ot_info.save()
+    except Exception as e:
+        raise e
+
+    try:
         con_info.save()
     except Exception as e:
         raise e

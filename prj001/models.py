@@ -757,10 +757,13 @@ class ClinicalConclusion(models.Model):
 
 ################################################################################
 # 六、文件上传
+from myusers.models import MyUser
+
+
 class InvestFileUpload(models.Model):
     name = models.CharField(verbose_name=u'名称', max_length=10)
     ivfile = models.FileField(verbose_name=u'文件地址', upload_to='avatars/%Y-%m-%d/%H-%M', default="/avatars/default.xlsx")
-    owner = models.ForeignKey('myusers.MyUser', related_name='myinvestfileupload', on_delete=models.CASCADE)
+    owner = models.ForeignKey(MyUser, related_name='myinvestfileupload', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

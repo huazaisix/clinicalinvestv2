@@ -5,6 +5,11 @@ from django.conf import settings
 
 
 def get_user_token(user_data):
+    """
+    oauth生成token
+    :param user_data:
+    :return:
+    """
 
     url = settings.REQUEST_URL
 

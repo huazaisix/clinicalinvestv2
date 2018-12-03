@@ -244,6 +244,9 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
         删除该 上传文件
     """
 
+    permission_classes = [CheckOperationPerm, ]
+    required_scopes = ['prj001']
+
     def get_serializer_class(self):
         """
         提供序列化器
@@ -254,9 +257,7 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
             return InfoSerializer
 
     def create(self, request, *args, **kwargs):
-        # self.permission_classes = [TokenHasScope, CheckOperationPerm]
-        # self.required_scopes = ['prj001']
-        # self.serializer_class = InvestFileUploadSerializer
+
         file = request.data.dict()
 
         resp_data = {
@@ -264,7 +265,8 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
             "msg": "",
         }
 
-        print(file.get('ivfile'), "======")
+        # print(file.get('ivfile'), "======")
+        # print(file)
 
         if not file.get('ivfile'):
             resp_data["code"] = status.HTTP_204_NO_CONTENT
@@ -273,10 +275,8 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 
         serial = InvestFileUploadSerializer(data=file)
 
-        if not serial.is_valid():
-            resp_data["code"] = status.HTTP_400_BAD_REQUEST
-            resp_data["msg"] = "数据验证错误"
-            return Response(resp_data)
+        serial.is_valid(raise_exception=True)
+        # print(serial.errors)
 
         # 此时文件还是 InMemoryUploadedFile
         # 如果此时处理文件，则应形如：
@@ -286,36 +286,38 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
         # file_contents = file['ivfile'].read()
 
         serial.save()
-        # 此时文件已经变成磁盘上的实体了
 
         # 检查文件类型
         file_path = serial.data["ivfile"]
         tmp_str = file_path.split('/', 2)
         file_path = settings.MEDIA_ROOT + "/" + tmp_str[2]
         de_path = urllib.parse.unquote(file_path)
-        print(de_path, "+++++++++++")
+        # print(de_path, "+++++++++++")
 
-        checkresult = magic.from_file(de_path)
-
-        print(checkresult, "test-------------")
-
-        if "Microsoft Excel" in checkresult:
-
-            # 参数是文件路径
+        # checkresult = magic.from_file(de_path)
+        #
+        # if "Microsoft Excel" in checkresult:
+        #
+        #     # 参数是文件路径
+        try:
             file_data = readQuestionaireExcel(de_path)
-
-            # #########old v
-            # # 读取文件内容，进行处理
-            # wb = xlrd.open_workbook(de_path)
-            # table = wb.sheets()[0]
-            # row = table.nrows
-            # for i in range(1, row):
-            #     col = table.row_values(i)
-            #     print(col)
-        else:
-            resp_data["code"] = status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
-            resp_data["msg"] = "文件格式不是Excel"
-            return Response(resp_data)
+        except Exception as e:
+            resp_data["code"] = 1441
+            resp_data["msg"] = "文件数据无法分析"
+            return Response()
+        #
+        #     # #########old v
+        #     # # 读取文件内容，进行处理
+        #     # wb = xlrd.open_workbook(de_path)
+        #     # table = wb.sheets()[0]
+        #     # row = table.nrows
+        #     # for i in range(1, row):
+        #     #     col = table.row_values(i)
+        #     #     print(col)
+        # else:
+        #     resp_data["code"] = status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+        #     resp_data["msg"] = "文件格式不是Excel"
+        #     return Response(resp_data)
 
         # if "ASCII text" in checkresult:
         #     file_object = open('test.txt')
@@ -349,8 +351,9 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
         try:
             save_table_data(data_dict)
         except Exception as e:
+            print(e)
             resp_data["code"] = 1400
-            resp_data["msg"] = "数据分析失败，请查看文件是否符合模板要求！！"
+            resp_data["msg"] = "数据保存失败，请查看文件是否符合模板要求！！"
             return Response(resp_data)
 
         resp_data["code"] = status.HTTP_200_OK

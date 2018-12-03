@@ -19,7 +19,7 @@ class UserView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-class UserLoginView(views.APIView):
+class UserLoginView(generics.GenericAPIView):
     """
     post - 用户登录
     """
@@ -27,14 +27,13 @@ class UserLoginView(views.APIView):
     serializer_class = UserLoginSerializers
 
     def post(self, request):
-        """
-        用户登录时保存用户信息
-        """
-        request_dict = request.POST
+        request_dict = request.data
 
         serializer = UserLoginSerializers(data=request_dict)
 
         serializer.is_valid(raise_exception=True)
+
+        # print(serializer.validated_data.get("tk"))
 
         return Response(serializer.data)
 
@@ -49,7 +48,7 @@ class UserLogoutView(views.APIView):
 
     def get(self, request):
         # data_dict = request.data
-        return Response()
+        return Response({"msg": "退出成功"})
 
 
 class MyUserList(generics.ListAPIView):

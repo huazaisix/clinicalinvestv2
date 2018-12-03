@@ -160,10 +160,12 @@ REST_FRAMEWORK = {
 
 
 # token生成需要的静态配置变量，关于application的生成的
-GRANT_TYPE = "password"
-CLIENT_ID = "CWrbfzmJOhtG4cF0suVf0rGYSiJDWXeQBWxnne3g"
+# GRANT_TYPE = "password"
+# CLIENT_ID = "CWrbfzmJOhtG4cF0suVf0rGYSiJDWXeQBWxnne3g"
+#
+# REQUEST_URL = "http://localhost:8000/o/token/"
 
-REQUEST_URL = "http://localhost:8000/o/token/"
+UPLOAD_FILE_TYPE = ("xls", "xlsx", )
 
 
 

@@ -45,8 +45,8 @@ class ChangePasswordSerializer(serializers.Serializer):
     """
     Serializer for password change endpoint.
     """
-    old_password = serializers.CharField(help_text=u'旧密码',required=True)
-    new_password = serializers.CharField(help_text=u'新密码',required=True)
+    old_password = serializers.CharField(help_text=u'旧密码', required=True)
+    new_password = serializers.CharField(help_text=u'新密码', required=True)
 
     def validate_new_password(self, value):
         validate_password(value)
@@ -112,7 +112,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 class UserLoginSerializers(serializers.Serializer):
 
-    token = serializers.CharField(label="token值", required=True, max_length=35)
+    token = serializers.CharField(help_text="token值", required=True)
+
 
 
 
