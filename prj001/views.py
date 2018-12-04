@@ -136,7 +136,7 @@ class MenstruationViewSet(viewsets.ModelViewSet):
         delete:
         删除该 月经情况
     """
-    permission_classes = [TokenHasScope, CheckOperationPerm]
+    permission_classes = [TokenHasScope, CheckOperationPerm]  # CheckOperationPerm
     required_scopes = ['prj001']
     queryset = Menstruation.objects.all()
     serializer_class = MenstruationSerializer
@@ -244,7 +244,7 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
         删除该 上传文件
     """
 
-    permission_classes = [CheckOperationPerm, ]
+    permission_classes = [TokenHasScope, CheckOperationPerm, ]
     required_scopes = ['prj001']
 
     def get_serializer_class(self):
@@ -368,7 +368,7 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
         return super(InvestFileUploadViewSet, self).list(request)
 
 
-class GetPatientInfoView(viewsets.ViewSet):
+class GetPatientInfoView(generics.GenericAPIView):
     """
     get:
         获取患者的各项详细信息
@@ -376,21 +376,27 @@ class GetPatientInfoView(viewsets.ViewSet):
     permission_classes = [TokenHasScope, IsOwnerOrReadOnly]
     required_scopes = ['prj001']
 
-    def get(self, request):
+    # def get_permissions(self):
+    #     if self.action == "GET":
+    #         return [TokenHasScope, IsOwnerOrReadOnly]
+    #     else:
+    #         return []
 
-        data_dict = request.query_params
-
-        gen_id = data_dict.get("id")
-
-        if not gen_id:
-            return Response({"msg": "请重新选择患者"})
-
-        gen_obj = GeneralInfo.objects.filter(id=gen_id)
-
-        if not gen_obj:
-            return Response({"msg": "该病患还没有录入信息"})
-
-        serializer = InfoSerializer(instance=gen_obj, many=True)
-
-        return Response(serializer.data)
+    # def get(self, request, pk):
+    #
+    #     if not pk:
+    #         return Response({"msg": "请重新选择患者"})
+    #
+    #     gen_obj = GeneralInfo.objects.filter(id=pk)
+    #
+    #     if not gen_obj:
+    #         return Response({"msg": "该病患还没有录入信息"})
+    #
+    #     serializer = InfoSerializer(instance=gen_obj, many=True)
+    #
+    #     return Response(serializer.data)
+    #
+    # def post(self, request, pk):
+    #
+    #     return Response()
 

@@ -59,13 +59,15 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         verbose_name=u'电子邮箱',
         max_length=255,
         unique=True,
+        help_text="电子邮箱",
     )
     phone = models.CharField(
         verbose_name=u'手机号',
         max_length=20,
         unique=True,
+        help_text="手机号",
     )
-    user_name = models.CharField(u'姓名', max_length=50, default='')
+    user_name = models.CharField(u'姓名', max_length=50, default='', help_text="用户名")
     hospital = models.CharField(u'所在单位', max_length=100, blank=True)
     address = models.CharField(u'单位地址', max_length=100, blank=True)
 

@@ -57,7 +57,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
     """
     创建用户的序列化器
     """
-    password2 = serializers.CharField(label="确认密码", write_only=True)
+    password2 = serializers.CharField(label="确认密码", write_only=True, help_text="验证密码")
 
     class Meta:
         model = MyUser
@@ -69,6 +69,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
                 "write_only": True,
                 "min_length": 6,
                 "max_length": 20,
+                "help_text": "密码",
                 "error_messages": {
                     "min_length": "密码允许6-20个字符",
                     "max_length": "密码允许6-20个字符"
@@ -113,6 +114,8 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class UserLoginSerializers(serializers.Serializer):
 
     token = serializers.CharField(help_text="token值", required=True)
+
+
 
 
 

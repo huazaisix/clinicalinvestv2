@@ -7,6 +7,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
+
+        print(obj.owner, "IsOwnerOrReadOnly-----")
         # Read permissions are allowed to any request,
         # so we'll always allow GET, HEAD or OPTIONS requests.
         if request.method in permissions.SAFE_METHODS:
@@ -22,9 +24,11 @@ class CheckOperationPerm(permissions.BasePermission):# for details
     """
 
     def has_object_permission(self, request, view, obj):
-        user_params = request.user
+        user = request.user
 
         obj_params = obj.owner
+
+        print(user, obj_params)
 
         # # 当前用户和资料匹配，即可以查看也可以修改；不匹配，只可以查看。
         # if request.method in permissions.SAFE_METHODS:

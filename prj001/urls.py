@@ -54,10 +54,7 @@ investfileupload_list = InvestFileUploadViewSet.as_view({
     'get': 'list',
     'post': 'create'
 })
-
-patient_info_detail = GetPatientInfoView.as_view({
-    'get': 'get',
-})
+patient_view = GetPatientInfoView.as_view()
 
 
 urlpatterns = [
@@ -82,7 +79,7 @@ urlpatterns = [
     # 用户上传excel文件
     path('upload/', investfileupload_list, name='investfileupload-list'),
 
-    path("patientInfo/", patient_info_detail, name="patient-info")
+    path("patientInfo/<pk>/", patient_view, name="patient-info")
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)

@@ -11,6 +11,10 @@ from .serializers import MyUserListSerializer, MyUserDetailSerializer, ChangePas
 from .serializers import CreateUserSerializer, UserLoginSerializers
 
 
+from oauth2_provider.models import AccessToken
+from django.contrib.auth.models import Permission
+
+
 class UserView(generics.CreateAPIView):
     """
     post - 创建用户
@@ -29,11 +33,35 @@ class UserLoginView(generics.GenericAPIView):
     def post(self, request):
         request_dict = request.data
 
+        # 查询登录用户的权限
+        token_obj = AccessToken.objects.get(token=request_dict.get("token"))
+        # print(token_obj.user.email)
+
+        # 根据token查询对应的scope
+        scope_list = token_obj.scope.split(" ")
+
+        index = ""
+
+        for i, value in enumerate(scope_list):
+            if value == "users":
+                index = i
+                break
+
+        if type(index) == int:
+            scope_list[index] = "user"
+
+        user = token_obj.user
+
+        for value in scope_list:
+            permissions_list = Permission.objects.filter(codename__contains=value)
+
+            # print(permissions_list)
+
+            user.user_permissions.add(*[p_id for p_id in permissions_list])
+
         serializer = UserLoginSerializers(data=request_dict)
 
         serializer.is_valid(raise_exception=True)
-
-        # print(serializer.validated_data.get("tk"))
 
         return Response(serializer.data)
 
@@ -48,7 +76,10 @@ class UserLogoutView(views.APIView):
 
     def get(self, request):
         # data_dict = request.data
-        return Response({"msg": "退出成功"})
+        return Response({
+            "msg": "退出成功",
+            "code": status.HTTP_200_OK,
+        })
 
 
 class MyUserList(generics.ListAPIView):
