@@ -65,7 +65,7 @@ class GeneralInfoList(generics.ListAPIView):
 
 class GeneralListView(generics.ListAPIView):
     """
-    获得数据的详情列表
+    get - 获得个人发布的数据的详情列表
     """
     permission_classes = [TokenHasScope, CheckOperationPerm]
     required_scopes = ['prj001']
