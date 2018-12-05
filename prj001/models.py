@@ -122,7 +122,7 @@ class GeneralInfo(models.Model):
     height = models.IntegerField(verbose_name=u'身高cm', help_text="身高cm")
     weight = models.DecimalField(verbose_name=u'体重kg', max_digits=4, decimal_places=1, help_text="体重kg")
     blood_type = models.CharField(verbose_name=u'血型', choices=BLOOD_TYPE, max_length=10, help_text="血型")
-    nation = models.CharField(verbose_name=u'民族', choices=NATION, max_length=20, help_text="民族")
+    nation = models.CharField(verbose_name=u'民族', choices=NATION, max_length=20, help_text="民族(汉字)")
     career = models.CharField(verbose_name=u'职业', choices=CAREER, max_length=20, help_text="职业")
 
     # 一般情况-特殊工作环境

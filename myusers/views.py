@@ -1,4 +1,3 @@
-#from django.shortcuts import render
 from rest_framework import generics, views
 from rest_framework import permissions
 from rest_framework.response import Response
@@ -33,9 +32,12 @@ class UserLoginView(generics.GenericAPIView):
     def post(self, request):
         request_dict = request.data
 
+        serializer = UserLoginSerializers(data=request_dict)
+
+        serializer.is_valid(raise_exception=True)
+
         # 查询登录用户的权限
         token_obj = AccessToken.objects.get(token=request_dict.get("token"))
-        # print(token_obj.user.email)
 
         # 根据token查询对应的scope
         scope_list = token_obj.scope.split(" ")
@@ -68,14 +70,10 @@ class UserLoginView(generics.GenericAPIView):
 
 class UserLogoutView(views.APIView):
     """
-    当前用户退出登录
+    get - 当前用户退出登录
     """
 
-    permission_classes = [TokenHasScope, IsOwnerOrReadOnly]
-    required_scopes = ['users']
-
     def get(self, request):
-        # data_dict = request.data
         return Response({
             "msg": "退出成功",
             "code": status.HTTP_200_OK,

@@ -1,11 +1,9 @@
 from rest_framework import serializers
-
 from myusers.models import MyUser
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
 from .models import InvestFileUpload
-from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from django.conf import settings
+from .utils import validate_file
 
 
 #######################################################################
@@ -104,6 +102,14 @@ class GeneralInfoDetailSerializer(serializers.HyperlinkedModelSerializer):
     #     return gi
 
 
+class GeneralInfoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = GeneralInfo
+
+        fields = "__all__"
+
+
 class MenstruationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menstruation
@@ -114,6 +120,7 @@ class SymptomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Symptom
         fields = "__all__"
+        read_only_fields = ("id", "person", "owner")
 
 
 class OtherSerializer(serializers.ModelSerializer):
@@ -143,32 +150,7 @@ class InvestFileUploadSerializer(serializers.ModelSerializer):
         fields = ("id", "name", "ivfile", "owner_id")
 
     def validate(self, data):
-        try:
-            user = MyUser.objects.filter(id=data["owner_id"])
-        except Exception as e:
-            raise serializers.ValidationError("用户查询错误")
-
-        if not user:
-            raise serializers.ValidationError("用户不存在")
-
-        file_obj = data['ivfile']
-
-        if not file_obj:
-            raise serializers.ValidationError("并未选择文件")
-
-        if not (type(file_obj) == InMemoryUploadedFile):
-            raise serializers.ValidationError("上传的非文件类型")
-
-        file_name = file_obj.name
-
-        upload_type = file_name.split(".")[::-1][0]
-
-        print(upload_type)
-
-        if upload_type not in settings.UPLOAD_FILE_TYPE:
-            raise serializers.ValidationError("文件类型不允许")
-
-        return data
+        return validate_file(data)
 
 
 # 保存数据库的多表序列化器

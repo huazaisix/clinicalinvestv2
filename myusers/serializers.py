@@ -3,7 +3,11 @@ from django.contrib.auth.password_validation import validate_password
 from .models import MyUser
 from projects.models import ClinicalProjects
 
+from django.core.exceptions import ObjectDoesNotExist
+from oauth2_provider.models import AccessToken
+
 import re
+
 
 
 class MyUserListSerializer(serializers.ModelSerializer):
@@ -62,7 +66,9 @@ class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
 
-        fields = ("id", "email", "password", "password2", "phone", "user_name")
+        fields = ("email", "password", "password2", "phone", "user_name")
+
+        # write_only_fields = ("phone", "user_name")
 
         extra_kwargs = {
             "password": {
@@ -74,24 +80,38 @@ class CreateUserSerializer(serializers.ModelSerializer):
                     "min_length": "密码允许6-20个字符",
                     "max_length": "密码允许6-20个字符"
                 }
-            }
+            },
+            "phone": {
+                "write_only": True,
+            },
+            "user_name": {
+                "write_only": True,
+                "required": True
+            },
         }
-
-    def validate_phone(self, value):
-        """验证手机号"""
-        if not re.match(r'^1[3-9]\d{9}$', value):
-            raise serializers.ValidationError('手机号格式错误')
-        return value
 
     def validate(self, data):
         """
-        验证两次输入的密码
+        验证参数
         :param data:
         :return:
         """
-        if data["password"] != data["password2"]:
-            raise serializers.ValidationError("两次密码输入不一致")
+        value = data["phone"]
+        email = data["email"]
+        print(value, email)
 
+        if not re.match(r'^1[3-9]\d{9}$', value):
+            raise serializers.ValidationError('手机号格式错误')
+
+        from django.db.models import Q
+        try:
+            user = MyUser.objects.get(Q(phone=value) | Q(email=email))
+        except MyUser.DoesNotExist:
+            if data["password"] != data["password2"]:
+                raise serializers.ValidationError("两次密码输入不一致")
+        else:
+            if user:
+                return serializers.ValidationError("用户已存在")
         return data
 
     def create(self, validated_data):
@@ -114,6 +134,18 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class UserLoginSerializers(serializers.Serializer):
 
     token = serializers.CharField(help_text="token值", required=True)
+
+    def validate(self, data):
+
+        token = data["token"]
+
+        try:
+            token_obj = AccessToken.objects.get(token=token)
+        except AccessToken.DoesNotExist:
+            raise serializers.ValidationError("token值不存在")
+
+        return data
+
 
 
 

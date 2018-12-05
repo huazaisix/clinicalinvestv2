@@ -7,7 +7,7 @@ __pycache__/
 *.so
 
 .idea/*
-./upload/avatars/*
+upload/avatars/*
 # Distribution / packaging
 .Python
 build/

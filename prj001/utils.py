@@ -1,4 +1,9 @@
 from .models import GeneralInfo, Menstruation, Symptom, ClinicalConclusion, Other
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
+from myusers.models import MyUser
+from rest_framework import serializers
+from django.conf import settings
 
 
 def save_table_data(data_dict):
@@ -53,3 +58,37 @@ def save_table_data(data_dict):
         con_info.save()
     except Exception as e:
         raise e
+
+
+def validate_file(data):
+    """
+    InvestFileUploadSerializer 验证
+    :param data:
+    :return:
+    """
+    try:
+        user = MyUser.objects.filter(id=data["owner_id"])
+    except Exception as e:
+        raise serializers.ValidationError("用户查询错误")
+
+    if not user:
+        raise serializers.ValidationError("用户不存在")
+
+    file_obj = data['ivfile']
+
+    if not file_obj:
+        raise serializers.ValidationError("并未选择文件")
+
+    if not (type(file_obj) == InMemoryUploadedFile):
+        raise serializers.ValidationError("上传的非文件类型")
+
+    file_name = file_obj.name
+
+    upload_type = file_name.split(".")[::-1][0]
+
+    print(upload_type)
+
+    if upload_type not in settings.UPLOAD_FILE_TYPE:
+        raise serializers.ValidationError("文件类型不允许")
+
+    return data
