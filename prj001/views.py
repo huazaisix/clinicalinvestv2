@@ -24,6 +24,7 @@ from django.conf import settings
 
 import json
 
+from .utils import perform_create_content
 # 引入读取离线文件的工具包
 from utils.read_file_util.questionairetojson import readQuestionaireExcel
 
@@ -47,7 +48,6 @@ class MyUserGenInfoDetail(generics.RetrieveAPIView):
     serializer_class = MyUserGenInfoDetailSerializer
 
 
-#######################################################################
 class GeneralInfoList(generics.ListAPIView):
     """
         get:
@@ -56,10 +56,7 @@ class GeneralInfoList(generics.ListAPIView):
     permission_classes = [TokenHasScope, CheckOperationPerm]
     required_scopes = ['prj001']
     queryset = GeneralInfo.objects.all()
-    serializer_class = GeneralInfoListSerializer
-    # serializer_class = InfoSerializer
-    # filter_backends = (DjangoFilterBackend,)
-    # filter_fields = ('name', 'nation')
+    serializer_class = GeneralListSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('$name', '$nation')
 
@@ -70,8 +67,6 @@ class GeneralListView(generics.ListAPIView):
     """
     permission_classes = [TokenHasScope, CheckOperationPerm]
     required_scopes = ['prj001']
-
-    # queryset = GeneralInfo.objects.filter()
 
     def get_queryset(self):
         # self.request.user 获取对象
@@ -142,6 +137,10 @@ class MenstruationViewSet(viewsets.ModelViewSet):
     queryset = Menstruation.objects.all()
     serializer_class = MenstruationSerializer
 
+    def perform_create(self, serializer):
+
+        perform_create_content(self, GeneralInfo, serializer)
+
 
 #######################################################################
 class SymptomViewSet(viewsets.ModelViewSet):
@@ -168,6 +167,10 @@ class SymptomViewSet(viewsets.ModelViewSet):
     required_scopes = ['prj001']
     queryset = Symptom.objects.all()
     serializer_class = SymptomSerializer
+
+    def perform_create(self, serializer):
+
+        perform_create_content(self, Symptom, serializer)
 
 
 #######################################################################
@@ -196,6 +199,9 @@ class OtherViewSet(viewsets.ModelViewSet):
     queryset = Other.objects.all()
     serializer_class = OtherSerializer
 
+    def perform_create(self, serializer):
+        perform_create_content(self, Other, serializer)
+
 
 #######################################################################
 class ClinicalConclusionViewSet(viewsets.ModelViewSet):
@@ -222,6 +228,9 @@ class ClinicalConclusionViewSet(viewsets.ModelViewSet):
     required_scopes = ['prj001']
     queryset = ClinicalConclusion.objects.all()
     serializer_class = ClinicalConclusionSerializer
+
+    def perform_create(self, serializer):
+        perform_create_content(self, ClinicalConclusion, serializer)
 
 
 class InvestFileUploadViewSet(viewsets.ModelViewSet):

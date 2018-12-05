@@ -3,11 +3,9 @@ from django.contrib.auth.password_validation import validate_password
 from .models import MyUser
 from projects.models import ClinicalProjects
 
-from django.core.exceptions import ObjectDoesNotExist
 from oauth2_provider.models import AccessToken
 
 import re
-
 
 
 class MyUserListSerializer(serializers.ModelSerializer):

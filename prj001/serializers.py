@@ -4,6 +4,7 @@ from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusio
 from .models import InvestFileUpload
 
 from .utils import validate_file
+from .utils import validate_person
 
 
 #######################################################################
@@ -34,15 +35,25 @@ class GeneralListSerializer(serializers.ModelSerializer):
     """
     信息列表序列化器
     """
-    menstruation = serializers.PrimaryKeyRelatedField(label="", read_only=True)
-    symptom = serializers.PrimaryKeyRelatedField(label="", read_only=True)
-    other = serializers.PrimaryKeyRelatedField(label="其他", read_only=True)
-    clinicalconclusion = serializers.PrimaryKeyRelatedField(label="", read_only=True)
+    menstruation = serializers.HyperlinkedRelatedField(label="",
+                                                       read_only=True,
+                                                       view_name='menstruation-detail')
+    symptom = serializers.HyperlinkedRelatedField(label="",
+                                                  read_only=True,
+                                                  view_name='symptom-detail')
+    other = serializers.HyperlinkedRelatedField(label="其他",
+                                                read_only=True,
+                                                view_name='other-detail')
+    clinicalconclusion = serializers.HyperlinkedRelatedField(label="",
+                                                             read_only=True,
+                                                             view_name='clinicalconclusion-detail')
 
     class Meta:
         model = GeneralInfo
 
-        fields = ("id", "menstruation", "other", "clinicalconclusion", "symptom", "name", "nation", "age", "height", "weight", "blood_type", "culture", "marriage", "career", "owner_id")
+        fields = ("url", "id", "menstruation", "other", "clinicalconclusion",
+                  "symptom", "name", "nation", "age", "height", "weight",
+                  "blood_type", "culture", "marriage", "career", "owner_id")
 
 
 class GeneralInfoCreateSerializer(serializers.HyperlinkedModelSerializer):
@@ -111,19 +122,44 @@ class GeneralInfoSerializer(serializers.ModelSerializer):
 
 
 class MenstruationSerializer(serializers.ModelSerializer):
+    person_id = serializers.IntegerField(label="一般信息的外键", write_only=True, help_text="一般信息的ID")
+
     class Meta:
         model = Menstruation
         fields = "__all__"
+        extra_kwargs = {
+            "owner": {
+               "read_only": True
+            },
+            "person": {
+                "read_only": True
+            }
+        }
+
+    def validate(self, data):
+        """
+        验证 person_id
+        :param data:
+        :return:
+        """
+        return validate_person(self, GeneralInfo, Menstruation, data)
 
 
 class SymptomSerializer(serializers.ModelSerializer):
+    person_id = serializers.IntegerField(label="一般信息的外键", write_only=True, help_text="一般信息的ID")
+
     class Meta:
         model = Symptom
         fields = "__all__"
         read_only_fields = ("id", "person", "owner")
 
+    def validate(self, data):
+        return validate_person(self, GeneralInfo, Symptom, data)
+
 
 class OtherSerializer(serializers.ModelSerializer):
+    person_id = serializers.IntegerField(label="一般信息的外键", write_only=True, help_text="一般信息的ID")
+
     HGBVALUE = [
         u'>110',u'91-110',u'61-90',u'30-60'
     ]
@@ -133,12 +169,22 @@ class OtherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Other
         fields = "__all__"
+        read_only_fields = ("id", "person", "owner")
+
+    def validate(self, data):
+        return validate_person(self, GeneralInfo, Other, data)
 
 
 class ClinicalConclusionSerializer(serializers.ModelSerializer):
+    person_id = serializers.IntegerField(label="一般信息的外键", write_only=True, help_text="一般信息的ID")
+
     class Meta:
         model = ClinicalConclusion
         fields = "__all__"
+        read_only_fields = ("id", "person", "owner")
+
+    def validate(self, data):
+        return validate_person(self, GeneralInfo, ClinicalConclusion, data)
 
 
 class InvestFileUploadSerializer(serializers.ModelSerializer):

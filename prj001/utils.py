@@ -92,3 +92,58 @@ def validate_file(data):
         raise serializers.ValidationError("文件类型不允许")
 
     return data
+
+
+def validate_person(sf, obj, obj_o, data):
+    """
+    :param sf: self
+    :param obj: Generalinfo 数据表名称
+    :param obj_o: 即将创建表的名称
+    :param data: 需要验证的数据
+    :return: data
+    """
+
+    p_id = data.get("person_id", None)
+
+    print(p_id)
+
+    if not p_id:
+        raise serializers.ValidationError("表内容填写不完整")
+
+    if sf.context["view"].action == "create":
+
+        try:
+            obj_obj = obj.objects.filter(id=p_id)
+        except obj.DoesNotExist:
+            raise serializers.ValidationError("一般信息表格不存在")
+
+        try:
+            obj_own = obj_o.objects.filter(person_id=p_id)
+        except obj_o.DoesNotExist:
+            pass
+        else:
+            if obj_own:
+                raise serializers.ValidationError("已经存在有对应的信息")
+
+        if not obj_obj:
+            raise serializers.ValidationError("一般信息表格不存在")
+
+    else:
+        pass
+
+    return data
+
+
+def perform_create_content(sf, obj, s):
+    """
+    :param sf:  self参数
+    :param obj:  对象
+    :param s: 序列化对象
+    :return:
+    """
+    person_id = s.validated_data["person_id"]
+
+    person = obj.objects.get(id=person_id)
+
+    s.save(owner=sf.request.user, person=person)
+

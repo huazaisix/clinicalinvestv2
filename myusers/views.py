@@ -10,6 +10,10 @@ from .serializers import MyUserListSerializer, MyUserDetailSerializer, ChangePas
 from .serializers import CreateUserSerializer, UserLoginSerializers
 
 
+from django.db.models import Q
+from django.core.exceptions import ValidationError
+
+
 from oauth2_provider.models import AccessToken
 from django.contrib.auth.models import Permission
 
@@ -92,13 +96,6 @@ class MyUserList(generics.ListAPIView):
     serializer_class = MyUserListSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('$user_name', '$phone')
-
-    # myuser = MyUser.objects.filter(id__in=range(1, 20))
-    # # print(myuser)
-    #
-    # for user in myuser:
-    #
-    #     print(user.get_all_permissions())
 
 
 class MyUserDetail(generics.RetrieveUpdateAPIView):
