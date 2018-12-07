@@ -32,11 +32,11 @@ mysql -uroot -p clinical < clinical.sql
     请求API: /users/register/
     请求方法: POST
 
-2. 登录
-    请求API: /users/login/
+2. 退出登录
+    请求API: /users/logout/
     请求方法: POST
 
-3. 获取一般情况的列表信息
+3. 获取一般情况的列表信息(获取自己发布的所有情况)
     请求API: /prj001/geninfo/list/
     请求方法: GET
 
