@@ -1,9 +1,16 @@
 from .models import GeneralInfo, Menstruation, Symptom, ClinicalConclusion, Other
-from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from myusers.models import MyUser
-from rest_framework import serializers
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.conf import settings
+
+from rest_framework import serializers, status
+from rest_framework.response import Response
+
+# 引入读取离线文件的工具包
+from utils.read_file_util.questionairetojson import readQuestionaireExcel
+
+import urllib.parse
+import json
 
 
 def save_table_data(data_dict):
@@ -66,13 +73,6 @@ def validate_file(data):
     :param data:
     :return:
     """
-    try:
-        user = MyUser.objects.filter(id=data["owner_id"])
-    except Exception as e:
-        raise serializers.ValidationError("用户查询错误")
-
-    if not user:
-        raise serializers.ValidationError("用户不存在")
 
     file_obj = data['ivfile']
 
@@ -86,7 +86,7 @@ def validate_file(data):
 
     upload_type = file_name.split(".")[::-1][0]
 
-    print(upload_type)
+    # print(upload_type)
 
     if upload_type not in settings.UPLOAD_FILE_TYPE:
         raise serializers.ValidationError("文件类型不允许")
@@ -103,9 +103,9 @@ def validate_person(sf, obj, obj_o, data):
     :return: data
     """
 
-    p_id = data.get("person_id", None)
+    p_id = data.get("person", None)
 
-    print(p_id)
+    print(p_id.id, type(p_id), "-------validate_person--------")
 
     if not p_id:
         raise serializers.ValidationError("表内容填写不完整")
@@ -113,12 +113,12 @@ def validate_person(sf, obj, obj_o, data):
     if sf.context["view"].action == "create":
 
         try:
-            obj_obj = obj.objects.filter(id=p_id)
+            obj_obj = obj.objects.filter(id=p_id.id)
         except obj.DoesNotExist:
-            raise serializers.ValidationError("一般信息表格不存在")
+            raise serializers.ValidationError("一般信息内容不存在")
 
         try:
-            obj_own = obj_o.objects.filter(person_id=p_id)
+            obj_own = obj_o.objects.filter(person_id=p_id.id)
         except obj_o.DoesNotExist:
             pass
         else:
@@ -141,9 +141,108 @@ def perform_create_content(sf, obj, s):
     :param s: 序列化对象
     :return:
     """
-    person_id = s.validated_data["person_id"]
+    person_id = s.validated_data["person"]
 
-    person = obj.objects.get(id=person_id)
+    person = obj.objects.get(id=person_id.id)
 
     s.save(owner=sf.request.user, person=person)
 
+
+def create_file_view(s, data):
+    """
+    上传文件视图的数据分析实现方式
+    :param s: serializer序列化对象
+    :param data: 返回的字典参数
+    :return: data
+    """
+    # 检查文件类型
+    file_path = s.data["ivfile"]
+    tmp_str = file_path.split('/', 2)
+    file_path = settings.MEDIA_ROOT + "/" + tmp_str[2]
+    de_path = urllib.parse.unquote(file_path)
+    # print(de_path, "+++++++++++")
+
+    # if "Microsoft Excel" in :
+    #
+    # 参数是文件路径
+    try:
+        file_data = readQuestionaireExcel(de_path)
+    except Exception as e:
+        data["code"] = 1441
+        data["msg"] = "文件数据无法分析,查看上传文件是否为模板文件"
+        return Response(data)
+    #
+    #     # #########old v
+    #     # # 读取文件内容，进行处理
+    #     # wb = xlrd.open_workbook(de_path)
+    #     # table = wb.sheets()[0]
+    #     # row = table.nrows
+    #     # for i in range(1, row):
+    #     #     col = table.row_values(i)
+    #     #     print(col)
+    # else:
+    #     resp_data["code"] = status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
+    #     resp_data["msg"] = "文件格式不是Excel"
+    #     return Response(resp_data)
+
+    # if "ASCII text" in checkresult:
+    #     file_object = open('test.txt')
+    #     try:
+    #         file_context = file_object.read()
+    #         print(file_context)
+    #         # file_context是一个list，每行文本内容是list中的一个元素
+    #         # file_context = open(file).read().splitlines()
+    #     finally:
+    #         file_object.close()
+    # else:
+    #     return Response(data="上传文件不是文本文件！", status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
+    data_str = json.dumps(s.data)
+
+    try:
+        data_dict = json.loads(data_str)
+
+        data_dict_file = json.loads(file_data)
+    except Exception as e:
+        data["code"] = status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE
+        data["msg"] = "数据转化发生错误"
+        return Response(data)
+
+    # 返回的整体的json数据
+    data_dict.update(data_dict_file)
+
+    try:
+        save_table_data(data_dict)
+    except Exception as e:
+        print(e)
+        data["code"] = 1400
+        data["msg"] = "数据保存失败！！"
+        return Response(data)
+
+    data["code"] = status.HTTP_200_OK
+    # resp_data["msg"] = data_dict
+
+    data["msg"] = "文件上传成功"
+    return data
+
+
+def group_permission_show(data):
+    """
+    相当于 def get_queryset(self): 方法重写
+    作用: 限制内容只显示给同一组内成员
+    :param data:
+    :return:
+    """
+    _ID = []
+
+    groups_queryset = data.request.user.groups.all()
+
+    users_queryset = [g.user_set.all() for g in groups_queryset]
+
+    for u in users_queryset:
+        for i in u:
+            _ID.append(i.id)
+
+    if not _ID:
+        _ID.append(data.request.user.id)
+
+    return GeneralInfo.objects.filter(owner__in=_ID)

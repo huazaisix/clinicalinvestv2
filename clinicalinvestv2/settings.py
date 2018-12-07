@@ -137,7 +137,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collect_static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
-MEDIA_URL = '/media/' #这个是在浏览器上访问该上传文件的url的前缀
+MEDIA_URL = '/media/'  # 这个是在浏览器上访问该上传文件的url的前缀
 
 OAUTH2_PROVIDER = {
     'AUTHORIZATION_CODE_EXPIRE_SECONDS': 60 * 5,

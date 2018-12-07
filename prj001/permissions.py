@@ -39,4 +39,3 @@ class CheckOperationPerm(permissions.BasePermission):# for details
                 # Write permissions are only allowed to the owner of the GeneralInfo.
                 return obj.owner == request.user
 
-

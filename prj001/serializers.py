@@ -122,7 +122,9 @@ class GeneralInfoSerializer(serializers.ModelSerializer):
 
 
 class MenstruationSerializer(serializers.ModelSerializer):
-    person_id = serializers.IntegerField(label="一般信息的外键", write_only=True, help_text="一般信息的ID")
+    # person_id = serializers.IntegerField(label="一般信息的外键",
+    #                                      write_only=True,
+    #                                      help_text="一般信息的ID")
 
     class Meta:
         model = Menstruation
@@ -132,7 +134,7 @@ class MenstruationSerializer(serializers.ModelSerializer):
                "read_only": True
             },
             "person": {
-                "read_only": True
+                "help_text": "患者ID"
             }
         }
 
@@ -146,19 +148,24 @@ class MenstruationSerializer(serializers.ModelSerializer):
 
 
 class SymptomSerializer(serializers.ModelSerializer):
-    person_id = serializers.IntegerField(label="一般信息的外键", write_only=True, help_text="一般信息的ID")
 
     class Meta:
         model = Symptom
         fields = "__all__"
-        read_only_fields = ("id", "person", "owner")
+        extra_kwargs = {
+            "owner": {
+                "read_only": True
+            },
+            "person": {
+                "help_text": "患者ID"
+            }
+        }
 
     def validate(self, data):
         return validate_person(self, GeneralInfo, Symptom, data)
 
 
 class OtherSerializer(serializers.ModelSerializer):
-    person_id = serializers.IntegerField(label="一般信息的外键", write_only=True, help_text="一般信息的ID")
 
     HGBVALUE = [
         u'>110',u'91-110',u'61-90',u'30-60'
@@ -169,26 +176,47 @@ class OtherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Other
         fields = "__all__"
-        read_only_fields = ("id", "person", "owner")
+        extra_kwargs = {
+            "owner": {
+                "read_only": True
+            },
+            "person": {
+                "help_text": "患者ID"
+            }
+        }
 
     def validate(self, data):
         return validate_person(self, GeneralInfo, Other, data)
 
 
 class ClinicalConclusionSerializer(serializers.ModelSerializer):
-    person_id = serializers.IntegerField(label="一般信息的外键", write_only=True, help_text="一般信息的ID")
 
     class Meta:
         model = ClinicalConclusion
         fields = "__all__"
-        read_only_fields = ("id", "person", "owner")
+        extra_kwargs = {
+            "owner": {
+                "read_only": True
+            },
+            "person": {
+                "help_text": "患者ID"
+            }
+        }
 
     def validate(self, data):
         return validate_person(self, GeneralInfo, ClinicalConclusion, data)
 
 
 class InvestFileUploadSerializer(serializers.ModelSerializer):
-    owner_id = serializers.IntegerField()
+    owner_id = serializers.PrimaryKeyRelatedField(label="所属者", read_only=True)
+
+    ivfile = serializers.FileField(max_length=None,
+                                   allow_empty_file=False,
+                                   help_text="选择上传文件",)
+    name = serializers.CharField(max_length=50,
+                                 help_text="文件描述",
+                                 allow_blank=False,
+                                 write_only=True)
 
     class Meta:
         model = InvestFileUpload
@@ -209,6 +237,5 @@ class InfoSerializer(serializers.Serializer):
     class Meta:
         model = GeneralInfo
         fields = "__all__"
-
 
 

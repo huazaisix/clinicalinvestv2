@@ -3,10 +3,9 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework import filters
 from rest_framework.response import Response
-from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from oauth2_provider.contrib.rest_framework import TokenHasScope
-#from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, IsAuthenticatedOrTokenHasScope
+# from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, IsAuthenticatedOrTokenHasScope
 
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
 from .models import InvestFileUpload
@@ -17,16 +16,10 @@ from .serializers import GeneralListSerializer
 from .permissions import IsOwnerOrReadOnly, CheckOperationPerm
 from myusers.models import MyUser
 
-import xlrd
-import magic
-import urllib.parse
-from django.conf import settings
 
-import json
+from .utils import perform_create_content, create_file_view
+from .utils import group_permission_show
 
-from .utils import perform_create_content
-# 引入读取离线文件的工具包
-from utils.read_file_util.questionairetojson import readQuestionaireExcel
 
 # Create your views here.
 #######################################################################
@@ -55,10 +48,14 @@ class GeneralInfoList(generics.ListAPIView):
     """
     permission_classes = [TokenHasScope, CheckOperationPerm]
     required_scopes = ['prj001']
-    queryset = GeneralInfo.objects.all()
+    # queryset = GeneralInfo.objects.all()
     serializer_class = GeneralListSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('$name', '$nation')
+
+    def get_queryset(self):
+
+        return group_permission_show(self)
 
 
 class GeneralListView(generics.ListAPIView):
@@ -110,6 +107,15 @@ class GeneralInfoDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = GeneralInfo.objects.all()
     serializer_class = GeneralInfoDetailSerializer
 
+    # def get(self, request, *args, **kwargs):
+    #
+    #     data = request.query_params
+    #
+    #     if data.get("to_type") == 1:
+    #         self.permission_classes = [CheckOperationPerm]
+    #
+    #     return super().get(request)
+
 
 #######################################################################
 class MenstruationViewSet(viewsets.ModelViewSet):
@@ -134,10 +140,17 @@ class MenstruationViewSet(viewsets.ModelViewSet):
     """
     permission_classes = [TokenHasScope, CheckOperationPerm]  # CheckOperationPerm
     required_scopes = ['prj001']
-    queryset = Menstruation.objects.all()
+    # queryset = Menstruation.objects.all()
     serializer_class = MenstruationSerializer
 
+    def get_queryset(self):
+        print(self.request.user.get_all_permissions(), "用户的所有权限")
+        print(self.request.user.get_group_permissions(), "用户的组权限")
+
+        return Menstruation.objects.all()
+
     def perform_create(self, serializer):
+        # print(self.request.path, "--------------ceshi----------")
 
         perform_create_content(self, GeneralInfo, serializer)
 
@@ -256,15 +269,7 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 
     permission_classes = [TokenHasScope, CheckOperationPerm, ]
     required_scopes = ['prj001']
-
-    def get_serializer_class(self):
-        """
-        提供序列化器
-        """
-        if self.action == 'list':
-            return InvestFileUploadSerializer
-        else:
-            return InfoSerializer
+    serializer_class = InvestFileUploadSerializer
 
     def create(self, request, *args, **kwargs):
 
@@ -275,105 +280,30 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
             "msg": "",
         }
 
-        # print(file.get('ivfile'), "======")
-        # print(file)
-
-        if not file.get('ivfile'):
-            resp_data["code"] = status.HTTP_204_NO_CONTENT
-            resp_data["msg"] = "请选择上传的表格文件！"
-            return Response(resp_data)
-
         serial = InvestFileUploadSerializer(data=file)
 
         serial.is_valid(raise_exception=True)
         # print(serial.errors)
 
-        # 此时文件还是 InMemoryUploadedFile
         # 如果此时处理文件，则应形如：
         # wb = xlrd.open_workbook(file_contents=file['ivfile'].read())
 
-        # 保存文件至本地 bv
-        # file_contents = file['ivfile'].read()
-
-        serial.save()
-
-        # 检查文件类型
-        file_path = serial.data["ivfile"]
-        tmp_str = file_path.split('/', 2)
-        file_path = settings.MEDIA_ROOT + "/" + tmp_str[2]
-        de_path = urllib.parse.unquote(file_path)
-        # print(de_path, "+++++++++++")
-
-        # checkresult = magic.from_file(de_path)
-        #
-        # if "Microsoft Excel" in checkresult:
-        #
-        #     # 参数是文件路径
-        try:
-            file_data = readQuestionaireExcel(de_path)
-        except Exception as e:
-            resp_data["code"] = 1441
-            resp_data["msg"] = "文件数据无法分析"
-            return Response()
-        #
-        #     # #########old v
-        #     # # 读取文件内容，进行处理
-        #     # wb = xlrd.open_workbook(de_path)
-        #     # table = wb.sheets()[0]
-        #     # row = table.nrows
-        #     # for i in range(1, row):
-        #     #     col = table.row_values(i)
-        #     #     print(col)
-        # else:
-        #     resp_data["code"] = status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
-        #     resp_data["msg"] = "文件格式不是Excel"
-        #     return Response(resp_data)
-
-        # if "ASCII text" in checkresult:
-        #     file_object = open('test.txt')
-        #     try:
-        #         file_context = file_object.read()
-        #         print(file_context)
-        #         # file_context是一个list，每行文本内容是list中的一个元素
-        #         # file_context = open(file).read().splitlines()
-        #     finally:
-        #         file_object.close()
-        # else:
-        #     return Response(data="上传文件不是文本文件！", status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
-
-        data_str = json.dumps(serial.data)
+        serial.save(owner=request.user)
 
         try:
-            data_dict = json.loads(data_str)
-
-            data_dict_file = json.loads(file_data)
-            # print(data_dict_file)
+            resp_data = create_file_view(serial, resp_data)
         except Exception as e:
-            resp_data["code"] = status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE
-            resp_data["msg"] = "数据转化发生错误"
+            resp_data["msg"] = e
             return Response(resp_data)
-
-        # 返回的整体的json数据
-        data_dict.update(data_dict_file)
-
-        # 保存数据库
-        from .utils import save_table_data
-        try:
-            save_table_data(data_dict)
-        except Exception as e:
-            print(e)
-            resp_data["code"] = 1400
-            resp_data["msg"] = "数据保存失败，请查看文件是否符合模板要求！！"
-            return Response(resp_data)
-
-        resp_data["code"] = status.HTTP_200_OK
-        resp_data["msg"] = data_dict
 
         return Response(resp_data)
 
     def list(self, request, *args, **kwargs):
 
+        # TODO: 返回自己上传的列表,还是所有数据
         self.queryset = InvestFileUpload.objects.all()
+
+        # self.queryset = InvestFileUpload.objects.filter(owner=request.user)
 
         return super(InvestFileUploadViewSet, self).list(request)
 
@@ -383,7 +313,18 @@ class GetPatientInfoView(generics.GenericAPIView):
     get:
         获取患者的各项详细信息
     """
-    permission_classes = [TokenHasScope, ]  # IsOwnerOrReadOnly
+    # permission_classes = [TokenHasScope, ]  # IsOwnerOrReadOnly
+
+    def get_permissions(self):
+        print(self.request.method)
+
+        if self.request.method == "GET":
+            self.permission_classes = [TokenHasScope, ]
+        else:
+            self.permission_classes = [TokenHasScope, CheckOperationPerm]
+
+        return super().get_permissions()
+
     required_scopes = ['prj001']
 
     def get(self, request, pk):

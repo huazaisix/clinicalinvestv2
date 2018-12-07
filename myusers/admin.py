@@ -6,6 +6,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from .models import MyUser
 
+
 # Register your models here.
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
