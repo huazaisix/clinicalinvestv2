@@ -167,6 +167,8 @@ class GeneralInfo(models.Model):
             ("prj001_operation", "prj001_all_permissions"),
         )
 
+        verbose_name_plural = verbose_name
+
 
 ################################################################################
 # 二、月经情况
@@ -233,6 +235,7 @@ class Menstruation(models.Model):
 
     class Meta:
         verbose_name = u'月经情况'
+        verbose_name_plural = verbose_name
 
     def __str__(self):
         return "%d" % self.id
@@ -492,6 +495,8 @@ class Symptom(models.Model):
     class Meta:
         verbose_name = u'全身症状'
 
+        verbose_name_plural = verbose_name
+
 
 ################################################################################
 # 四、其它
@@ -705,6 +710,8 @@ class Other(models.Model):
     class Meta:
         verbose_name = u'其它情况'
 
+        verbose_name_plural = verbose_name
+
 
 ################################################################################
 # 五、临床诊断
@@ -769,6 +776,8 @@ class ClinicalConclusion(models.Model):
     class Meta:
         verbose_name = u'临床诊断'
 
+        verbose_name_plural = verbose_name
+
 
 ################################################################################
 # 六、文件上传
@@ -786,4 +795,5 @@ class InvestFileUpload(models.Model):
 
     class Meta:
         verbose_name = u'上传文件'
+        verbose_name_plural = verbose_name
 

@@ -23,3 +23,4 @@ class ClinicalProjects(models.Model):
     class Meta:
         verbose_name = u'流调项目'
         ordering = ('id', 'name')
+        verbose_name_plural = verbose_name

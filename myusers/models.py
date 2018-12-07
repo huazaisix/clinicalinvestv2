@@ -103,3 +103,4 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         permissions = (
             ("user_operation", "user_all_permissions"),
         )
+        verbose_name_plural = verbose_name
