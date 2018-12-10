@@ -23,22 +23,7 @@ mysql -uroot -p clinical < clinical.sql
 2. application的创建和修改
     - 创建
     访问 http://localhost:8000/o/applications/ 进行创建(注意设置项)
-    - 修改settings
-    将文件中的 CLIENT_ID 进行修改成创建的application的 client_id
 
-
-## 新增API
-1. 注册
-    请求API: /users/register/
-    请求方法: POST
-
-2. 退出登录
-    请求API: /users/logout/
-    请求方法: POST
-
-3. 获取一般情况的列表信息(获取自己发布的所有情况)
-    请求API: /prj001/geninfo/list/
-    请求方法: GET
 
 
 
