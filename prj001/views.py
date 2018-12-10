@@ -20,6 +20,8 @@ from myusers.models import MyUser
 from .utils import perform_create_content, create_file_view
 from .utils import group_permission_show
 
+import json
+
 
 # Create your views here.
 #######################################################################
@@ -291,10 +293,11 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 
         try:
             resp_data = create_file_view(serial, resp_data)
+            # print(resp_data, type(resp_data, "---------"))
+            
         except Exception as e:
             resp_data["msg"] = e
             return Response(resp_data)
-
         return Response(resp_data)
 
     def list(self, request, *args, **kwargs):

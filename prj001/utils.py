@@ -30,7 +30,7 @@ def save_table_data(data_dict):
     # 1.一般情况
     #######
     info.pop("recdate")
-    with transaction.atomic():
+    with transaction.atomic(savepoint=True):
         point = transaction.savepoint()
 
         try:
@@ -178,7 +178,7 @@ def create_file_view(s, data):
     except Exception as e:
         data["code"] = 1441
         data["msg"] = "文件数据无法分析,查看上传文件是否为模板文件"
-        return Response(data)
+        return data
     #
     #     # #########old v
     #     # # 读取文件内容，进行处理
@@ -213,7 +213,7 @@ def create_file_view(s, data):
     except Exception as e:
         data["code"] = status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE
         data["msg"] = "数据转化发生错误"
-        return Response(data)
+        return data
 
     # 返回的整体的json数据
     data_dict.update(data_dict_file)
@@ -224,7 +224,7 @@ def create_file_view(s, data):
         print(e)
         data["code"] = 1400
         data["msg"] = "数据保存失败！！"
-        return Response(data)
+        return data
 
     data["code"] = status.HTTP_200_OK
     # resp_data["msg"] = data_dict
