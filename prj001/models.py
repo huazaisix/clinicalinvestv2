@@ -158,7 +158,7 @@ class GeneralInfo(models.Model):
         return self.name
 
     def __str__(self):
-        return '%d, %s, %s' % (self.id, self.serial, self.name)
+        return '%d, %s, %s' % (self.pk, self.serial, self.name)
 
     class Meta:
         verbose_name = u'基本信息'
@@ -238,7 +238,7 @@ class Menstruation(models.Model):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        return "%d" % self.id
+        return "%d" % self.pk
 
 
 ################################################################################

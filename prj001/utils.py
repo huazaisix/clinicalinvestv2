@@ -2,6 +2,7 @@ from .models import GeneralInfo, Menstruation, Symptom, ClinicalConclusion, Othe
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.conf import settings
+from django.db import transaction
 
 from rest_framework import serializers, status
 from rest_framework.response import Response
@@ -18,7 +19,6 @@ def save_table_data(data_dict):
     保存表格中的数据至数据库
     :return:
     """
-
     info = data_dict.get("general_info")
     menstruation = data_dict.get("menstruation")
     symptom = data_dict.get("symptom")
@@ -30,41 +30,49 @@ def save_table_data(data_dict):
     # 1.一般情况
     #######
     info.pop("recdate")
-    # print(info.get(""))
+    with transaction.atomic():
+        point = transaction.savepoint()
 
-    gen_info = GeneralInfo(**info, owner_id=owner_id)
-    gen_info.save()
+        try:
+            gen_info = GeneralInfo(owner_id=owner_id, **info)
+            gen_info.save()
 
-    info_id = gen_info.id
+            info_id = gen_info.id
 
-    # 2.月经情况
-    men_info = Menstruation(**menstruation, owner_id=owner_id, person_id=info_id)
-    # 3.全身情况
-    sy_info = Symptom(**symptom, owner_id=owner_id, person_id=info_id)
-    # 4.其他情况
-    ot_info = Other(**other, owner_id=owner_id, person_id=info_id)
-    # 5.临床诊断
-    con_info = ClinicalConclusion(**conclusion, owner_id=owner_id, person_id=info_id)
+            # 2.月经情况
+            men_info = Menstruation(owner_id=owner_id, person_id=info_id, **menstruation)
+            # 3.全身情况
+            sy_info = Symptom(owner_id=owner_id, person_id=info_id, **symptom)
+            # 4.其他情况
+            ot_info = Other(owner_id=owner_id, person_id=info_id, **other)
+            # 5.临床诊断
+            con_info = ClinicalConclusion(owner_id=owner_id, person_id=info_id, **conclusion)
 
-    try:
-        men_info.save()
-    except Exception as e:
-        raise e
 
-    try:
-        sy_info.save()
-    except Exception as e:
-        raise e
+            try:
+                men_info.save()
+            except Exception as e:
+                raise e
 
-    try:
-        ot_info.save()
-    except Exception as e:
-        raise e
+            try:
+                sy_info.save()
+            except Exception as e:
+                raise e
 
-    try:
-        con_info.save()
-    except Exception as e:
-        raise e
+            try:
+                ot_info.save()
+            except Exception as e:
+                raise e
+
+            try:
+                con_info.save()
+            except Exception as e:
+                raise e
+        except Exception as e:
+            transaction.savepoint_rollback(point)
+            raise e
+
+        transaction.savepoint_commit(point)
 
 
 def validate_file(data):

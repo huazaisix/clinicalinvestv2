@@ -41,7 +41,7 @@ class MyUserManager(BaseUserManager):
         return user
 
     # 修改密码
-    def db_change_password(loginEmail, oldPassword, newPassword):
+    def db_change_password(self, loginEmail, oldPassword, newPassword):
         user = authenticate(email=loginEmail, password=oldPassword)
         if user is not None:
             if user.is_active:
@@ -71,7 +71,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     hospital = models.CharField(u'所在单位', max_length=100, blank=True)
     address = models.CharField(u'单位地址', max_length=100, blank=True)
 
-    is_staff = models.BooleanField(default=False)
+    # is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 

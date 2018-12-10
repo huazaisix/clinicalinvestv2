@@ -72,18 +72,6 @@ class UserView(generics.CreateAPIView):
         # return Response(serializer.data)
 
 
-class UserLogoutView(views.APIView):
-    """
-    get - 当前用户退出登录
-    """
-
-    def get(self, request):
-        return Response({
-            "msg": "退出成功",
-            "code": status.HTTP_200_OK,
-        })
-
-
 class MyUserList(generics.ListAPIView):
     """
         get:

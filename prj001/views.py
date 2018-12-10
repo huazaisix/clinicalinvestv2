@@ -54,7 +54,6 @@ class GeneralInfoList(generics.ListAPIView):
     search_fields = ('$name', '$nation')
 
     def get_queryset(self):
-
         return group_permission_show(self)
 
 
