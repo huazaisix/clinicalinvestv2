@@ -1,0 +1,40 @@
+[
+{
+    "model": "myusers.myuser",
+    "pk": 13,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$gx6dly2ITBc1$VdTBbwfUp/A1MyskRqiyl6Xam0qpfVzyzalg91fbV5w=",
+        "last_login": "2018-12-10T01:41:13.822Z",
+        "is_superuser": true,
+        "email": "1@163.com",
+        "phone": "17630975001",
+        "user_name": "wo",
+        "hospital": "",
+        "address": "",
+        "is_active": true,
+        "is_admin": true,
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "myusers.myuser",
+    "pk": 26,
+    "fields": {
+        "password": "pbkdf2_sha256$100000$fWGqUjXl80Vz$QAi6LZnOrzd6TdOPJ7B5JnCtS4W7QDr9SeZX4xpuq7Q=",
+        "last_login": null,
+        "is_superuser": false,
+        "email": "test01@handian.com",
+        "phone": "17622198772",
+        "user_name": "\u54e6o",
+        "hospital": "",
+        "address": "",
+        "is_active": true,
+        "is_admin": false,
+        "groups": [
+            2
+        ],
+        "user_permissions": []
+    }
+}
+]

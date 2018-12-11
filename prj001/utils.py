@@ -253,4 +253,4 @@ def group_permission_show(data):
     if not _ID:
         _ID.append(data.request.user.id)
 
-    return GeneralInfo.objects.filter(owner__in=_ID)
+    return GeneralInfo.objects.filter(owner__in=_ID).order_by("id")
