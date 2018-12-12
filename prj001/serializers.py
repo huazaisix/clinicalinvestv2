@@ -113,6 +113,18 @@ class GeneralInfoDetailSerializer(serializers.HyperlinkedModelSerializer):
     #     return gi
 
 
+class GeneralInfoPageSeriaializer(serializers.Serializer):
+    """分页请求序列化器"""
+    page = serializers.IntegerField(label="当前页")
+
+    def validate(self, data):
+        page = data.get("page", 0)
+
+        if not page:
+            raise serializers.ValidationError("参数未传递")
+        return data
+
+
 class GeneralInfoSerializer(serializers.ModelSerializer):
 
     class Meta:

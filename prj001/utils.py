@@ -175,10 +175,36 @@ def create_file_view(s, data):
     # 参数是文件路径
     try:
         file_data = readQuestionaireExcel(de_path)
+        # print(file_data, type(file_data), "file_data--->>>>")
     except Exception as e:
         data["code"] = 1441
         data["msg"] = "文件数据无法分析,查看上传文件是否为模板文件"
         return data
+
+    # 去除文字内容两边的空格
+    try:
+        outer_dict = dict()
+        inner_dict = dict()
+        json_data_dict = json.loads(file_data)
+        # print(type(json_data_dict))
+        for index, item in json_data_dict.items():
+            for i, value in json_data_dict[index].items():
+
+                # print(i, value, "-------/n")
+                if isinstance(value, str):
+                    inner_dict[i] = value.strip()
+                else:
+                    inner_dict[i] = value
+                
+            outer_dict[index] = inner_dict
+            inner_dict = dict()
+
+        # print("filedata--->>>>changed", outer_dict)
+    except Exception as e:
+        data["code"] = 1442
+        data["msg"] = e
+        return data 
+
     #
     #     # #########old v
     #     # # 读取文件内容，进行处理
@@ -208,20 +234,19 @@ def create_file_view(s, data):
 
     try:
         data_dict = json.loads(data_str)
-
-        data_dict_file = json.loads(file_data)
     except Exception as e:
         data["code"] = status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE
         data["msg"] = "数据转化发生错误"
         return data
 
     # 返回的整体的json数据
-    data_dict.update(data_dict_file)
+    data_dict.update(outer_dict)
+
+    # print("返回的全部数据---->>>", data_dict)
 
     try:
         save_table_data(data_dict)
     except Exception as e:
-        print(e)
         data["code"] = 1400
         data["msg"] = "数据保存失败！！"
         return data

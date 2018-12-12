@@ -159,3 +159,5 @@ REST_FRAMEWORK = {
 }
 
 UPLOAD_FILE_TYPE = ("xls", "xlsx", )
+
+GEN_PAGE_SIZE = 10

@@ -15,7 +15,7 @@ class GeneralInfoAdmin(admin.ModelAdmin):
         (u'饮食偏好',
          {'fields': ['wuteshu', 'sushi', 'suan', 'tian', 'xian', 'xinla', 'you', 'shengleng', 'kafei', 'qita']}),
     ]
-    list_display = ['serial', 'hospital', 'name', 'nation', 'age', 'height', 'weight', 'blood_type']
+    list_display = ['id', 'serial', 'hospital', 'name', 'nation', 'age', 'height', 'weight', 'blood_type']
     ordering = ['-recdate', 'serial']
     list_filter = ['hospital', 'age', 'nation']
     search_fields = ['name', 'hospital', 'serial']
@@ -114,7 +114,7 @@ class SymptomAdmin(admin.ModelAdmin):
 class OtherAdmin(admin.ModelAdmin):
     fieldsets = [
         (u'信息关联', {'fields': ['owner', 'person', ]}),
-        (u'个人史', {'fields': ['person_born']}),
+        (u'个人史', {'fields': ['born_zaochan', 'born_zuyuechan', 'born_yindaofenmian', 'born_pougongchan']}),
         (u'特殊嗜好', {'fields': ['hobbies_wu', 'hobbies_xiyan', 'hobbies_yinjiu', 'hobbies_qita']}),
         (None, {'fields': ['body_cond', 'career_labor', 'poor_blood', 'phycial_exercise']}),
         (u'减肥情况', {'fields': ['reducefat_ever', 'reducefat_yundong', 'reducefat_jieshi', 'reducefat_yaowu',

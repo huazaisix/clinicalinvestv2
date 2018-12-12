@@ -5,6 +5,8 @@ from rest_framework import filters
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from oauth2_provider.contrib.rest_framework import TokenHasScope
+
+from django.conf import settings
 # from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, IsAuthenticatedOrTokenHasScope
 
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
@@ -12,13 +14,15 @@ from .models import InvestFileUpload
 from .serializers import GeneralInfoListSerializer, GeneralInfoCreateSerializer, GeneralInfoDetailSerializer
 from .serializers import MenstruationSerializer, SymptomSerializer, OtherSerializer, ClinicalConclusionSerializer
 from .serializers import MyUserGenInfoDetailSerializer, InvestFileUploadSerializer, InfoSerializer
-from .serializers import GeneralListSerializer
+from .serializers import GeneralListSerializer, GeneralInfoPageSeriaializer
 from .permissions import IsOwnerOrReadOnly, CheckOperationPerm
 from myusers.models import MyUser
 
 
 from .utils import perform_create_content, create_file_view
 from .utils import group_permission_show
+
+from .pagination import GenPage
 
 import json
 
@@ -43,7 +47,7 @@ class MyUserGenInfoDetail(generics.RetrieveAPIView):
     serializer_class = MyUserGenInfoDetailSerializer
 
 
-class GeneralInfoList(generics.ListAPIView):
+class GeneralInfoList(generics.ListCreateAPIView):
     """
         get:
         获取所有 一般情况 列表
@@ -55,8 +59,39 @@ class GeneralInfoList(generics.ListAPIView):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('$name', '$nation')
 
+    # def get_serializer_class(self):
+
+    #     if self.request.method == "GET":
+    #         return GeneralListSerializer
+    #     else:
+    #         return GeneralInfoPageSeriaializer
+
     def get_queryset(self):
         return group_permission_show(self)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+
+        serializer = GeneralInfoPageSeriaializer(data=data)
+        serializer.is_valid(raise_exception=True)
+
+        page = serializer.validated_data["page"]
+
+        page_obj = GenPage()
+
+        gen_list = GeneralInfo.objects.all()[page-1: page+settings.GEN_PAGE_SIZE]
+
+        print(gen_list)
+
+        geninfo_objs_list = page_obj.paginate_queryset(queryset=gen_list, request=request)
+
+        serializer_context = {
+            'request': request,
+        }
+
+        serializer_geninfo = GeneralListSerializer(geninfo_objs_list, many=True, context=serializer_context)
+        
+        return Response(serializer_geninfo.data)
 
 
 class GeneralListView(generics.ListAPIView):

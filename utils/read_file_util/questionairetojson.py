@@ -222,7 +222,6 @@ def readQuestionaireExcel(excelfilepath, jsonfilepath=None):
     readOtherInfo(xlsmfile, other_dict)
     readConclusionInfo(xlsmfile, conclusion_dict)
 
-    jsondata = json.dumps(output_dict)
-    # print(jsondata)
+    json_data = json.dumps(output_dict)
 
-    return jsondata
+    return json_data
