@@ -66,7 +66,7 @@ class GeneralInfoList(generics.ListCreateAPIView):
     def get(self, request):
         total_num = GeneralInfo.objects.count()
         total_pages = math.ceil(total_num / settings.GEN_PAGE_SIZE)
-        queryset = self.get_queryset()
+        queryset = self.get_queryset()[0:settings.GEN_PAGE_SIZE]
 
         context = {
             'request': request
