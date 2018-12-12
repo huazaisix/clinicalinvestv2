@@ -55,24 +55,23 @@ class GeneralInfoList(generics.ListCreateAPIView):
     """
     permission_classes = [TokenHasScope, CheckOperationPerm]
     required_scopes = ['prj001']
-    # queryset = GeneralInfo.objects.all()
     serializer_class = GeneralListSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('$name', '$nation')
 
-    # def get_queryset(self):
-    #     return group_permission_show(self)
+    # 分组 -- 组内成员具有查看权限,其他组员无查看权限
+    def get_queryset(self):
+        return group_permission_show(self)
 
     def get(self, request):
         total_num = GeneralInfo.objects.count()
         total_pages = math.ceil(total_num / settings.GEN_PAGE_SIZE)
-        queryset = group_permission_show(self)
+        queryset = self.get_queryset()
 
         context = {
             'request': request
         }
-
-        serializer = GeneralListSerializer(instance=queryset,
+        serializer = self.get_serializer(instance=queryset,
                                             context=context, 
                                             many=True)
         resp_dict = dict()
@@ -93,7 +92,7 @@ class GeneralInfoList(generics.ListCreateAPIView):
 
         end_num = (page-1)*(settings.GEN_PAGE_SIZE) + settings.GEN_PAGE_SIZE
 
-        gen_list = GeneralInfo.objects.all().order_by("-id")[(page-1)*(settings.GEN_PAGE_SIZE): end_num]
+        gen_list = self.get_queryset()[(page-1)*(settings.GEN_PAGE_SIZE): end_num]
 
         # print(gen_list)
 
@@ -103,10 +102,10 @@ class GeneralInfoList(generics.ListCreateAPIView):
             'request': request,
         }
 
-        serializer_geninfo = GeneralListSerializer(geninfo_objs_list, many=True, context=serializer_context)
-
-        resp_data = {}
-
+        serializer_geninfo = self.get_serializer(geninfo_objs_list,
+                                                    many=True, 
+                                                    context=serializer_context)
+        resp_data = dict()
         resp_data["results"] = serializer_geninfo.data
         
         return Response(resp_data)
@@ -139,7 +138,7 @@ class GeneralInfoCreate(generics.CreateAPIView):
     serializer_class = GeneralInfoCreateSerializer
 
     def perform_create(self, serializer):
-        print(self.request.data, "---------")
+        # print(self.request.data, "---------")
         serializer.save(owner=self.request.user)
 
 
@@ -161,15 +160,6 @@ class GeneralInfoDetails(generics.RetrieveUpdateDestroyAPIView):
     required_scopes = ['prj001']
     queryset = GeneralInfo.objects.all()
     serializer_class = GeneralInfoDetailSerializer
-
-    # def get(self, request, *args, **kwargs):
-    #
-    #     data = request.query_params
-    #
-    #     if data.get("to_type") == 1:
-    #         self.permission_classes = [CheckOperationPerm]
-    #
-    #     return super().get(request)
 
 
 #######################################################################
@@ -199,14 +189,12 @@ class MenstruationViewSet(viewsets.ModelViewSet):
     serializer_class = MenstruationSerializer
 
     def get_queryset(self):
-        print(self.request.user.get_all_permissions(), "用户的所有权限")
-        print(self.request.user.get_group_permissions(), "用户的组权限")
+        # print(self.request.user.get_all_permissions(), "用户的所有权限")
+        # print(self.request.user.get_group_permissions(), "用户的组权限")
 
         return Menstruation.objects.all()
 
     def perform_create(self, serializer):
-        # print(self.request.path, "--------------ceshi----------")
-
         perform_create_content(self, GeneralInfo, serializer)
 
 
@@ -347,8 +335,6 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 
         try:
             resp_data = create_file_view(serial, resp_data)
-            # print(resp_data, type(resp_data, "---------"))
-            
         except Exception as e:
             resp_data["msg"] = e
             return Response(resp_data)
@@ -358,8 +344,6 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 
         # TODO: 返回自己上传的列表,还是所有数据
         self.queryset = InvestFileUpload.objects.all()
-
-        # self.queryset = InvestFileUpload.objects.filter(owner=request.user)
 
         return super(InvestFileUploadViewSet, self).list(request)
 
