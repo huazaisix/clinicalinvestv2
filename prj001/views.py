@@ -25,6 +25,7 @@ from .utils import group_permission_show
 from .pagination import GenPage
 
 import json
+import math
 
 
 # Create your views here.
@@ -59,15 +60,26 @@ class GeneralInfoList(generics.ListCreateAPIView):
     filter_backends = (filters.SearchFilter,)
     search_fields = ('$name', '$nation')
 
-    # def get_serializer_class(self):
+    # def get_queryset(self):
+    #     return group_permission_show(self)
 
-    #     if self.request.method == "GET":
-    #         return GeneralListSerializer
-    #     else:
-    #         return GeneralInfoPageSeriaializer
+    def get(self, request):
+        total_num = GeneralInfo.objects.count()
+        total_pages = math.ceil(total_num / settings.GEN_PAGE_SIZE)
+        queryset = group_permission_show(self)
 
-    def get_queryset(self):
-        return group_permission_show(self)
+        context = {
+            'request': request
+        }
+
+        serializer = GeneralListSerializer(instance=queryset,
+                                            context=context, 
+                                            many=True)
+        resp_dict = dict()
+        resp_dict["total_pages"] = total_pages
+        resp_dict["results"] = serializer.data
+
+        return Response(resp_dict)
 
     def post(self, request, *args, **kwargs):
         data = request.data
@@ -79,9 +91,11 @@ class GeneralInfoList(generics.ListCreateAPIView):
 
         page_obj = GenPage()
 
-        gen_list = GeneralInfo.objects.all()[page-1: page+settings.GEN_PAGE_SIZE]
+        end_num = (page-1)*(settings.GEN_PAGE_SIZE) + settings.GEN_PAGE_SIZE
 
-        print(gen_list)
+        gen_list = GeneralInfo.objects.all().order_by("-id")[(page-1)*(settings.GEN_PAGE_SIZE): end_num]
+
+        # print(gen_list)
 
         geninfo_objs_list = page_obj.paginate_queryset(queryset=gen_list, request=request)
 
@@ -90,8 +104,12 @@ class GeneralInfoList(generics.ListCreateAPIView):
         }
 
         serializer_geninfo = GeneralListSerializer(geninfo_objs_list, many=True, context=serializer_context)
+
+        resp_data = {}
+
+        resp_data["results"] = serializer_geninfo.data
         
-        return Response(serializer_geninfo.data)
+        return Response(resp_data)
 
 
 class GeneralListView(generics.ListAPIView):

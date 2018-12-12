@@ -35,16 +35,16 @@ class GeneralListSerializer(serializers.ModelSerializer):
     """
     信息列表序列化器
     """
-    menstruation = serializers.HyperlinkedRelatedField(label="",
+    menstruation = serializers.HyperlinkedRelatedField(label="月经信息",
                                                        read_only=True,
                                                        view_name='menstruation-detail')
-    symptom = serializers.HyperlinkedRelatedField(label="",
+    symptom = serializers.HyperlinkedRelatedField(label="全身症状",
                                                   read_only=True,
                                                   view_name='symptom-detail')
     other = serializers.HyperlinkedRelatedField(label="其他",
                                                 read_only=True,
                                                 view_name='other-detail')
-    clinicalconclusion = serializers.HyperlinkedRelatedField(label="",
+    clinicalconclusion = serializers.HyperlinkedRelatedField(label="临床诊断",
                                                              read_only=True,
                                                              view_name='clinicalconclusion-detail')
 
@@ -53,7 +53,7 @@ class GeneralListSerializer(serializers.ModelSerializer):
 
         fields = ("url", "id", "menstruation", "other", "clinicalconclusion",
                   "symptom", "name", "nation", "age", "height", "weight",
-                  "blood_type", "culture", "marriage", "career", "owner_id")
+                  "blood_type", "culture", "marriage", "career", "owner_id",)
 
 
 class GeneralInfoCreateSerializer(serializers.HyperlinkedModelSerializer):
@@ -104,21 +104,13 @@ class GeneralInfoDetailSerializer(serializers.HyperlinkedModelSerializer):
                   'wuteshu', 'sushi', 'suan', 'tian', 'xian', 'xinla', 'you', 'shengleng', 'kafei', 'qita',
                   'menstruation', 'symptom', 'other', 'clinicalconclusion')
 
-    # def create(self, validated_data):
-    #     gispecenv_data = validated_data.pop('gispecenv')
-    #     gieathobbies_data = validated_data.pop('gieathobbies')
-    #     gi = GeneralInfo.objects.create(**validated_data)
-    #     GeneralSpecEnv.objects.create(person=gi, **gispecenv_data)
-    #     GeneralEatHobbies.objects.create(person=gi, **gieathobbies_data)
-    #     return gi
-
 
 class GeneralInfoPageSeriaializer(serializers.Serializer):
     """分页请求序列化器"""
     page = serializers.IntegerField(label="当前页")
 
     def validate(self, data):
-        page = data.get("page", 0)
+        page = data.get("page", 1)
 
         if not page:
             raise serializers.ValidationError("参数未传递")
