@@ -1,4 +1,3 @@
-#from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework import filters
@@ -21,20 +20,11 @@ from myusers.models import MyUser
 
 from .utils import perform_create_content, create_file_view
 from .utils import group_permission_show
+from .utils import get_and_post
 
 from .pagination import GenPage
 
-import json
 import math
-
-
-# Create your views here.
-#######################################################################
-# class MyUserList(generics.ListAPIView):
-#     permission_classes = [TokenHasScope, IsOwnerOrReadOnly]
-#     required_scopes = ['prj001']
-#     queryset = MyUser.objects.all()
-#     serializer_class = MyUserListSerializer
 
 
 class MyUserGenInfoDetail(generics.RetrieveAPIView):
@@ -63,19 +53,28 @@ class GeneralInfoList(generics.ListCreateAPIView):
     def get_queryset(self):
         return group_permission_show(self)
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         total_num = GeneralInfo.objects.count()
         total_pages = math.ceil(total_num / settings.GEN_PAGE_SIZE)
-        queryset = self.get_queryset()[0:settings.GEN_PAGE_SIZE]
+        queryset = self.get_queryset()
+
+        page = get_and_post(request, queryset=queryset)
+
+        resp_dict = dict()
+        resp_dict["total_pages"] = total_pages
+
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            resp_dict["results"] = serializer.data
+
+            return Response(resp_dict)
 
         context = {
             'request': request
         }
         serializer = self.get_serializer(instance=queryset,
-                                            context=context, 
-                                            many=True)
-        resp_dict = dict()
-        resp_dict["total_pages"] = total_pages
+                                         context=context,
+                                         many=True)
         resp_dict["results"] = serializer.data
 
         return Response(resp_dict)
@@ -88,23 +87,19 @@ class GeneralInfoList(generics.ListCreateAPIView):
 
         page = serializer.validated_data["page"]
 
-        page_obj = GenPage()
-
-        end_num = (page-1)*(settings.GEN_PAGE_SIZE) + settings.GEN_PAGE_SIZE
+        end_num = (page-1) * (settings.GEN_PAGE_SIZE) + settings.GEN_PAGE_SIZE
 
         gen_list = self.get_queryset()[(page-1)*(settings.GEN_PAGE_SIZE): end_num]
 
-        # print(gen_list)
-
-        geninfo_objs_list = page_obj.paginate_queryset(queryset=gen_list, request=request)
+        geninfo_objs_list = get_and_post(request=request, queryset=gen_list)
 
         serializer_context = {
             'request': request,
         }
 
         serializer_geninfo = self.get_serializer(geninfo_objs_list,
-                                                    many=True, 
-                                                    context=serializer_context)
+                                                 many=True,
+                                                 context=serializer_context)
         resp_data = dict()
         resp_data["results"] = serializer_geninfo.data
         

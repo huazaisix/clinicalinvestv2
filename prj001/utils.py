@@ -10,6 +10,8 @@ from rest_framework.response import Response
 # 引入读取离线文件的工具包
 from utils.read_file_util.questionairetojson import readQuestionaireExcel
 
+from .pagination import GenPage
+
 import urllib.parse
 import json
 
@@ -279,3 +281,13 @@ def group_permission_show(data):
         _ID.append(data.request.user.id)
 
     return GeneralInfo.objects.filter(owner__in=_ID).order_by("-id")
+
+
+def get_and_post(request, queryset):
+    """GET/POST请求页面关于page"""
+
+    gen_page = GenPage()
+
+    every_data = gen_page.paginate_queryset(queryset=queryset, request=request)
+
+    return every_data
