@@ -1,0 +1,19 @@
+[
+{
+    "model": "projects.clinicalprojects",
+    "pk": 1,
+    "fields": {
+        "name": "\u6d41\u8c03\u9879\u76ee",
+        "prj_code": "prj001",
+        "status": "\u8fdb\u884c\u4e2d",
+        "starttime": "2018-12-13",
+        "endtime": "2018-12-13",
+        "linkurl": "prj001/",
+        "description": "\u6d41\u8c03\u9879\u76ee",
+        "relusers": [
+            26,
+            32
+        ]
+    }
+}
+]

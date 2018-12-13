@@ -1,0 +1,126 @@
+[
+{
+    "model": "oauth2_provider.application",
+    "pk": 1,
+    "fields": {
+        "client_id": "CWrbfzmJOhtG4cF0suVf0rGYSiJDWXeQBWxnne3g",
+        "user": 13,
+        "redirect_uris": "",
+        "client_type": "public",
+        "authorization_grant_type": "password",
+        "client_secret": "REmyfsiy3egeWWy3JF631S2kURtz9QbvdWnhptSx6011I9e1fyttmvZ9r9PiixZvvvcWQlvPFWtKHI9i5HfEVNC6e8a1BhTlfAtzqIa1KJySln3nMbJ4ri0Jkk9PS9x3",
+        "name": "clinicalinvest",
+        "skip_authorization": false,
+        "created": "2018-12-13T05:01:23.232Z",
+        "updated": "2018-12-13T05:01:23.232Z"
+    }
+},
+{
+    "model": "oauth2_provider.accesstoken",
+    "pk": 1,
+    "fields": {
+        "user": 26,
+        "source_refresh_token": null,
+        "token": "zRD6dypmFqXmXTxdmsTQHeZfzeNeD7",
+        "application": 1,
+        "expires": "2018-12-13T13:08:52.210Z",
+        "scope": "users",
+        "created": "2018-12-13T05:08:52.211Z",
+        "updated": "2018-12-13T05:08:52.211Z"
+    }
+},
+{
+    "model": "oauth2_provider.accesstoken",
+    "pk": 2,
+    "fields": {
+        "user": 26,
+        "source_refresh_token": null,
+        "token": "8h7to3NVu7BgzFj3ARo3phvR6dn18v",
+        "application": 1,
+        "expires": "2018-12-13T13:08:54.207Z",
+        "scope": "prj001",
+        "created": "2018-12-13T05:08:54.207Z",
+        "updated": "2018-12-13T05:08:54.207Z"
+    }
+},
+{
+    "model": "oauth2_provider.accesstoken",
+    "pk": 3,
+    "fields": {
+        "user": 26,
+        "source_refresh_token": null,
+        "token": "vcOU9IBLEUkH3XeqTGCPXMCuH8igJT",
+        "application": 1,
+        "expires": "2018-12-13T13:09:49.055Z",
+        "scope": "users",
+        "created": "2018-12-13T05:09:49.055Z",
+        "updated": "2018-12-13T05:09:49.055Z"
+    }
+},
+{
+    "model": "oauth2_provider.accesstoken",
+    "pk": 4,
+    "fields": {
+        "user": 26,
+        "source_refresh_token": null,
+        "token": "x3VdIKSg9K70iW68Io301ZMNi5EOks",
+        "application": 1,
+        "expires": "2018-12-13T13:09:50.518Z",
+        "scope": "prj001",
+        "created": "2018-12-13T05:09:50.518Z",
+        "updated": "2018-12-13T05:09:50.518Z"
+    }
+},
+{
+    "model": "oauth2_provider.refreshtoken",
+    "pk": 1,
+    "fields": {
+        "user": 26,
+        "token": "mWoT0ndzNLdJClgqTmRnW20E3ZO8gd",
+        "application": 1,
+        "access_token": 1,
+        "created": "2018-12-13T05:08:52.212Z",
+        "updated": "2018-12-13T05:08:52.212Z",
+        "revoked": null
+    }
+},
+{
+    "model": "oauth2_provider.refreshtoken",
+    "pk": 2,
+    "fields": {
+        "user": 26,
+        "token": "IukWNe4VjlZmyLs38Dd9USgOCQaZuD",
+        "application": 1,
+        "access_token": 2,
+        "created": "2018-12-13T05:08:54.208Z",
+        "updated": "2018-12-13T05:08:54.208Z",
+        "revoked": null
+    }
+},
+{
+    "model": "oauth2_provider.refreshtoken",
+    "pk": 3,
+    "fields": {
+        "user": 26,
+        "token": "oQRx9sBjgdeEpsMf2YMp2igCJhfBKI",
+        "application": 1,
+        "access_token": 3,
+        "created": "2018-12-13T05:09:49.056Z",
+        "updated": "2018-12-13T05:09:49.056Z",
+        "revoked": null
+    }
+},
+{
+    "model": "oauth2_provider.refreshtoken",
+    "pk": 4,
+    "fields": {
+        "user": 26,
+        "token": "60Y5l568aySsWEJyl6dZVWZS5P0Z47",
+        "application": 1,
+        "access_token": 4,
+        "created": "2018-12-13T05:09:50.519Z",
+        "updated": "2018-12-13T05:09:50.519Z",
+        "revoked": null
+    }
+}
+]
