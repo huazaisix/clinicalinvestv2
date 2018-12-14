@@ -55,7 +55,7 @@ class GeneralInfoList(generics.ListCreateAPIView):
         return group_permission_show(self)
 
     def get(self, request, *args, **kwargs):
-        total_num = GeneralInfo.objects.count()
+        total_num = self.get_queryset().count()
         total_pages = math.ceil(total_num / settings.GEN_PAGE_SIZE)
         queryset = self.filter_queryset(self.get_queryset())
 
