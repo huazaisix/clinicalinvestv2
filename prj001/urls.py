@@ -79,7 +79,7 @@ urlpatterns = [
     # 用户上传excel文件
     path('upload/', investfileupload_list, name='investfileupload-list'),
 
-    path("patientInfo/<pk>/", patient_view, name="patient-info")
+    path("patientInfo/<pk>/", patient_view, name="patient-info"),
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)

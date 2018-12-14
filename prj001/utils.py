@@ -291,3 +291,29 @@ def get_and_post(request, queryset):
     every_data = gen_page.paginate_queryset(queryset=queryset, request=request)
 
     return every_data
+
+
+# class JudgeStrType(object):
+#     """
+#     判断字符类型
+#     """
+#     # 判断一个unicode是否是汉字
+#     @staticmethod
+#     def is_chinese(s):
+#         if '\u4e00' <= s <= '\u9fff':
+#             return True
+#         else:
+#             return False
+#
+#     # 判断一个unicode是否是数字
+#     @staticmethod
+#     def is_number(s):
+#         return s.isdigit(s)
+#
+#     # 判断一个unicode是否是英文字母
+#     @staticmethod
+#     def is_alphabet(s):
+#         if ('\u0041' <= s <= '\u005a') or ('\u0061' <= s <= '\u007a'):
+#             return True
+#         else:
+#             return False

@@ -22,8 +22,6 @@ from .utils import perform_create_content, create_file_view
 from .utils import group_permission_show
 from .utils import get_and_post
 
-from .pagination import GenPage
-
 import math
 
 
@@ -46,8 +44,11 @@ class GeneralInfoList(generics.ListCreateAPIView):
     permission_classes = [TokenHasScope, CheckOperationPerm]
     required_scopes = ['prj001']
     serializer_class = GeneralListSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('$name', '$nation')
+
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
+    # TODO 多个删选条件
+    # filter_class = GenInfoFilter
+    search_fields = ('=age', 'nation', 'name', 'career', 'blood_type', 'marriage')
 
     # 分组 -- 组内成员具有查看权限,其他组员无查看权限
     def get_queryset(self):
@@ -56,7 +57,7 @@ class GeneralInfoList(generics.ListCreateAPIView):
     def get(self, request, *args, **kwargs):
         total_num = GeneralInfo.objects.count()
         total_pages = math.ceil(total_num / settings.GEN_PAGE_SIZE)
-        queryset = self.get_queryset()
+        queryset = self.filter_queryset(self.get_queryset())
 
         page = get_and_post(request, queryset=queryset)
 
@@ -87,21 +88,21 @@ class GeneralInfoList(generics.ListCreateAPIView):
 
         page = serializer.validated_data["page"]
 
-        end_num = (page-1) * (settings.GEN_PAGE_SIZE) + settings.GEN_PAGE_SIZE
+        end_num = (page-1) * settings.GEN_PAGE_SIZE + settings.GEN_PAGE_SIZE
 
-        gen_list = self.get_queryset()[(page-1)*(settings.GEN_PAGE_SIZE): end_num]
+        gen_list = self.get_queryset()[(page-1)*settings.GEN_PAGE_SIZE: end_num]
 
-        geninfo_objs_list = get_and_post(request=request, queryset=gen_list)
+        gen_obj_list = get_and_post(request=request, queryset=gen_list)
 
         serializer_context = {
             'request': request,
         }
 
-        serializer_geninfo = self.get_serializer(geninfo_objs_list,
-                                                 many=True,
-                                                 context=serializer_context)
+        serializer_gen = self.get_serializer(gen_obj_list,
+                                             many=True,
+                                             context=serializer_context)
         resp_data = dict()
-        resp_data["results"] = serializer_geninfo.data
+        resp_data["results"] = serializer_gen.data
         
         return Response(resp_data)
 
@@ -118,8 +119,8 @@ class GeneralListView(generics.ListAPIView):
         return GeneralInfo.objects.filter(owner_id=self.request.user.id)
 
     serializer_class = GeneralListSerializer
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('$name', '$nation')
+    # filter_backends = (filters.SearchFilter,)
+    # search_fields = ('$name', '$nation')
 
 
 class GeneralInfoCreate(generics.CreateAPIView):

@@ -9,7 +9,7 @@ __pycache__/
 .idea/*
 */.idea/*
 .vscode
-*/migrations/*
+*/migrations/0*
 upload/avatars/*
 # Distribution / packaging
 .Python

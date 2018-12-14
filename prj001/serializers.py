@@ -125,10 +125,7 @@ class GeneralInfoSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class MenstruationSerializer(serializers.ModelSerializer):
-    # person_id = serializers.IntegerField(label="一般信息的外键",
-    #                                      write_only=True,
-    #                                      help_text="一般信息的ID")
+class MenstruationSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Menstruation
@@ -151,7 +148,7 @@ class MenstruationSerializer(serializers.ModelSerializer):
         return validate_person(self, GeneralInfo, Menstruation, data)
 
 
-class SymptomSerializer(serializers.ModelSerializer):
+class SymptomSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Symptom
@@ -169,13 +166,11 @@ class SymptomSerializer(serializers.ModelSerializer):
         return validate_person(self, GeneralInfo, Symptom, data)
 
 
-class OtherSerializer(serializers.ModelSerializer):
+class OtherSerializer(serializers.HyperlinkedModelSerializer):
 
     HGBVALUE = [
-        u'>110',u'91-110',u'61-90',u'30-60'
+        u'>110', u'91-110', u'61-90', u'30-60'
     ]
-    # accessory_hgb_value = serializers.ChoiceField(choices=HGBVALUE, help_text=u'血红蛋白值')
-    # accessory_hgb_value = serializers.CharField(help_text=u'血红蛋白值')
 
     class Meta:
         model = Other
@@ -193,7 +188,7 @@ class OtherSerializer(serializers.ModelSerializer):
         return validate_person(self, GeneralInfo, Other, data)
 
 
-class ClinicalConclusionSerializer(serializers.ModelSerializer):
+class ClinicalConclusionSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = ClinicalConclusion
@@ -241,5 +236,3 @@ class InfoSerializer(serializers.Serializer):
     class Meta:
         model = GeneralInfo
         fields = "__all__"
-
-
