@@ -7,6 +7,7 @@ from rest_framework import filters
 from rest_framework import generics
 from rest_framework import viewsets, views
 from rest_framework.response import Response
+from urllib.parse import unquote, quote, urlencode
 
 from myusers.models import MyUser
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
@@ -20,6 +21,7 @@ from .utils.utils import get_and_post
 from .utils.utils import group_permission_show
 from .utils.utils import perform_create_content, create_file_view
 from .utils.utils_excel import save_excel
+from .utils.search_util import OwnSearchFilter
 
 
 class MyUserGenInfoDetail(generics.RetrieveAPIView):
@@ -42,7 +44,7 @@ class GeneralInfoList(generics.ListCreateAPIView):
     required_scopes = ['prj001']
     serializer_class = GeneralListSerializer
 
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
+    filter_backends = (DjangoFilterBackend, OwnSearchFilter,)
     # TODO 多个删选条件
     # filter_class = GenInfoFilter
     search_fields = ('=age', 'nation', 'name', 'career', 'blood_type', 'marriage')
