@@ -1,4 +1,4 @@
-from .models import GeneralInfo, Menstruation, Symptom, ClinicalConclusion, Other
+from prj001.models import GeneralInfo, Menstruation, Symptom, ClinicalConclusion, Other
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.conf import settings
@@ -10,7 +10,7 @@ from rest_framework.response import Response
 # 引入读取离线文件的工具包
 from utils.read_file_util.questionairetojson import readQuestionaireExcel
 
-from .pagination import GenPage
+from prj001.pagination import GenPage
 
 import urllib.parse
 import json

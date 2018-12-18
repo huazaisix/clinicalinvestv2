@@ -3,8 +3,8 @@ from myusers.models import MyUser
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
 from .models import InvestFileUpload
 
-from .utils import validate_file
-from .utils import validate_person
+from .utils.utils import validate_file
+from .utils.utils import validate_person
 
 
 #######################################################################

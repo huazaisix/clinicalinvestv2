@@ -1,28 +1,25 @@
-from rest_framework import generics
-from rest_framework import viewsets, views
-from rest_framework import filters
-from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
-from oauth2_provider.contrib.rest_framework import TokenHasScope
+import math
 
 from django.conf import settings
-# from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, IsAuthenticatedOrTokenHasScope
+from django_filters.rest_framework import DjangoFilterBackend
+from oauth2_provider.contrib.rest_framework import TokenHasScope
+from rest_framework import filters
+from rest_framework import generics
+from rest_framework import viewsets, views
+from rest_framework.response import Response
 
+from myusers.models import MyUser
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
 from .models import InvestFileUpload
-from .serializers import GeneralInfoListSerializer, GeneralInfoCreateSerializer, GeneralInfoDetailSerializer
+from .permissions import IsOwnerOrReadOnly, CheckOperationPerm
+from .serializers import GeneralInfoCreateSerializer, GeneralInfoDetailSerializer
+from .serializers import GeneralListSerializer, GeneralInfoPageSeriaializer
 from .serializers import MenstruationSerializer, SymptomSerializer, OtherSerializer, ClinicalConclusionSerializer
 from .serializers import MyUserGenInfoDetailSerializer, InvestFileUploadSerializer, InfoSerializer
-from .serializers import GeneralListSerializer, GeneralInfoPageSeriaializer
-from .permissions import IsOwnerOrReadOnly, CheckOperationPerm
-from myusers.models import MyUser
-
-
-from .utils import perform_create_content, create_file_view
-from .utils import group_permission_show
-from .utils import get_and_post
-
-import math
+from .utils.utils import get_and_post
+from .utils.utils import group_permission_show
+from .utils.utils import perform_create_content, create_file_view
+from .utils.utils_excel import save_excel
 
 
 class MyUserGenInfoDetail(generics.RetrieveAPIView):
@@ -420,11 +417,6 @@ class FileDownloadView(views.APIView):
                                     context={'request': request},
                                     many=True)
 
-        # from .utils_excel import create_xls
-        # create_xls(serializer)
-
-
-        # from .demnom import test
-        # test(serializer)
+        save_excel(serializer)
 
         return Response(serializer.data)

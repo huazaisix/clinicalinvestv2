@@ -31,7 +31,7 @@ inner_table_value = {
 }
 
 
-def test(s):
+def save_excel(s):
     """s是序列化器对象"""
     data_json = s.data
 
@@ -79,7 +79,10 @@ def test(s):
                     # 如果不空, 创建
                     _obj = item.pop(key)
 
-                    for ks, vs in _obj.items():
+                    for ks, vs in list(_obj.items()):
+                        if ks in ('url', 'person', 'owner'):
+                            _obj.pop(ks)
+                            continue
                         ws.write(m, n, ks, inner_table_key_style)
 
                         if isinstance(vs, bool):
