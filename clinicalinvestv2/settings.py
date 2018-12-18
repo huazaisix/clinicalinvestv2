@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+ALLOWED_SAVED_TIME = 60 * 60 * 8
+
 
 # Application definition
 
@@ -60,6 +62,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SESSION_COOKIE_AGE = ALLOWED_SAVED_TIME
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -142,10 +146,12 @@ MEDIA_URL = '/media/'  # 这个是在浏览器上访问该上传文件的url的�
 
 OAUTH2_PROVIDER = {
     'AUTHORIZATION_CODE_EXPIRE_SECONDS': 60 * 5,
-    'ACCESS_TOKEN_EXPIRE_SECONDS': 60 * 60 * 8,
+    'ACCESS_TOKEN_EXPIRE_SECONDS': ALLOWED_SAVED_TIME,
     # this is the list of available scopes
     'SCOPES': {'prj001': 'prj001 operation scope', 'prj002': 'prj002 operation scope', 'users': 'users operation scope'}
 }
+
+GEN_PAGE_SIZE = 5
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -156,10 +162,10 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5
+    'PAGE_SIZE': GEN_PAGE_SIZE
 }
 
 UPLOAD_FILE_TYPE = ("xls", "xlsx", )
 
-GEN_PAGE_SIZE = 5
+
 

@@ -1,5 +1,5 @@
 from rest_framework import generics
-from rest_framework import viewsets
+from rest_framework import viewsets, views
 from rest_framework import filters
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
@@ -55,18 +55,36 @@ class GeneralInfoList(generics.ListCreateAPIView):
         return group_permission_show(self)
 
     def get(self, request, *args, **kwargs):
+
+        search_index = request.query_params.get('search')
+
         total_num = self.get_queryset().count()
         total_pages = math.ceil(total_num / settings.GEN_PAGE_SIZE)
         queryset = self.filter_queryset(self.get_queryset())
 
+        resp_dict = dict()
+
+        if search_index:
+            search_pages = math.ceil(len(queryset) / settings.GEN_PAGE_SIZE)
+            resp_dict['total_pages'] = search_pages
+        else:
+            resp_dict["total_pages"] = total_pages
+
         page = get_and_post(request, queryset=queryset)
 
-        resp_dict = dict()
-        resp_dict["total_pages"] = total_pages
+        # 清除之前的数据,再设置
+        try:
+            del request.session[str(request.user.id)]
+        except KeyError:
+            pass
 
         if page is not None:
             serializer = self.get_serializer(page, many=True)
+            resp_dict['totalCount'] = total_num
+            resp_dict['count'] = len(queryset)
             resp_dict["results"] = serializer.data
+
+            request.session[request.user.id] = serializer.data
 
             return Response(resp_dict)
 
@@ -76,7 +94,14 @@ class GeneralInfoList(generics.ListCreateAPIView):
         serializer = self.get_serializer(instance=queryset,
                                          context=context,
                                          many=True)
+
+        # 总记录数
+        resp_dict['totalCount'] = total_num
+        # 符合search 的数
+        resp_dict['count'] = len(queryset)
         resp_dict["results"] = serializer.data
+
+        request.session[request.user.id] = serializer.data
 
         return Response(resp_dict)
 
@@ -134,7 +159,6 @@ class GeneralInfoCreate(generics.CreateAPIView):
     serializer_class = GeneralInfoCreateSerializer
 
     def perform_create(self, serializer):
-        # print(self.request.data, "---------")
         serializer.save(owner=self.request.user)
 
 
@@ -374,5 +398,33 @@ class GetPatientInfoView(generics.GenericAPIView):
             return Response({"msg": "该病患还没有录入信息"})
 
         serializer = InfoSerializer(instance=gen_obj, many=True)
+
+        return Response(serializer.data)
+
+
+class FileDownloadView(views.APIView):
+    """
+    GET - 下载文件
+    """
+    def get(self, request, *args, **kwargs):
+        #
+        excel_data = request.session[str(request.user.id)]
+        id_list = []
+        # 抽离id
+        for item in excel_data:
+            id_list.append(item.get('id'))
+
+        gen_os = GeneralInfo.objects.filter(id__in=id_list)
+
+        serializer = InfoSerializer(instance=gen_os,
+                                    context={'request': request},
+                                    many=True)
+
+        # from .utils_excel import create_xls
+        # create_xls(serializer)
+
+
+        # from .demnom import test
+        # test(serializer)
 
         return Response(serializer.data)
