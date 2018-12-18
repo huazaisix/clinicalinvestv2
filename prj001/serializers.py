@@ -227,7 +227,7 @@ class InvestFileUploadSerializer(serializers.ModelSerializer):
 
 
 # 保存数据库的多表序列化器
-class InfoSerializer(serializers.Serializer):
+class InfoSerializer(serializers.ModelSerializer):
     clinicalconclusion = ClinicalConclusionSerializer()
     other = OtherSerializer()
     symptom = SymptomSerializer()
@@ -235,4 +235,9 @@ class InfoSerializer(serializers.Serializer):
 
     class Meta:
         model = GeneralInfo
-        fields = "__all__"
+        fields = ('recdate', 'serial', 'hospital', 'expert', 'title', 'name', 'telephone', 'age',
+                  'height', 'weight', 'blood_type', 'nation', 'career',
+                  'gaokong', 'diwen', 'zaosheng', 'fushe', 'huagongyinran', 'julieyundong', 'qiyou', 'wu',
+                  'address', 'entrance', 'culture', 'marriage',
+                  'wuteshu', 'sushi', 'suan', 'tian', 'xian', 'xinla', 'you', 'shengleng', 'kafei', 'qita',
+                  'menstruation', 'symptom', 'other', 'clinicalconclusion')
