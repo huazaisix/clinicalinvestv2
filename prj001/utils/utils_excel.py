@@ -38,7 +38,7 @@ def save_excel(s):
     # 创建一个表
     pd.set_option('display.max_colwidth', 1000)
     df = pd.DataFrame()
-    writer = pd.ExcelWriter('excel_name.xls', engine='xlsxwriter')
+    writer = pd.ExcelWriter('excel_name.xlsx', engine='xlsxwriter')
 
     for index, item in enumerate(data_json):
 
@@ -50,6 +50,8 @@ def save_excel(s):
             ws = writer.sheets[sheet_name]
             wb = writer.book
 
+            format01 = wb.add_format()
+            format01.set_bold(True)
             table_title_style = wb.add_format(table_title)
             inner_table_key_style = wb.add_format(inner_table_key)
             inner_table_value_style = wb.add_format(inner_table_value)
@@ -62,7 +64,7 @@ def save_excel(s):
             else:
                 if isinstance(value, str) or isinstance(value, bool) or isinstance(value, int):
                     # 保存正常的key,value
-                    ws.write(p, q, key, inner_table_key_style)
+                    ws.write(p, q, key, format01)
                     if isinstance(value, bool):
                         if value:
                             ws.write(p, q + 1, '有', inner_table_value_style)

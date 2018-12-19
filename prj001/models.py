@@ -109,6 +109,7 @@ class GeneralInfo(models.Model):
         (u'已婚同居', u'已婚同居'),
         (u'已婚分居', u'已婚分居'),
         (u'离婚', u'离婚'),
+        (u'丧偶', u'丧偶'),
     )
     owner = models.ForeignKey('myusers.MyUser', related_name='mygi',
                               on_delete=models.CASCADE)  # related name used in serializer for relation
