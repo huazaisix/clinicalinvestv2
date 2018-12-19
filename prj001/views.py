@@ -144,7 +144,7 @@ class GeneralListView(generics.ListAPIView):
         # self.request.user 获取对象
         return GeneralInfo.objects.filter(owner_id=self.request.user.id)
 
-    serializer_class = GeneralListSerializer
+    serializer_class = InfoSerializer
     # filter_backends = (filters.SearchFilter,)
     # search_fields = ('$name', '$nation')
 

@@ -151,7 +151,8 @@ OAUTH2_PROVIDER = {
     'SCOPES': {'prj001': 'prj001 operation scope', 'prj002': 'prj002 operation scope', 'users': 'users operation scope'}
 }
 
-GEN_PAGE_SIZE = 5
+# 每页数目
+GEN_PAGE_SIZE = 10
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (

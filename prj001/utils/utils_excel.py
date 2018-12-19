@@ -34,9 +34,9 @@ inner_table_value = {
 def save_excel(s):
     """s是序列化器对象"""
     data_json = s.data
+    dict_demo = []
 
     # 创建一个表
-    pd.set_option('display.max_colwidth', 1000)
     df = pd.DataFrame()
     writer = pd.ExcelWriter('excel_name.xlsx', engine='xlsxwriter')
 
@@ -61,6 +61,7 @@ def save_excel(s):
                 # 如果是空对象, 直接删除当前的单元格
                 # item[key] = '该患者无此相关信息'
                 item.pop(key)
+                dict_demo.append(key)
             else:
                 if isinstance(value, str) or isinstance(value, bool) or isinstance(value, int):
                     # 保存正常的key,value
@@ -73,6 +74,7 @@ def save_excel(s):
                     else:
                         ws.write(p, q + 1, value, inner_table_value_style)
                     p += 1
+                    dict_demo.append(key)
                 else:
 
                     if key in [key for key in obj_str]:
@@ -82,6 +84,7 @@ def save_excel(s):
                     _obj = item.pop(key)
 
                     for ks, vs in list(_obj.items()):
+                        dict_demo.append(key)
                         if ks in ('url', 'person', 'owner'):
                             _obj.pop(ks)
                             continue
