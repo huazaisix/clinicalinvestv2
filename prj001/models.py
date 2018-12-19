@@ -1059,9 +1059,9 @@ class Other(models.Model):
         (u'无', u'无'),
         (u'很少（≤1次/周）', u'很少（≤1次/周）'),
         (u'偶尔（≤3次/周）', u'偶尔（≤3次/周）'),
-        (u'经常（≥4次/周）', u'经常（≥4次/周）'),
-        (u'一般（少量出汗，心率≤120次/分）', u'一般（少量出汗，心率≤120次/分）'),
-        (u'高强度（大汗淋漓，心率>120次/分）', u'高强度（大汗淋漓，心率>120次/分）'),
+        (u'经常（（≥4次/周）', u'经常（（≥4次/周）'),
+        (u'一般(少量出汗，心率≤120次/分)', u' 一般（少量出汗，心率≤120次/分)'),
+        (u'高强度(大汗淋漓，心率>120次/分)', u' 高强度(大汗淋漓，心率>120次/分)'),
     )
     # 一级亲属（母亲、姐妹、女儿）异常子宫出血史
     WOMBBLOOD = (
@@ -1126,7 +1126,7 @@ class Other(models.Model):
     phycial_exercise = models.CharField(verbose_name=u'体育锻炼',
                                         blank=True,
                                         null=True,
-                                        choices=PHYCIALEXER, max_length=50, help_text="体育锻炼")
+                                        choices=PHYCIALEXER, max_length=500, help_text="体育锻炼")
 
     # 其它-减肥情况
     # reduce_fat = models.ForeignKey(OtherReduceFat, on_delete=models.CASCADE)
@@ -1388,7 +1388,7 @@ class Other(models.Model):
     # 其它-辅助性检查
     # accessory_check = models.ForeignKey(OtherAccessoryCheck, on_delete=models.CASCADE)
     HGBVALUE = (
-        (u'>110', u'>110'),
+        (u'＞110', u'＞110'),
         (u'91-110', u'91-110'),
         (u'61-90', u'61-90'),
         (u'30-60', u'30-60'),

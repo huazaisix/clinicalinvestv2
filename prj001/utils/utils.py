@@ -115,7 +115,7 @@ def validate_person(sf, obj, obj_o, data):
 
     p_id = data.get("person", None)
 
-    print(p_id.id, type(p_id), "-------validate_person--------")
+    # print(p_id.id, type(p_id), "-------validate_person--------")
 
     if not p_id:
         raise serializers.ValidationError("表内容填写不完整")
@@ -153,7 +153,12 @@ def perform_create_content(sf, obj, s):
     """
     person_id = s.validated_data["person"]
 
-    person = obj.objects.get(id=person_id.id)
+    # print(person_id, '===>')
+
+    try:
+        person = obj.objects.get(id=person_id.id)
+    except obj.DoesNotExist:
+        raise
 
     s.save(owner=sf.request.user, person=person)
 

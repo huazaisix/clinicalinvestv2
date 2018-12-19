@@ -32,13 +32,20 @@ def readMenstruationInfo(file, dictname):
 	readexcel.readIntInfoToDict(sheet, dictname, 4, 1, 40, 41)
 	#2项（规律为True则使用key：normal，否则使用key：abnormal）
 	readexcel.readBoolInfoToDict(sheet, dictname, 4, 1, 42, 43)
+	readexcel.readBoolInfoToDict(sheet, dictname, 4, 1, 43, 44)
+
+	# if dictname.get('cyclicity', False):
+	# 	dictname['normal'] = sheet.cell(43, 1).value
+	# else:
+	# 	dictname['abnormal'] = sheet.cell(44, 1).value
+
 	if sheet.cell(42, 1).value == True:
 		dictname["normal"] = sheet.cell(43, 1).value
 	else:
 		dictname["abnormal"] = sheet.cell(44, 1).value
 	#3~8项
 	readexcel.readStrInfoToDict(sheet, dictname, 4, 1, 45, 51)
-	
+
 
 #录入全身症状
 def readSymptomInfo(file, dictname):	
@@ -109,6 +116,7 @@ def readOtherInfo(file, dictname):
 	readexcel.readBoolInfoToDict(sheet3, dictname, 1, 2, 1, 5)
 	#3~6项
 	readexcel.readStrInfoToDict(sheet0, dictname, 4, 1, 116, 121)
+	# print('==>>>>>L121', dictname)
 	#减肥情况
 	#“有”则包含运动减肥等参数，“无”则没有这些键值对
 	if sheet0.cell(120, 1).value == "有":

@@ -83,7 +83,9 @@ class GeneralInfoList(generics.ListCreateAPIView):
             resp_dict['count'] = len(queryset)
             resp_dict["results"] = serializer.data
 
-            request.session[request.user.id] = serializer.data
+            request.session[str(request.user.id)] = serializer.data
+
+            print(request.user.id)
 
             return Response(resp_dict)
 
@@ -100,7 +102,7 @@ class GeneralInfoList(generics.ListCreateAPIView):
         resp_dict['count'] = len(queryset)
         resp_dict["results"] = serializer.data
 
-        request.session[request.user.id] = serializer.data
+        request.session[str(request.user.id)] = serializer.data
 
         return Response(resp_dict)
 
@@ -245,7 +247,7 @@ class SymptomViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
 
-        perform_create_content(self, Symptom, serializer)
+        perform_create_content(self, GeneralInfo, serializer)
 
 
 #######################################################################
@@ -275,7 +277,7 @@ class OtherViewSet(viewsets.ModelViewSet):
     serializer_class = OtherSerializer
 
     def perform_create(self, serializer):
-        perform_create_content(self, Other, serializer)
+        perform_create_content(self, GeneralInfo, serializer)
 
 
 #######################################################################
@@ -305,7 +307,7 @@ class ClinicalConclusionViewSet(viewsets.ModelViewSet):
     serializer_class = ClinicalConclusionSerializer
 
     def perform_create(self, serializer):
-        perform_create_content(self, ClinicalConclusion, serializer)
+        perform_create_content(self, GeneralInfo, serializer)
 
 
 class InvestFileUploadViewSet(viewsets.ModelViewSet):
@@ -401,13 +403,19 @@ class GetPatientInfoView(generics.GenericAPIView):
         return Response(serializer.data)
 
 
-class FileDownloadView(views.APIView):
+class FileDownloadView(generics.GenericAPIView):
     """
     GET - 下载文件
     """
+    permission_classes = [TokenHasScope, ]
+    required_scopes = ['prj001']
+
     def get(self, request, *args, **kwargs):
         #
-        excel_data = request.session[str(request.user.id)]
+        try:
+            excel_data = request.session[str(request.user.id)]
+        except KeyError:
+            return ValueError('并没有需要保存的值')
         id_list = []
         # 抽离id
         for item in excel_data:
