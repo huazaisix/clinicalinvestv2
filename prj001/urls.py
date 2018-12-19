@@ -17,16 +17,16 @@ menstruation_detail = MenstruationViewSet.as_view({
     'delete': 'destroy'
 })
 
-symptom_list = SymptomViewSet.as_view({
-    # 'get': 'list',
-    'post': 'create'
-})
-symptom_detail = SymptomViewSet.as_view({
-    'get': 'retrieve',
-    'put': 'update',
-    'patch': 'partial_update',
-    'delete': 'destroy'
-})
+# symptom_list = SymptomViewSet.as_view({
+#     # 'get': 'list',
+#     'post': 'create'
+# })
+# symptom_detail = SymptomViewSet.as_view({
+#     'get': 'retrieve',
+#     'put': 'update',
+#     'patch': 'partial_update',
+#     'delete': 'destroy'
+# })
 
 other_list = OtherViewSet.as_view({
     # 'get': 'list',
@@ -66,8 +66,8 @@ urlpatterns = [
     path('menstruation/', menstruation_list, name='menstruation-list'),
     path('menstruation/<pk>/', menstruation_detail, name='menstruation-detail'),
     # 全身症状
-    path('symptom/', symptom_list, name='symptom-create'),
-    path('symptom/<pk>/', symptom_detail, name='symptom-detail'),
+    path('symptom/', SymptomViewSet.as_view(), name='symptom-create'),
+    path('symptom/<pk>/', SymptomViewSet.as_view(), name='symptom-detail'),
     # 其它情况
     path('other/', other_list, name='other-list'),
     path('other/<pk>/', other_detail, name='other-detail'),

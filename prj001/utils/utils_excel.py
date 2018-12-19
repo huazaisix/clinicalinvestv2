@@ -1,5 +1,7 @@
 import pandas as pd
 
+from .constants import excel_key
+
 obj_str = {
     'clinicalconclusion': '临床诊断',
     'other': '其他病症',
@@ -65,7 +67,7 @@ def save_excel(s):
             else:
                 if isinstance(value, str) or isinstance(value, bool) or isinstance(value, int):
                     # 保存正常的key,value
-                    ws.write(p, q, key, format01)
+                    ws.write(p, q, excel_key.get(key), format01)
                     if isinstance(value, bool):
                         if value:
                             ws.write(p, q + 1, '有', inner_table_value_style)
@@ -88,7 +90,7 @@ def save_excel(s):
                         if ks in ('url', 'person', 'owner'):
                             _obj.pop(ks)
                             continue
-                        ws.write(m, n, ks, inner_table_key_style)
+                        ws.write(m, n, excel_key.get(ks), inner_table_key_style)
 
                         if isinstance(vs, bool):
                             if vs:

@@ -228,10 +228,10 @@ class Menstruation(models.Model):
                                      help_text="初潮年龄",
                                      null=True,
                                      blank=True)
-    cyclicity = models.NullBooleanField(verbose_name=u'月经周期是否规律',
-                                        default=False,
-                                        help_text="月经周期是否规律",
-                                        blank=True)
+    cyclicity = models.BooleanField(verbose_name=u'月经周期是否规律',
+                                    default=False,
+                                    help_text="月经周期是否规律",
+                                    blank=True)
     normal = models.IntegerField(verbose_name=u'月经周期尚规律的间隔天数',
                                  blank=True,
                                  null=True,
@@ -295,82 +295,82 @@ class Symptom(models.Model):
 
     # 全身症状-精神
     # spirit = models.ForeignKey(SymptomSpirit, on_delete=models.CASCADE)
-    spirit_jinglichongpei = models.NullBooleanField(verbose_name=u'精力充沛',
-                                                    default=False,
-                                                    blank=True,
-                                                    help_text="精力充沛")
-    spirit_jianwang = models.NullBooleanField(verbose_name=u'健忘',
-                                              default=False,
-                                              blank=True,
-                                              help_text="健忘")
-    spirit_jingshenbujizhong = models.NullBooleanField(verbose_name=u'精神不集中',
-                                                       default=False,
-                                                       blank=True,
-                                                       help_text="精神不集中")
-    spirit_shenpifali = models.NullBooleanField(verbose_name=u'神疲乏力',
+    spirit_jinglichongpei = models.BooleanField(verbose_name=u'精力充沛',
                                                 default=False,
                                                 blank=True,
-                                                help_text="神疲乏力")
-    spirit_yalida = models.NullBooleanField(verbose_name=u'学习、工作压力大',
+                                                help_text="精力充沛")
+    spirit_jianwang = models.BooleanField(verbose_name=u'健忘',
+                                          default=False,
+                                          blank=True,
+                                          help_text="健忘")
+    spirit_jingshenbujizhong = models.BooleanField(verbose_name=u'精神不集中',
+                                                   default=False,
+                                                   blank=True,
+                                                   help_text="精神不集中")
+    spirit_shenpifali = models.BooleanField(verbose_name=u'神疲乏力',
                                             default=False,
                                             blank=True,
-                                            help_text="学习压力大")
-    spirit_jiaodabiangu = models.NullBooleanField(verbose_name=u'个人/家庭遭遇较大变故',
-                                                  default=False,
-                                                  blank=True,
-                                                  help_text="个人/家庭遭遇较大变故")
-    spirit_beishangyuku = models.NullBooleanField(verbose_name=u'悲伤欲哭',
-                                                  default=False,
-                                                  blank=True,
-                                                  help_text="悲伤欲哭")
+                                            help_text="神疲乏力")
+    spirit_yalida = models.BooleanField(verbose_name=u'学习、工作压力大',
+                                        default=False,
+                                        # blank=True,
+                                        help_text="学习压力大")
+    spirit_jiaodabiangu = models.BooleanField(verbose_name=u'个人/家庭遭遇较大变故',
+                                              default=False,
+                                              # blank=True,
+                                              help_text="个人/家庭遭遇较大变故")
+    spirit_beishangyuku = models.BooleanField(verbose_name=u'悲伤欲哭',
+                                              default=False,
+                                              # blank=True,
+                                              help_text="悲伤欲哭")
 
     # 全身症状-情绪
     # mood = models.ForeignKey(SymptomMood, on_delete=models.CASCADE)
-    mood_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                              default=False,
-                                              blank=True,
-
-                                              help_text="正常")
-    mood_leguankailang = models.NullBooleanField(verbose_name=u'乐观开朗',
-                                                 default=False,
-                                                 blank=True,
-
-                                                 help_text="乐观开朗")
-    mood_silvguodu = models.NullBooleanField(verbose_name=u'思虑过度',
-                                             default=False,
-                                             blank=True,
-
-                                             help_text="思虑过度")
-    mood_xinuwuchang = models.NullBooleanField(verbose_name=u'喜怒无常',
-                                               default=False,
-                                               blank=True,
-
-                                               help_text="喜怒无常")
-    mood_fanzaoyinu = models.NullBooleanField(verbose_name=u'烦躁易怒',
-                                              default=False,
-                                              blank=True,
-
-                                              help_text="烦躁易怒")
-    mood_jiaolv = models.NullBooleanField(verbose_name=u'焦虑',
+    mood_zhengchang = models.BooleanField(verbose_name=u'正常',
                                           default=False,
                                           blank=True,
 
-                                          help_text="焦虑")
-    mood_beishangyuku = models.NullBooleanField(verbose_name=u'悲伤欲哭',
-                                                default=False,
-                                                blank=True,
+                                          help_text="正常")
+    mood_leguankailang = models.BooleanField(verbose_name=u'乐观开朗',
+                                             default=False,
+                                             blank=True,
 
-                                                help_text="悲伤欲哭")
-    mood_yiyu = models.NullBooleanField(verbose_name=u'抑郁',
-                                        default=False,
-                                        blank=True,
+                                             help_text="乐观开朗")
+    mood_silvguodu = models.BooleanField(verbose_name=u'思虑过度',
+                                         default=False,
+                                         blank=True,
 
-                                        help_text="抑郁")
-    mood_duosiduolv = models.NullBooleanField(verbose_name=u'多思多虑',
-                                              default=False,
-                                              blank=True,
+                                         help_text="思虑过度")
+    mood_xinuwuchang = models.BooleanField(verbose_name=u'喜怒无常',
+                                           default=False,
+                                           blank=True,
 
-                                              help_text="多思多虑")
+                                           help_text="喜怒无常")
+    mood_fanzaoyinu = models.BooleanField(verbose_name=u'烦躁易怒',
+                                          default=False,
+                                          blank=True,
+
+                                          help_text="烦躁易怒")
+    mood_jiaolv = models.BooleanField(verbose_name=u'焦虑',
+                                      default=False,
+                                      blank=True,
+
+                                      help_text="焦虑")
+    mood_beishangyuku = models.BooleanField(verbose_name=u'悲伤欲哭',
+                                            default=False,
+                                            blank=True,
+
+                                            help_text="悲伤欲哭")
+    mood_yiyu = models.BooleanField(verbose_name=u'抑郁',
+                                    default=False,
+                                    blank=True,
+
+                                    help_text="抑郁")
+    mood_duosiduolv = models.BooleanField(verbose_name=u'多思多虑',
+                                          default=False,
+                                          blank=True,
+
+                                          help_text="多思多虑")
     mood_qita = models.CharField(verbose_name=u'其它',
                                  max_length=50,
                                  default=u'无',
@@ -379,651 +379,651 @@ class Symptom(models.Model):
 
     # 全身症状-寒热
     # chill_fever = models.ForeignKey(SymptomChillFever, on_delete=models.CASCADE)
-    chillfever_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                                    default=False,
-                                                    help_text="正常")
-    chillfever_weihan = models.NullBooleanField(verbose_name=u'畏寒',
+    chillfever_zhengchang = models.BooleanField(verbose_name=u'正常',
                                                 default=False,
-                                                help_text="畏寒")
-    chillfever_wuxinfanre = models.NullBooleanField(verbose_name=u'五心烦热',
-                                                    default=False,
-                                                    help_text="无心烦躁")
-    chillfever_wuhouchaore = models.NullBooleanField(verbose_name=u'午后潮热',
-                                                     default=False,
-                                                     help_text="午后潮热")
-    chillfever_direbutui = models.NullBooleanField(verbose_name=u'低热不退',
-                                                   default=False,
-                                                   help_text="低热不退")
+                                                help_text="正常")
+    chillfever_weihan = models.BooleanField(verbose_name=u'畏寒',
+                                            default=False,
+                                            help_text="畏寒")
+    chillfever_wuxinfanre = models.BooleanField(verbose_name=u'五心烦热',
+                                                default=False,
+                                                help_text="无心烦躁")
+    chillfever_wuhouchaore = models.BooleanField(verbose_name=u'午后潮热',
+                                                 default=False,
+                                                 help_text="午后潮热")
+    chillfever_direbutui = models.BooleanField(verbose_name=u'低热不退',
+                                               default=False,
+                                               help_text="低热不退")
 
     # --------------------------
     # 全身症状-出汗
-    sweat_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                               default=False,
-                                               blank=True,
-                                               help_text="正常")
-    sweat_duohan = models.NullBooleanField(verbose_name=u'多汗',
+    sweat_zhengchang = models.BooleanField(verbose_name=u'正常',
                                            default=False,
                                            blank=True,
-                                           help_text="多汗")
-    sweat_mingxian = models.NullBooleanField(verbose_name=u'稍微活动则汗出明显',
-                                             default=False,
-                                             blank=True,
-                                             help_text="稍微活动则汗明显")
-    sweat_zihan = models.NullBooleanField(verbose_name=u'自汗',
-                                          default=False,
-                                          blank=True,
-                                          help_text="自汗")
-    sweat_daohan = models.NullBooleanField(verbose_name=u'盗汗',
-                                           default=False,
-                                           blank=True,
-                                           help_text="盗汗")
-    sweat_hongre = models.NullBooleanField(verbose_name=u'烘热汗出',
-                                           default=False,
-                                           blank=True,
-                                           help_text="烘热汗出")
-    sweat_chaore = models.NullBooleanField(verbose_name=u'潮热汗出',
-                                           default=False,
-                                           blank=True,
-                                           help_text="潮热汗出")
+                                           help_text="正常")
+    sweat_duohan = models.BooleanField(verbose_name=u'多汗',
+                                       default=False,
+                                       blank=True,
+                                       help_text="多汗")
+    sweat_mingxian = models.BooleanField(verbose_name=u'稍微活动则汗出明显',
+                                         default=False,
+                                         blank=True,
+                                         help_text="稍微活动则汗明显")
+    sweat_zihan = models.BooleanField(verbose_name=u'自汗',
+                                      default=False,
+                                      blank=True,
+                                      help_text="自汗")
+    sweat_daohan = models.BooleanField(verbose_name=u'盗汗',
+                                       default=False,
+                                       blank=True,
+                                       help_text="盗汗")
+    sweat_hongre = models.BooleanField(verbose_name=u'烘热汗出',
+                                       default=False,
+                                       blank=True,
+                                       help_text="烘热汗出")
+    sweat_chaore = models.BooleanField(verbose_name=u'潮热汗出',
+                                       default=False,
+                                       blank=True,
+                                       help_text="潮热汗出")
 
     # 全身症状-语音
-    sound_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                               default=False,
-                                               blank=True,
-                                               help_text="正常")
-    sound_qiduan = models.NullBooleanField(verbose_name=u'气短',
+    sound_zhengchang = models.BooleanField(verbose_name=u'正常',
                                            default=False,
                                            blank=True,
-                                           help_text="气短")
-    sound_xitanxi = models.NullBooleanField(verbose_name=u'喜叹息',
-                                            default=False,
-                                            blank=True,
-                                            help_text="西叹息")
-    sound_shaoqilanyan = models.NullBooleanField(verbose_name=u'少气懒言',
-                                                 default=False,
-                                                 blank=True,
-                                                 help_text="少气懒言")
+                                           help_text="正常")
+    sound_qiduan = models.BooleanField(verbose_name=u'气短',
+                                       default=False,
+                                       blank=True,
+                                       help_text="气短")
+    sound_xitanxi = models.BooleanField(verbose_name=u'喜叹息',
+                                        default=False,
+                                        blank=True,
+                                        help_text="西叹息")
+    sound_shaoqilanyan = models.BooleanField(verbose_name=u'少气懒言',
+                                             default=False,
+                                             blank=True,
+                                             help_text="少气懒言")
 
     # 全身症状-面色
-    face_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                              default=False,
-                                              blank=True,
-                                              help_text="正常")
-    face_danbaiwuhua = models.NullBooleanField(verbose_name=u'淡白无华',
-                                               default=False,
-                                               blank=True,
-                                               help_text="淡白无华")
-    face_cangbai = models.NullBooleanField(verbose_name=u'苍白',
+    face_zhengchang = models.BooleanField(verbose_name=u'正常',
+                                          default=False,
+                                          blank=True,
+                                          help_text="正常")
+    face_danbaiwuhua = models.BooleanField(verbose_name=u'淡白无华',
                                            default=False,
                                            blank=True,
-                                           help_text="苍白")
-    face_qingbai = models.NullBooleanField(verbose_name=u'清白',
-                                           default=False,
-                                           blank=True,
-                                           help_text="清白")
-    face_weihuang = models.NullBooleanField(verbose_name=u'萎黄',
-                                            default=False,
+                                           help_text="淡白无华")
+    face_cangbai = models.BooleanField(verbose_name=u'苍白',
+                                       default=False,
+                                       blank=True,
+                                       help_text="苍白")
+    face_qingbai = models.BooleanField(verbose_name=u'清白',
+                                       default=False,
+                                       blank=True,
+                                       help_text="清白")
+    face_weihuang = models.BooleanField(verbose_name=u'萎黄',
+                                        default=False,
+                                        blank=True,
+                                        help_text="微黄")
+    face_huangzhong = models.BooleanField(verbose_name=u'黄肿',
+                                          default=False,
+                                          blank=True,
+                                          help_text="黄肿")
+    face_chaohong = models.BooleanField(verbose_name=u'潮红',
+                                        default=False,
+                                        blank=True,
+                                        help_text="潮红")
+    face_huian = models.BooleanField(verbose_name=u'晦暗',
+                                     default=False,
+                                     blank=True,
+                                     help_text="晦暗")
+    face_baierfuzhong = models.BooleanField(verbose_name=u'白而浮肿',
                                             blank=True,
-                                            help_text="微黄")
-    face_huangzhong = models.NullBooleanField(verbose_name=u'黄肿',
-                                              default=False,
-                                              blank=True,
-                                              help_text="黄肿")
-    face_chaohong = models.NullBooleanField(verbose_name=u'潮红',
                                             default=False,
-                                            blank=True,
-                                            help_text="潮红")
-    face_huian = models.NullBooleanField(verbose_name=u'晦暗',
-                                         default=False,
-                                         blank=True,
-                                         help_text="晦暗")
-    face_baierfuzhong = models.NullBooleanField(verbose_name=u'白而浮肿',
-                                                blank=True,
-                                                default=False,
-                                                help_text="白而浮肿")
-    face_baierandan = models.NullBooleanField(verbose_name=u'白而黯淡',
-                                              blank=True,
-                                              default=False,
-                                              help_text="白而黯淡")
-    face_mianmulihei = models.NullBooleanField(verbose_name=u'面目黧黑',
-                                               blank=True,
-                                               default=False,
-                                               help_text="面目黧黑")
-    face_shaohua = models.NullBooleanField(verbose_name=u'少华',
-                                           blank=True,
-                                           default=False,
-                                           help_text="少华")
-    face_wuhua = models.NullBooleanField(verbose_name=u'无华',
-                                         blank=True,
-                                         default=False,
-                                         help_text="无华")
-
-    # 全身症状-心
-    heart_zhengcheng = models.NullBooleanField(verbose_name=u'正常',
-                                               blank=True,
-                                               default=False,
-                                               help_text="正常")
-    heart_xinfan = models.NullBooleanField(verbose_name=u'心烦',
-                                           blank=True,
-                                           default=False,
-                                           help_text="心烦")
-    heart_xinji = models.NullBooleanField(verbose_name=u'心悸',
+                                            help_text="白而浮肿")
+    face_baierandan = models.BooleanField(verbose_name=u'白而黯淡',
                                           blank=True,
                                           default=False,
-                                          help_text="心悸")
+                                          help_text="白而黯淡")
+    face_mianmulihei = models.BooleanField(verbose_name=u'面目黧黑',
+                                           blank=True,
+                                           default=False,
+                                           help_text="面目黧黑")
+    face_shaohua = models.BooleanField(verbose_name=u'少华',
+                                       blank=True,
+                                       default=False,
+                                       help_text="少华")
+    face_wuhua = models.BooleanField(verbose_name=u'无华',
+                                     blank=True,
+                                     default=False,
+                                     help_text="无华")
+
+    # 全身症状-心
+    heart_zhengcheng = models.BooleanField(verbose_name=u'正常',
+                                           blank=True,
+                                           default=False,
+                                           help_text="正常")
+    heart_xinfan = models.BooleanField(verbose_name=u'心烦',
+                                       blank=True,
+                                       default=False,
+                                       help_text="心烦")
+    heart_xinji = models.BooleanField(verbose_name=u'心悸',
+                                      blank=True,
+                                      default=False,
+                                      help_text="心悸")
 
     # 全身症状-乳房
-    breast_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                                blank=True,
-                                                default=False,
-                                                help_text="正常")
-    breast_biezhang = models.NullBooleanField(verbose_name=u'憋胀',
-                                              blank=True,
-                                              default=False,
-                                              help_text="憋涨")
-    breast_citong = models.NullBooleanField(verbose_name=u'刺痛',
+    breast_zhengchang = models.BooleanField(verbose_name=u'正常',
                                             blank=True,
                                             default=False,
-                                            help_text="刺痛")
-    breast_zhangtong = models.NullBooleanField(verbose_name=u'胀痛',
-                                               blank=True,
-                                               default=False,
-                                               help_text="胀痛")
-    breast_chutong = models.NullBooleanField(verbose_name=u'触痛',
-                                             blank=True,
-                                             default=False,
-                                             help_text="触痛")
+                                            help_text="正常")
+    breast_biezhang = models.BooleanField(verbose_name=u'憋胀',
+                                          blank=True,
+                                          default=False,
+                                          help_text="憋涨")
+    breast_citong = models.BooleanField(verbose_name=u'刺痛',
+                                        blank=True,
+                                        default=False,
+                                        help_text="刺痛")
+    breast_zhangtong = models.BooleanField(verbose_name=u'胀痛',
+                                           blank=True,
+                                           default=False,
+                                           help_text="胀痛")
+    breast_chutong = models.BooleanField(verbose_name=u'触痛',
+                                         blank=True,
+                                         default=False,
+                                         help_text="触痛")
 
     # 全身症状-胸胁
-    chest_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                               default=False,
-                                               blank=True,
-                                               help_text="正常")
-    chest_zhangmen = models.NullBooleanField(verbose_name=u'胀闷',
-                                             default=False,
-                                             blank=True,
-                                             help_text="涨闷")
-    chest_yintong = models.NullBooleanField(verbose_name=u'隐痛',
-                                            default=False,
-                                            blank=True,
-                                            help_text="隐痛")
-    chest_citong = models.NullBooleanField(verbose_name=u'刺痛',
+    chest_zhengchang = models.BooleanField(verbose_name=u'正常',
                                            default=False,
                                            blank=True,
-                                           help_text="刺痛")
+                                           help_text="正常")
+    chest_zhangmen = models.BooleanField(verbose_name=u'胀闷',
+                                         default=False,
+                                         blank=True,
+                                         help_text="涨闷")
+    chest_yintong = models.BooleanField(verbose_name=u'隐痛',
+                                        default=False,
+                                        blank=True,
+                                        help_text="隐痛")
+    chest_citong = models.BooleanField(verbose_name=u'刺痛',
+                                       default=False,
+                                       blank=True,
+                                       help_text="刺痛")
 
     # 全身症状-腰膝
-    waist_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                               default=False,
-                                               blank=True,
-                                               help_text="正常")
-    waist_suantong = models.NullBooleanField(verbose_name=u'酸痛',
+    waist_zhengchang = models.BooleanField(verbose_name=u'正常',
+                                           default=False,
+                                           blank=True,
+                                           help_text="正常")
+    waist_suantong = models.BooleanField(verbose_name=u'酸痛',
+                                         default=False,
+                                         blank=True,
+                                         help_text="酸痛")
+    waist_suanruan = models.BooleanField(verbose_name=u'酸软',
+                                         default=False,
+                                         blank=True,
+                                         help_text="酸软")
+    waist_suanleng = models.BooleanField(verbose_name=u'酸冷',
+                                         default=False,
+                                         blank=True,
+                                         help_text="酸冷")
+    waist_lengtong = models.BooleanField(verbose_name=u'冷痛',
+                                         default=False,
+                                         blank=True,
+                                         help_text="冷痛")
+    waist_yaotongrushe = models.BooleanField(verbose_name=u'腰痛如折',
                                              default=False,
                                              blank=True,
-                                             help_text="酸痛")
-    waist_suanruan = models.NullBooleanField(verbose_name=u'酸软',
-                                             default=False,
-                                             blank=True,
-                                             help_text="酸软")
-    waist_suanleng = models.NullBooleanField(verbose_name=u'酸冷',
-                                             default=False,
-                                             blank=True,
-                                             help_text="酸冷")
-    waist_lengtong = models.NullBooleanField(verbose_name=u'冷痛',
-                                             default=False,
-                                             blank=True,
-                                             help_text="冷痛")
-    waist_yaotongrushe = models.NullBooleanField(verbose_name=u'腰痛如折',
-                                                 default=False,
-                                                 blank=True,
-                                                 help_text="腰痛如折")
+                                             help_text="腰痛如折")
 
     # 全身症状-腹部
-    stomach_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                                 blank=True,
-                                                 default=False
-                                                 , help_text="正常")
-    stomach_zhangtongjuan = models.NullBooleanField(verbose_name=u'胀痛拒按',
-                                                    blank=True,
-                                                    default=False
-                                                    , help_text="胀痛据按")
-    stomach_xiaofuzhuizhang = models.NullBooleanField(verbose_name=u'小腹坠胀',
-                                                      blank=True,
-                                                      default=False,
-                                                      help_text="小腹坠胀")
-    stomach_xiaofubiezhang = models.NullBooleanField(verbose_name=u'小腹憋胀',
-                                                     blank=True,
-                                                     default=False,
-                                                     help_text="小腹憋胀")
-    stomach_xiaofulengtong = models.NullBooleanField(verbose_name=u'小腹冷痛',
-                                                     blank=True,
-                                                     default=False,
-                                                     help_text="小腹冷痛")
-    stomach_xiaofuzhuotong = models.NullBooleanField(verbose_name=u'小腹灼痛',
-                                                     blank=True,
-                                                     default=False,
-                                                     help_text="小腹灼痛")
-    stomach_yintongxian = models.NullBooleanField(verbose_name=u'隐痛喜按',
+    stomach_zhengchang = models.BooleanField(verbose_name=u'正常',
+                                             blank=True,
+                                             default=False
+                                             , help_text="正常")
+    stomach_zhangtongjuan = models.BooleanField(verbose_name=u'胀痛拒按',
+                                                blank=True,
+                                                default=False
+                                                , help_text="胀痛据按")
+    stomach_xiaofuzhuizhang = models.BooleanField(verbose_name=u'小腹坠胀',
                                                   blank=True,
                                                   default=False,
-                                                  help_text="隐痛喜按")
-    stomach_dewentongjian = models.NullBooleanField(verbose_name=u'冷痛，得温痛减',
-                                                    blank=True,
-                                                    default=False,
-                                                    help_text="冷痛,得温痛减")
-    stomach_tongruzhenci = models.NullBooleanField(verbose_name=u'小腹结块，痛如针刺',
-                                                   blank=True,
-                                                   default=False,
-                                                   help_text="小腹结块,痛如针刺")
-    stomach_kongzhui = models.NullBooleanField(verbose_name=u'有空坠感',
+                                                  help_text="小腹坠胀")
+    stomach_xiaofubiezhang = models.BooleanField(verbose_name=u'小腹憋胀',
+                                                 blank=True,
+                                                 default=False,
+                                                 help_text="小腹憋胀")
+    stomach_xiaofulengtong = models.BooleanField(verbose_name=u'小腹冷痛',
+                                                 blank=True,
+                                                 default=False,
+                                                 help_text="小腹冷痛")
+    stomach_xiaofuzhuotong = models.BooleanField(verbose_name=u'小腹灼痛',
+                                                 blank=True,
+                                                 default=False,
+                                                 help_text="小腹灼痛")
+    stomach_yintongxian = models.BooleanField(verbose_name=u'隐痛喜按',
+                                              blank=True,
+                                              default=False,
+                                              help_text="隐痛喜按")
+    stomach_dewentongjian = models.BooleanField(verbose_name=u'冷痛，得温痛减',
+                                                blank=True,
+                                                default=False,
+                                                help_text="冷痛,得温痛减")
+    stomach_tongruzhenci = models.BooleanField(verbose_name=u'小腹结块，痛如针刺',
                                                blank=True,
                                                default=False,
-                                               help_text="有空缀感")
+                                               help_text="小腹结块,痛如针刺")
+    stomach_kongzhui = models.BooleanField(verbose_name=u'有空坠感',
+                                           blank=True,
+                                           default=False,
+                                           help_text="有空缀感")
     # ---------------------------
 
     # 全身症状-头
-    head_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                              blank=True,
-                                              default=False,
-                                              help_text="正常")
-    head_touyun = models.NullBooleanField(verbose_name=u'头晕',
+    head_zhengchang = models.BooleanField(verbose_name=u'正常',
                                           blank=True,
                                           default=False,
-                                          help_text="头晕")
-    head_toutong = models.NullBooleanField(verbose_name=u'头痛',
-                                           blank=True,
-                                           default=False,
-                                           help_text="头痛")
-    head_touchenzhong = models.NullBooleanField(verbose_name=u'头沉重',
-                                                blank=True,
-                                                default=False,
-                                                help_text="头沉重")
+                                          help_text="正常")
+    head_touyun = models.BooleanField(verbose_name=u'头晕',
+                                      blank=True,
+                                      default=False,
+                                      help_text="头晕")
+    head_toutong = models.BooleanField(verbose_name=u'头痛',
+                                       blank=True,
+                                       default=False,
+                                       help_text="头痛")
+    head_touchenzhong = models.BooleanField(verbose_name=u'头沉重',
+                                            blank=True,
+                                            default=False,
+                                            help_text="头沉重")
 
     # 全身症状-目
-    eyes_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                              blank=True,
-                                              default=False,
-                                              help_text="正常")
-    eyes_muxuan = models.NullBooleanField(verbose_name=u'目眩',
+    eyes_zhengchang = models.BooleanField(verbose_name=u'正常',
                                           blank=True,
                                           default=False,
-                                          help_text="目眩")
-    eyes_muse = models.NullBooleanField(verbose_name=u'目涩',
+                                          help_text="正常")
+    eyes_muxuan = models.BooleanField(verbose_name=u'目眩',
+                                      blank=True,
+                                      default=False,
+                                      help_text="目眩")
+    eyes_muse = models.BooleanField(verbose_name=u'目涩',
+                                    blank=True,
+                                    default=False,
+                                    help_text="目涩")
+    eyes_yanhua = models.BooleanField(verbose_name=u'眼花',
+                                      blank=True,
+                                      default=False,
+                                      help_text="眼花")
+    eyes_mutong = models.BooleanField(verbose_name=u'目痛',
+                                      blank=True,
+                                      default=False,
+                                      help_text="目痛")
+    eyes_muyang = models.BooleanField(verbose_name=u'目痒',
+                                      blank=True,
+                                      default=False,
+                                      help_text="目痒")
+    eyes_chenqifz = models.BooleanField(verbose_name=u'晨起眼睑浮肿',
                                         blank=True,
                                         default=False,
-                                        help_text="目涩")
-    eyes_yanhua = models.NullBooleanField(verbose_name=u'眼花',
-                                          blank=True,
-                                          default=False,
-                                          help_text="眼花")
-    eyes_mutong = models.NullBooleanField(verbose_name=u'目痛',
-                                          blank=True,
-                                          default=False,
-                                          help_text="目痛")
-    eyes_muyang = models.NullBooleanField(verbose_name=u'目痒',
-                                          blank=True,
-                                          default=False,
-                                          help_text="目痒")
-    eyes_chenqifz = models.NullBooleanField(verbose_name=u'晨起眼睑浮肿',
-                                            blank=True,
-                                            default=False,
-                                            help_text="晨起眼浮肿")
+                                        help_text="晨起眼浮肿")
 
     # 全身症状-耳
-    ear_erming = models.NullBooleanField(verbose_name=u'耳鸣',
-                                         blank=True,
-                                         default=False,
-                                         help_text="耳鸣")
-    ear_erlong = models.NullBooleanField(verbose_name=u'耳聋',
-                                         blank=True,
-                                         default=False,
-                                         help_text="耳聋")
-    ear_tinglibq = models.NullBooleanField(verbose_name=u'听力不清，声音重复',
-                                           blank=True,
-                                           default=False,
-                                           help_text="听力不清,声音重复")
+    ear_erming = models.BooleanField(verbose_name=u'耳鸣',
+                                     blank=True,
+                                     default=False,
+                                     help_text="耳鸣")
+    ear_erlong = models.BooleanField(verbose_name=u'耳聋',
+                                     blank=True,
+                                     default=False,
+                                     help_text="耳聋")
+    ear_tinglibq = models.BooleanField(verbose_name=u'听力不清，声音重复',
+                                       blank=True,
+                                       default=False,
+                                       help_text="听力不清,声音重复")
 
     # 全身症状-咽喉
-    throat_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                                blank=True,
-                                                default=False,
-                                                help_text="正常")
-    throat_yangan = models.NullBooleanField(verbose_name=u'咽干',
+    throat_zhengchang = models.BooleanField(verbose_name=u'正常',
                                             blank=True,
                                             default=False,
-                                            help_text="咽干")
-    throat_yantong = models.NullBooleanField(verbose_name=u'咽痛',
-                                             blank=True,
-                                             default=False,
-                                             help_text="咽痛")
-    throat_yanyang = models.NullBooleanField(verbose_name=u'咽痒',
-                                             blank=True,
-                                             default=False,
-                                             help_text="烟痒")
-    throat_yiwugan = models.NullBooleanField(verbose_name=u'异物感',
-                                             blank=True,
-                                             default=False,
-                                             help_text="异物感")
+                                            help_text="正常")
+    throat_yangan = models.BooleanField(verbose_name=u'咽干',
+                                        blank=True,
+                                        default=False,
+                                        help_text="咽干")
+    throat_yantong = models.BooleanField(verbose_name=u'咽痛',
+                                         blank=True,
+                                         default=False,
+                                         help_text="咽痛")
+    throat_yanyang = models.BooleanField(verbose_name=u'咽痒',
+                                         blank=True,
+                                         default=False,
+                                         help_text="烟痒")
+    throat_yiwugan = models.BooleanField(verbose_name=u'异物感',
+                                         blank=True,
+                                         default=False,
+                                         help_text="异物感")
 
     # 全身症状-口味
-    breath_wuyiwei = models.NullBooleanField(verbose_name=u'口中无异味',
-                                             blank=True,
-                                             default=False,
-                                             help_text="口中无异味")
-    breath_kouku = models.NullBooleanField(verbose_name=u'口苦',
-                                           blank=True,
-                                           default=False,
-                                           help_text="口苦")
-    breath_kougan = models.NullBooleanField(verbose_name=u'口干',
-                                            blank=True,
-                                            default=False,
-                                            help_text="口干")
-    breath_koudan = models.NullBooleanField(verbose_name=u'口淡',
-                                            blank=True,
-                                            default=False,
-                                            help_text="口淡")
-    breath_kouxian = models.NullBooleanField(verbose_name=u'口咸',
-                                             blank=True,
-                                             default=False,
-                                             help_text="口咸")
-    breath_koutian = models.NullBooleanField(verbose_name=u'口甜',
-                                             blank=True,
-                                             default=False,
-                                             help_text="口甜")
-    breath_kounian = models.NullBooleanField(verbose_name=u'口粘',
-                                             blank=True,
-                                             default=False,
-                                             help_text="口粘")
-    breath_danyuss = models.NullBooleanField(verbose_name=u'但欲漱水不欲咽',
-                                             blank=True,
-                                             default=False,
-                                             help_text="但欲漱口不遇咽")
+    breath_wuyiwei = models.BooleanField(verbose_name=u'口中无异味',
+                                         blank=True,
+                                         default=False,
+                                         help_text="口中无异味")
+    breath_kouku = models.BooleanField(verbose_name=u'口苦',
+                                       blank=True,
+                                       default=False,
+                                       help_text="口苦")
+    breath_kougan = models.BooleanField(verbose_name=u'口干',
+                                        blank=True,
+                                        default=False,
+                                        help_text="口干")
+    breath_koudan = models.BooleanField(verbose_name=u'口淡',
+                                        blank=True,
+                                        default=False,
+                                        help_text="口淡")
+    breath_kouxian = models.BooleanField(verbose_name=u'口咸',
+                                         blank=True,
+                                         default=False,
+                                         help_text="口咸")
+    breath_koutian = models.BooleanField(verbose_name=u'口甜',
+                                         blank=True,
+                                         default=False,
+                                         help_text="口甜")
+    breath_kounian = models.BooleanField(verbose_name=u'口粘',
+                                         blank=True,
+                                         default=False,
+                                         help_text="口粘")
+    breath_danyuss = models.BooleanField(verbose_name=u'但欲漱水不欲咽',
+                                         blank=True,
+                                         default=False,
+                                         help_text="但欲漱口不遇咽")
 
     # 全身症状-饮食
-    diet_nadaishishao = models.NullBooleanField(verbose_name=u'纳呆食少',
-                                                blank=True,
-                                                default=False,
-                                                help_text="纳呆食少")
-    diet_shiyuws = models.NullBooleanField(verbose_name=u'食欲旺盛，多食易饥',
-                                           blank=True,
-                                           default=False,
-                                           help_text="食欲旺盛,多食易饿")
-    diet_yanshi = models.NullBooleanField(verbose_name=u'厌食',
-                                          blank=True,
-                                          default=False,
-                                          help_text="厌食")
-    diet_xireyin = models.NullBooleanField(verbose_name=u'喜热饮',
-                                           blank=True,
-                                           default=False,
-                                           help_text="喜热饮")
-    diet_xilengyin = models.NullBooleanField(verbose_name=u'喜冷饮',
-                                             blank=True,
-                                             default=False,
-                                             help_text="喜冷饮")
-    diet_shiyujiantui = models.NullBooleanField(verbose_name=u'食欲减退，食少',
-                                                blank=True,
-                                                default=False, help_text="食欲减退,食少")
-    diet_shihoufuzhang = models.NullBooleanField(verbose_name=u'食后腹胀',
-                                                 blank=True,
-                                                 default=False, help_text="食后腹胀")
-    diet_shixinla = models.NullBooleanField(verbose_name=u'喜辛辣',
+    diet_nadaishishao = models.BooleanField(verbose_name=u'纳呆食少',
                                             blank=True,
-                                            default=False, help_text="喜辛辣")
-    diet_shishengleng = models.NullBooleanField(verbose_name=u'喜生冷',
-                                                blank=True,
-                                                default=False, help_text="喜生冷")
-    diet_kebuduoyin = models.NullBooleanField(verbose_name=u'渴不多饮',
-                                              blank=True,
-                                              default=False, help_text="渴不多饮")
+                                            default=False,
+                                            help_text="纳呆食少")
+    diet_shiyuws = models.BooleanField(verbose_name=u'食欲旺盛，多食易饥',
+                                       blank=True,
+                                       default=False,
+                                       help_text="食欲旺盛,多食易饿")
+    diet_yanshi = models.BooleanField(verbose_name=u'厌食',
+                                      blank=True,
+                                      default=False,
+                                      help_text="厌食")
+    diet_xireyin = models.BooleanField(verbose_name=u'喜热饮',
+                                       blank=True,
+                                       default=False,
+                                       help_text="喜热饮")
+    diet_xilengyin = models.BooleanField(verbose_name=u'喜冷饮',
+                                         blank=True,
+                                         default=False,
+                                         help_text="喜冷饮")
+    diet_shiyujiantui = models.BooleanField(verbose_name=u'食欲减退，食少',
+                                            blank=True,
+                                            default=False, help_text="食欲减退,食少")
+    diet_shihoufuzhang = models.BooleanField(verbose_name=u'食后腹胀',
+                                             blank=True,
+                                             default=False, help_text="食后腹胀")
+    diet_shixinla = models.BooleanField(verbose_name=u'喜辛辣',
+                                        blank=True,
+                                        default=False, help_text="喜辛辣")
+    diet_shishengleng = models.BooleanField(verbose_name=u'喜生冷',
+                                            blank=True,
+                                            default=False, help_text="喜生冷")
+    diet_kebuduoyin = models.BooleanField(verbose_name=u'渴不多饮',
+                                          blank=True,
+                                          default=False, help_text="渴不多饮")
 
     # 全身症状-睡眠
-    sleep_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                               blank=True,
-                                               default=False, help_text="正常")
-    sleep_yiban = models.NullBooleanField(verbose_name=u'一般',
-                                          blank=True,
-                                          default=False, help_text="一般")
-    sleep_duomengyixing = models.NullBooleanField(verbose_name=u'多梦易醒',
-                                                  blank=True,
-                                                  default=False, help_text="多梦易醒")
-    sleep_nanyirumian = models.NullBooleanField(verbose_name=u'难以入眠',
-                                                blank=True,
-                                                default=False, help_text="难以入眠")
-    sleep_cheyebumian = models.NullBooleanField(verbose_name=u'彻夜不眠',
-                                                blank=True,
-                                                default=False, help_text="彻夜不眠")
-    sleep_duomeng = models.NullBooleanField(verbose_name=u'多梦',
+    sleep_zhengchang = models.BooleanField(verbose_name=u'正常',
+                                           blank=True,
+                                           default=False, help_text="正常")
+    sleep_yiban = models.BooleanField(verbose_name=u'一般',
+                                      blank=True,
+                                      default=False, help_text="一般")
+    sleep_duomengyixing = models.BooleanField(verbose_name=u'多梦易醒',
+                                              blank=True,
+                                              default=False, help_text="多梦易醒")
+    sleep_nanyirumian = models.BooleanField(verbose_name=u'难以入眠',
                                             blank=True,
-                                            default=False, help_text="多梦")
-    sleep_shishui = models.NullBooleanField(verbose_name=u'嗜睡',
+                                            default=False, help_text="难以入眠")
+    sleep_cheyebumian = models.BooleanField(verbose_name=u'彻夜不眠',
                                             blank=True,
-                                            default=False, help_text="嗜睡")
+                                            default=False, help_text="彻夜不眠")
+    sleep_duomeng = models.BooleanField(verbose_name=u'多梦',
+                                        blank=True,
+                                        default=False, help_text="多梦")
+    sleep_shishui = models.BooleanField(verbose_name=u'嗜睡',
+                                        blank=True,
+                                        default=False, help_text="嗜睡")
 
     # 全身症状-大便
-    stool_sehuang = models.NullBooleanField(verbose_name=u'色黄，通畅，成形不干燥',
-                                            blank=True,
-                                            default=False, help_text="色黄,通畅,成型不干燥")
-    stool_bianmi = models.NullBooleanField(verbose_name=u'便秘',
+    stool_sehuang = models.BooleanField(verbose_name=u'色黄，通畅，成形不干燥',
+                                        blank=True,
+                                        default=False, help_text="色黄,通畅,成型不干燥")
+    stool_bianmi = models.BooleanField(verbose_name=u'便秘',
+                                       blank=True,
+                                       default=False, help_text="便秘")
+    stool_zhixi = models.BooleanField(verbose_name=u'质稀',
+                                      blank=True,
+                                      default=False, help_text="质稀")
+    stool_sgsx = models.BooleanField(verbose_name=u'时干时稀',
+                                     blank=True,
+                                     default=False, help_text="时干时稀")
+    stool_xiexie = models.BooleanField(verbose_name=u'泄泻',
+                                       blank=True,
+                                       default=False, help_text="泄泻")
+    stool_tlzqxiexie = models.BooleanField(verbose_name=u'天亮前泄泻',
                                            blank=True,
-                                           default=False, help_text="便秘")
-    stool_zhixi = models.NullBooleanField(verbose_name=u'质稀',
-                                          blank=True,
-                                          default=False, help_text="质稀")
-    stool_sgsx = models.NullBooleanField(verbose_name=u'时干时稀',
-                                         blank=True,
-                                         default=False, help_text="时干时稀")
-    stool_xiexie = models.NullBooleanField(verbose_name=u'泄泻',
+                                           default=False, help_text="天亮前泄泻")
+    stool_zhinian = models.BooleanField(verbose_name=u'质黏，有排不尽之感',
+                                        blank=True,
+                                        default=False, help_text="质粘,有排不进之感")
+    stool_weixiaohua = models.BooleanField(verbose_name=u'大便中夹有未消化食物',
                                            blank=True,
-                                           default=False, help_text="泄泻")
-    stool_tlzqxiexie = models.NullBooleanField(verbose_name=u'天亮前泄泻',
-                                               blank=True,
-                                               default=False, help_text="天亮前泄泻")
-    stool_zhinian = models.NullBooleanField(verbose_name=u'质黏，有排不尽之感',
-                                            blank=True,
-                                            default=False, help_text="质粘,有排不进之感")
-    stool_weixiaohua = models.NullBooleanField(verbose_name=u'大便中夹有未消化食物',
-                                               blank=True,
-                                               default=False, help_text="大便中夹有未消化实物")
+                                           default=False, help_text="大便中夹有未消化实物")
 
     # 全身症状-小便
-    urine_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                               blank=True,
-                                               default=False, help_text="正常")
-    urine_duanchi = models.NullBooleanField(verbose_name=u'短赤',
-                                            blank=True,
-                                            default=False, help_text="短赤")
-    urine_duanhuang = models.NullBooleanField(verbose_name=u'短黄',
-                                              blank=True,
-                                              default=False, help_text="短黄")
-    urine_qingchang = models.NullBooleanField(verbose_name=u'清长',
-                                              blank=True,
-                                              default=False, help_text="清长")
-    urine_yeniaopin = models.NullBooleanField(verbose_name=u'夜尿频',
-                                              blank=True,
-                                              default=False, help_text="夜尿频")
-    urine_xbpinshu = models.NullBooleanField(verbose_name=u'小便频数',
-                                             blank=True,
-                                             default=False, help_text="小便频数")
-    urine_niaoji = models.NullBooleanField(verbose_name=u'尿急',
+    urine_zhengchang = models.BooleanField(verbose_name=u'正常',
                                            blank=True,
-                                           default=False, help_text="尿急")
-    urine_niaotong = models.NullBooleanField(verbose_name=u'尿痛',
-                                             blank=True,
-                                             default=False, help_text="尿痛")
-    urine_shaoniao = models.NullBooleanField(verbose_name=u'少尿',
-                                             blank=True,
-                                             default=False, help_text="少尿")
-    urine_yulibujin = models.NullBooleanField(verbose_name=u'余沥不尽',
-                                              blank=True,
-                                              default=False, help_text="余力不尽")
+                                           default=False, help_text="正常")
+    urine_duanchi = models.BooleanField(verbose_name=u'短赤',
+                                        blank=True,
+                                        default=False, help_text="短赤")
+    urine_duanhuang = models.BooleanField(verbose_name=u'短黄',
+                                          blank=True,
+                                          default=False, help_text="短黄")
+    urine_qingchang = models.BooleanField(verbose_name=u'清长',
+                                          blank=True,
+                                          default=False, help_text="清长")
+    urine_yeniaopin = models.BooleanField(verbose_name=u'夜尿频',
+                                          blank=True,
+                                          default=False, help_text="夜尿频")
+    urine_xbpinshu = models.BooleanField(verbose_name=u'小便频数',
+                                         blank=True,
+                                         default=False, help_text="小便频数")
+    urine_niaoji = models.BooleanField(verbose_name=u'尿急',
+                                       blank=True,
+                                       default=False, help_text="尿急")
+    urine_niaotong = models.BooleanField(verbose_name=u'尿痛',
+                                         blank=True,
+                                         default=False, help_text="尿痛")
+    urine_shaoniao = models.BooleanField(verbose_name=u'少尿',
+                                         blank=True,
+                                         default=False, help_text="少尿")
+    urine_yulibujin = models.BooleanField(verbose_name=u'余沥不尽',
+                                          blank=True,
+                                          default=False, help_text="余力不尽")
 
     # 全身症状-四肢
-    limb_zhengchang = models.NullBooleanField(verbose_name=u'正常',
-                                              blank=True,
-                                              default=False, help_text="正常")
-    limb_wuli = models.NullBooleanField(verbose_name=u'无力',
+    limb_zhengchang = models.BooleanField(verbose_name=u'正常',
+                                          blank=True,
+                                          default=False, help_text="正常")
+    limb_wuli = models.BooleanField(verbose_name=u'无力',
+                                    blank=True,
+                                    default=False, help_text="无力")
+    limb_mamu = models.BooleanField(verbose_name=u'麻木',
+                                    blank=True,
+                                    default=False, help_text="麻木")
+    limb_kunzhong = models.BooleanField(verbose_name=u'困重',
                                         blank=True,
-                                        default=False, help_text="无力")
-    limb_mamu = models.NullBooleanField(verbose_name=u'麻木',
-                                        blank=True,
-                                        default=False, help_text="麻木")
-    limb_kunzhong = models.NullBooleanField(verbose_name=u'困重',
-                                            blank=True,
-                                            default=False, help_text="困重")
-    limb_zhileng = models.NullBooleanField(verbose_name=u'肢冷',
-                                           blank=True,
-                                           default=False, help_text="四肢冷")
-    limb_bingliang = models.NullBooleanField(verbose_name=u'冰凉',
-                                             blank=True,
-                                             default=False, help_text="冰凉")
-    limb_szxinre = models.NullBooleanField(verbose_name=u'手足心热',
-                                           blank=True,
-                                           default=False, help_text="手足心热")
-    limb_fuzhong = models.NullBooleanField(verbose_name=u'浮肿',
-                                           blank=True,
-                                           default=False, help_text="浮肿")
+                                        default=False, help_text="困重")
+    limb_zhileng = models.BooleanField(verbose_name=u'肢冷',
+                                       blank=True,
+                                       default=False, help_text="四肢冷")
+    limb_bingliang = models.BooleanField(verbose_name=u'冰凉',
+                                         blank=True,
+                                         default=False, help_text="冰凉")
+    limb_szxinre = models.BooleanField(verbose_name=u'手足心热',
+                                       blank=True,
+                                       default=False, help_text="手足心热")
+    limb_fuzhong = models.BooleanField(verbose_name=u'浮肿',
+                                       blank=True,
+                                       default=False, help_text="浮肿")
 
     # 全身症状-其他
-    other_wu = models.NullBooleanField(verbose_name=u'无',
-                                       blank=True,
-                                       default=False, help_text="无")
-    other_czjdanbai = models.NullBooleanField(verbose_name=u'唇爪甲淡白',
-                                              blank=True,
-                                              default=False, help_text="唇爪甲淡白")
-    other_xyjiantui = models.NullBooleanField(verbose_name=u'性欲减退',
-                                              blank=True,
-                                              default=False, help_text="性欲减退")
+    other_wu = models.BooleanField(verbose_name=u'无',
+                                   blank=True,
+                                   default=False, help_text="无")
+    other_czjdanbai = models.BooleanField(verbose_name=u'唇爪甲淡白',
+                                          blank=True,
+                                          default=False, help_text="唇爪甲淡白")
+    other_xyjiantui = models.BooleanField(verbose_name=u'性欲减退',
+                                          blank=True,
+                                          default=False, help_text="性欲减退")
 
     # 全身症状-舌质
-    texture_danhong = models.NullBooleanField(verbose_name=u'淡红',
-                                              blank=True,
-                                              default=False, help_text="淡红")
-    texture_danbai = models.NullBooleanField(verbose_name=u'淡白',
-                                             blank=True,
-                                             default=False, help_text="淡白")
-    texture_pianhong = models.NullBooleanField(verbose_name=u'偏红',
-                                               blank=True,
-                                               default=False, help_text="偏红")
-    texture_danan = models.NullBooleanField(verbose_name=u'淡黯',
-                                            blank=True,
-                                            default=False, help_text="淡黯")
-    texture_zian = models.NullBooleanField(verbose_name=u'紫黯',
+    texture_danhong = models.BooleanField(verbose_name=u'淡红',
+                                          blank=True,
+                                          default=False, help_text="淡红")
+    texture_danbai = models.BooleanField(verbose_name=u'淡白',
+                                         blank=True,
+                                         default=False, help_text="淡白")
+    texture_pianhong = models.BooleanField(verbose_name=u'偏红',
                                            blank=True,
-                                           default=False, help_text="紫黯")
-    texture_yudian = models.NullBooleanField(verbose_name=u'有瘀点或瘀斑',
-                                             blank=True,
-                                             default=False, help_text="有淤点或淤斑")
+                                           default=False, help_text="偏红")
+    texture_danan = models.BooleanField(verbose_name=u'淡黯',
+                                        blank=True,
+                                        default=False, help_text="淡黯")
+    texture_zian = models.BooleanField(verbose_name=u'紫黯',
+                                       blank=True,
+                                       default=False, help_text="紫黯")
+    texture_yudian = models.BooleanField(verbose_name=u'有瘀点或瘀斑',
+                                         blank=True,
+                                         default=False, help_text="有淤点或淤斑")
 
     # 全身症状-舌苔
-    coating_bai = models.NullBooleanField(verbose_name=u'白',
-                                          blank=True,
-                                          default=False, help_text="白")
-    coating_huang = models.NullBooleanField(verbose_name=u'黄',
-                                            blank=True,
-                                            default=False, help_text="黄")
-    coating_ni = models.NullBooleanField(verbose_name=u'腻',
+    coating_bai = models.BooleanField(verbose_name=u'白',
+                                      blank=True,
+                                      default=False, help_text="白")
+    coating_huang = models.BooleanField(verbose_name=u'黄',
+                                        blank=True,
+                                        default=False, help_text="黄")
+    coating_ni = models.BooleanField(verbose_name=u'腻',
+                                     blank=True,
+                                     default=False, help_text="腻")
+    coating_bo = models.BooleanField(verbose_name=u'薄',
+                                     blank=True,
+                                     default=False, help_text="薄")
+    coating_hou = models.BooleanField(verbose_name=u'厚',
+                                      blank=True,
+                                      default=False, help_text="厚")
+    coating_run = models.BooleanField(verbose_name=u'润',
+                                      blank=True,
+                                      default=False, help_text="润")
+    coating_hua = models.BooleanField(verbose_name=u'滑',
+                                      blank=True,
+                                      default=False, help_text="滑")
+    coating_hhouni = models.BooleanField(verbose_name=u'黄厚腻',
                                          blank=True,
-                                         default=False, help_text="腻")
-    coating_bo = models.NullBooleanField(verbose_name=u'薄',
+                                         default=False, help_text="黄厚腻")
+    coating_bairun = models.BooleanField(verbose_name=u'白润',
                                          blank=True,
-                                         default=False, help_text="薄")
-    coating_hou = models.NullBooleanField(verbose_name=u'厚',
+                                         default=False, help_text="白润")
+    coating_huangcao = models.BooleanField(verbose_name=u'黄糙',
+                                           blank=True,
+                                           default=False, help_text="黄糙")
+    coating_wutai = models.BooleanField(verbose_name=u'无苔',
+                                        blank=True,
+                                        default=False, help_text="无苔")
+    coating_shaotai = models.BooleanField(verbose_name=u'少苔',
                                           blank=True,
-                                          default=False, help_text="厚")
-    coating_run = models.NullBooleanField(verbose_name=u'润',
-                                          blank=True,
-                                          default=False, help_text="润")
-    coating_hua = models.NullBooleanField(verbose_name=u'滑',
-                                          blank=True,
-                                          default=False, help_text="滑")
-    coating_hhouni = models.NullBooleanField(verbose_name=u'黄厚腻',
-                                             blank=True,
-                                             default=False, help_text="黄厚腻")
-    coating_bairun = models.NullBooleanField(verbose_name=u'白润',
-                                             blank=True,
-                                             default=False, help_text="白润")
-    coating_huangcao = models.NullBooleanField(verbose_name=u'黄糙',
-                                               blank=True,
-                                               default=False, help_text="黄糙")
-    coating_wutai = models.NullBooleanField(verbose_name=u'无苔',
-                                            blank=True,
-                                            default=False, help_text="无苔")
-    coating_shaotai = models.NullBooleanField(verbose_name=u'少苔',
-                                              blank=True,
-                                              default=False, help_text="少苔")
-    coating_huabo = models.NullBooleanField(verbose_name=u'花剥',
-                                            blank=True,
-                                            default=False, help_text="花剥")
+                                          default=False, help_text="少苔")
+    coating_huabo = models.BooleanField(verbose_name=u'花剥',
+                                        blank=True,
+                                        default=False, help_text="花剥")
 
     # 全身症状-舌体
-    tongue_shoubo = models.NullBooleanField(verbose_name=u'瘦薄',
-                                            blank=True,
-                                            default=False, help_text="瘦薄")
-    tongue_pangda = models.NullBooleanField(verbose_name=u'胖大',
-                                            blank=True,
-                                            default=False, help_text="胖大")
-    tongue_bianjianhong = models.NullBooleanField(verbose_name=u'边尖红',
-                                                  blank=True,
-                                                  default=False, help_text="边尖红")
-    tongue_youchihen = models.NullBooleanField(verbose_name=u'有齿痕',
-                                               blank=True,
-                                               default=False, help_text="有齿痕")
-    tongue_zhongyouliewen = models.NullBooleanField(verbose_name=u'中有裂纹',
-                                                    blank=True,
-                                                    default=False, help_text="中有裂纹")
+    tongue_shoubo = models.BooleanField(verbose_name=u'瘦薄',
+                                        blank=True,
+                                        default=False, help_text="瘦薄")
+    tongue_pangda = models.BooleanField(verbose_name=u'胖大',
+                                        blank=True,
+                                        default=False, help_text="胖大")
+    tongue_bianjianhong = models.BooleanField(verbose_name=u'边尖红',
+                                              blank=True,
+                                              default=False, help_text="边尖红")
+    tongue_youchihen = models.BooleanField(verbose_name=u'有齿痕',
+                                           blank=True,
+                                           default=False, help_text="有齿痕")
+    tongue_zhongyouliewen = models.BooleanField(verbose_name=u'中有裂纹',
+                                                blank=True,
+                                                default=False, help_text="中有裂纹")
 
     # 全身症状-脉象
-    pulse_shi = models.NullBooleanField(verbose_name=u'实',
-                                        blank=True,
-                                        default=False, help_text="实")
-    pulse_fu = models.NullBooleanField(verbose_name=u'浮',
-                                       blank=True,
-                                       default=False, help_text="浮")
-    pulse_chen = models.NullBooleanField(verbose_name=u'沉',
-                                         blank=True,
-                                         default=False, help_text="沉")
-    pulse_chi = models.NullBooleanField(verbose_name=u'迟',
-                                        blank=True,
-                                        default=False, help_text="迟")
-    pulse_huan = models.NullBooleanField(verbose_name=u'缓',
-                                         blank=True,
-                                         default=False, help_text="缓")
-    pulse_xi = models.NullBooleanField(verbose_name=u'细',
-                                       blank=True,
-                                       default=False, help_text="细")
-    pulse_ruo = models.NullBooleanField(verbose_name=u'弱',
-                                        blank=True,
-                                        default=False, help_text="弱")
-    pulse_shu = models.NullBooleanField(verbose_name=u'数',
-                                        blank=True,
-                                        default=False, help_text="数")
-    pulse_hua = models.NullBooleanField(verbose_name=u'滑',
-                                        blank=True,
-                                        default=False, help_text="滑")
-    pulse_se = models.NullBooleanField(verbose_name=u'涩',
-                                       blank=True,
-                                       default=False, help_text="涩")
-    pulse_xian = models.NullBooleanField(verbose_name=u'弦',
-                                         blank=True,
-                                         default=False, help_text="炫")
-    pulse_jin = models.NullBooleanField(verbose_name=u'紧',
-                                        blank=True,
-                                        default=False, help_text="紧")
-    pulse_kou = models.NullBooleanField(verbose_name=u'芤',
-                                        blank=True,
-                                        default=False, help_text="芤")
-    pulse_ru = models.NullBooleanField(verbose_name=u'濡',
-                                       blank=True,
-                                       default=False, help_text="濡")
-    pulse_hong = models.NullBooleanField(verbose_name=u'洪',
-                                         blank=True,
-                                         default=False, help_text="洪")
-    pulse_youli = models.NullBooleanField(verbose_name=u'有力',
-                                          blank=True,
-                                          default=False, help_text="有力")
-    pulse_wuli = models.NullBooleanField(verbose_name=u'无力',
-                                         default=False,
-                                         help_text="无力")
+    pulse_shi = models.BooleanField(verbose_name=u'实',
+                                    blank=True,
+                                    default=False, help_text="实")
+    pulse_fu = models.BooleanField(verbose_name=u'浮',
+                                   blank=True,
+                                   default=False, help_text="浮")
+    pulse_chen = models.BooleanField(verbose_name=u'沉',
+                                     blank=True,
+                                     default=False, help_text="沉")
+    pulse_chi = models.BooleanField(verbose_name=u'迟',
+                                    blank=True,
+                                    default=False, help_text="迟")
+    pulse_huan = models.BooleanField(verbose_name=u'缓',
+                                     blank=True,
+                                     default=False, help_text="缓")
+    pulse_xi = models.BooleanField(verbose_name=u'细',
+                                   blank=True,
+                                   default=False, help_text="细")
+    pulse_ruo = models.BooleanField(verbose_name=u'弱',
+                                    blank=True,
+                                    default=False, help_text="弱")
+    pulse_shu = models.BooleanField(verbose_name=u'数',
+                                    blank=True,
+                                    default=False, help_text="数")
+    pulse_hua = models.BooleanField(verbose_name=u'滑',
+                                    blank=True,
+                                    default=False, help_text="滑")
+    pulse_se = models.BooleanField(verbose_name=u'涩',
+                                   blank=True,
+                                   default=False, help_text="涩")
+    pulse_xian = models.BooleanField(verbose_name=u'弦',
+                                     blank=True,
+                                     default=False, help_text="炫")
+    pulse_jin = models.BooleanField(verbose_name=u'紧',
+                                    blank=True,
+                                    default=False, help_text="紧")
+    pulse_kou = models.BooleanField(verbose_name=u'芤',
+                                    blank=True,
+                                    default=False, help_text="芤")
+    pulse_ru = models.BooleanField(verbose_name=u'濡',
+                                   blank=True,
+                                   default=False, help_text="濡")
+    pulse_hong = models.BooleanField(verbose_name=u'洪',
+                                     blank=True,
+                                     default=False, help_text="洪")
+    pulse_youli = models.BooleanField(verbose_name=u'有力',
+                                      blank=True,
+                                      default=False, help_text="有力")
+    pulse_wuli = models.BooleanField(verbose_name=u'无力',
+                                     default=False,
+                                     help_text="无力")
 
     class Meta:
         verbose_name = u'全身症状'
@@ -1083,30 +1083,30 @@ class Other(models.Model):
     # person_born = models.CharField(verbose_name=u'出生情况', choices=BORNCOND, max_length=30)
 
     #
-    born_zaochan = models.NullBooleanField(verbose_name="早产",
-                                           blank=True,
-                                           default=False, help_text="早产")
-    born_zuyuechan = models.NullBooleanField(verbose_name="足月产",
+    born_zaochan = models.BooleanField(verbose_name="早产",
+                                       blank=True,
+                                       default=False, help_text="早产")
+    born_zuyuechan = models.BooleanField(verbose_name="足月产",
+                                         blank=True,
+                                         default=False, help_text="足月产")
+    born_yindaofenmian = models.BooleanField(verbose_name="阴道分娩",
                                              blank=True,
-                                             default=False, help_text="足月产")
-    born_yindaofenmian = models.NullBooleanField(verbose_name="阴道分娩",
-                                                 blank=True,
-                                                 default=False, help_text="阴道分娩")
-    born_pougongchan = models.NullBooleanField(verbose_name="剖宫产",
-                                               blank=True,
-                                               default=False, help_text="剖宫产")
+                                             default=False, help_text="阴道分娩")
+    born_pougongchan = models.BooleanField(verbose_name="剖宫产",
+                                           blank=True,
+                                           default=False, help_text="剖宫产")
 
     # 其它 - 特殊嗜好
     # special_hobbies = models.ForeignKey(OtherSpecialHobbies, on_delete=models.CASCADE)
-    hobbies_wu = models.NullBooleanField(verbose_name=u'无',
+    hobbies_wu = models.BooleanField(verbose_name=u'无',
+                                     blank=True,
+                                     default=False, help_text="无")
+    hobbies_xiyan = models.BooleanField(verbose_name=u'吸烟',
+                                        blank=True,
+                                        default=False, help_text="吸烟")
+    hobbies_yinjiu = models.BooleanField(verbose_name=u'饮酒',
                                          blank=True,
-                                         default=False, help_text="无")
-    hobbies_xiyan = models.NullBooleanField(verbose_name=u'吸烟',
-                                            blank=True,
-                                            default=False, help_text="吸烟")
-    hobbies_yinjiu = models.NullBooleanField(verbose_name=u'饮酒',
-                                             blank=True,
-                                             default=False, help_text="饮酒")
+                                         default=False, help_text="饮酒")
     hobbies_qita = models.CharField(verbose_name=u'其它嗜好',
                                     blank=True,
                                     null=True,
@@ -1131,18 +1131,18 @@ class Other(models.Model):
 
     # 其它-减肥情况
     # reduce_fat = models.ForeignKey(OtherReduceFat, on_delete=models.CASCADE)
-    reducefat_ever = models.NullBooleanField(verbose_name=u'有减肥',
-                                             blank=True,
-                                             default=False, help_text="有减肥")
-    reducefat_yundong = models.NullBooleanField(verbose_name=u'运动减肥',
-                                                blank=True,
-                                                default=False, help_text="运动减肥")
-    reducefat_jieshi = models.NullBooleanField(verbose_name=u'节食减肥',
-                                               blank=True,
-                                               default=False, help_text="节食减肥")
-    reducefat_yaowu = models.NullBooleanField(verbose_name=u'药物减肥',
-                                              blank=True,
-                                              default=False, help_text="药物减肥")
+    reducefat_ever = models.BooleanField(verbose_name=u'有减肥',
+                                         blank=True,
+                                         default=False, help_text="有减肥")
+    reducefat_yundong = models.BooleanField(verbose_name=u'运动减肥',
+                                            blank=True,
+                                            default=False, help_text="运动减肥")
+    reducefat_jieshi = models.BooleanField(verbose_name=u'节食减肥',
+                                           blank=True,
+                                           default=False, help_text="节食减肥")
+    reducefat_yaowu = models.BooleanField(verbose_name=u'药物减肥',
+                                          blank=True,
+                                          default=False, help_text="药物减肥")
     reducefat_qita = models.CharField(verbose_name=u'其它减肥',
                                       blank=True,
                                       null=True,
@@ -1176,81 +1176,81 @@ class Other(models.Model):
 
     # 其它-平素带下情况
     # leucorrhea = models.ForeignKey(OtherLeucorrhea, on_delete=models.CASCADE)
-    leucorrhea_liangshao = models.NullBooleanField(verbose_name=u'带下量少',
-                                                   blank=True,
-                                                   default=False, help_text="带下量少")
-    leucorrhea_liangke = models.NullBooleanField(verbose_name=u'带下量可',
-                                                 blank=True,
-                                                 default=False, help_text="带下量可")
-    leucorrhea_liangduo = models.NullBooleanField(verbose_name=u'带下量多',
-                                                  blank=True,
-                                                  default=False, help_text="带下量多")
-    leucorrhea_sehuang = models.NullBooleanField(verbose_name=u'带下色黄',
-                                                 blank=True,
-                                                 default=False, help_text="带下色黄")
-    leucorrhea_sebai = models.NullBooleanField(verbose_name=u'带下色白',
+    leucorrhea_liangshao = models.BooleanField(verbose_name=u'带下量少',
                                                blank=True,
-                                               default=False, help_text="带下色白")
-    leucorrhea_selv = models.NullBooleanField(verbose_name=u'带下色绿',
+                                               default=False, help_text="带下量少")
+    leucorrhea_liangke = models.BooleanField(verbose_name=u'带下量可',
+                                             blank=True,
+                                             default=False, help_text="带下量可")
+    leucorrhea_liangduo = models.BooleanField(verbose_name=u'带下量多',
                                               blank=True,
-                                              default=False, help_text="带下色绿")
-    leucorrhea_zhiqingxi = models.NullBooleanField(verbose_name=u'带下质清稀',
-                                                   blank=True,
-                                                   default=False, help_text="带下质清稀")
-    leucorrhea_zhinianchou = models.NullBooleanField(verbose_name=u'带下质粘稠',
-                                                     blank=True,
-                                                     default=False, help_text="带下质粘稠")
+                                              default=False, help_text="带下量多")
+    leucorrhea_sehuang = models.BooleanField(verbose_name=u'带下色黄',
+                                             blank=True,
+                                             default=False, help_text="带下色黄")
+    leucorrhea_sebai = models.BooleanField(verbose_name=u'带下色白',
+                                           blank=True,
+                                           default=False, help_text="带下色白")
+    leucorrhea_selv = models.BooleanField(verbose_name=u'带下色绿',
+                                          blank=True,
+                                          default=False, help_text="带下色绿")
+    leucorrhea_zhiqingxi = models.BooleanField(verbose_name=u'带下质清稀',
+                                               blank=True,
+                                               default=False, help_text="带下质清稀")
+    leucorrhea_zhinianchou = models.BooleanField(verbose_name=u'带下质粘稠',
+                                                 blank=True,
+                                                 default=False, help_text="带下质粘稠")
 
     # 其它-既往病史
     # past_history = models.ForeignKey(OtherPastHistory, on_delete=models.CASCADE)
-    pasthistory_wu = models.NullBooleanField(verbose_name=u'无',
-                                             blank=True,
-                                             default=False, help_text="无")
-    pasthistory_yuejingbutiao = models.NullBooleanField(verbose_name=u'月经不调',
-                                                        blank=True,
-                                                        default=False, help_text="月经不调")
-    pasthistory_yindaoyan = models.NullBooleanField(verbose_name=u'阴道炎',
+    pasthistory_wu = models.BooleanField(verbose_name=u'无',
+                                         blank=True,
+                                         default=False, help_text="无")
+    pasthistory_yuejingbutiao = models.BooleanField(verbose_name=u'月经不调',
                                                     blank=True,
-                                                    default=False, help_text="阴道炎")
-    pasthistory_zigongneimoyan = models.NullBooleanField(verbose_name=u'子宫内膜炎',
-                                                         blank=True,
-                                                         default=False, help_text="子宫内膜炎")
-    pasthistory_zigongneimoyiwei = models.NullBooleanField(verbose_name=u'子宫内膜异位症',
-                                                           blank=True,
-                                                           default=False, help_text="子宫内膜异位症")
-    pasthistory_zigongxianjizheng = models.NullBooleanField(verbose_name=u'子宫腺肌症',
-                                                            blank=True,
-                                                            default=False, help_text="子宫腺肌症")
-    pasthistory_penqiangyan = models.NullBooleanField(verbose_name=u'盆腔炎',
-                                                      blank=True,
-                                                      default=False, help_text="盆腔炎")
-    pasthistory_zigongjiliu = models.NullBooleanField(verbose_name=u'子宫肌瘤',
-                                                      blank=True,
-                                                      default=False, help_text="子宫肌瘤")
-    pasthistory_luancaonangzhong = models.NullBooleanField(verbose_name=u'卵巢囊肿',
-                                                           blank=True,
-                                                           default=False, help_text="卵巢囊肿")
-    pasthistory_ruxianzengsheng = models.NullBooleanField(verbose_name=u'乳腺增生',
-                                                          blank=True,
-                                                          default=False, help_text="乳腺增生")
-    pasthistory_jiazhuangxian = models.NullBooleanField(verbose_name=u'甲状腺相关疾病',
-                                                        blank=True,
-                                                        default=False, help_text="甲状腺相关疾病")
-    pasthistory_shengzhiyichang = models.NullBooleanField(verbose_name=u'生殖器官发育异常',
-                                                          blank=True,
-                                                          default=False, help_text="生殖器发育异常")
-    pasthistory_naochuitiliu = models.NullBooleanField(verbose_name=u'脑垂体瘤',
-                                                       blank=True,
-                                                       default=False, help_text="脑垂体瘤")
-    pasthistory_feipang = models.NullBooleanField(verbose_name=u'肥胖',
-                                                  blank=True,
-                                                  default=False, help_text="肥胖")
-    pasthistory_ganyan = models.NullBooleanField(verbose_name=u'肝炎',
-                                                 blank=True,
-                                                 default=False, help_text="肝炎")
-    pasthistory_jiehe = models.NullBooleanField(verbose_name=u'结核',
+                                                    default=False, help_text="月经不调")
+    pasthistory_yindaoyan = models.BooleanField(verbose_name=u'阴道炎',
                                                 blank=True,
-                                                default=False, help_text="结核")
+                                                default=False, help_text="阴道炎")
+    pasthistory_zigongneimoyan = models.BooleanField(verbose_name=u'子宫内膜炎',
+                                                     blank=True,
+                                                     default=False, help_text="子宫内膜炎")
+    pasthistory_zigongneimoyiwei = models.BooleanField(verbose_name=u'子宫内膜异位症',
+                                                       blank=True,
+                                                       default=False, help_text="子宫内膜异位症")
+    pasthistory_zigongxianjizheng = models.BooleanField(verbose_name=u'子宫腺肌症',
+                                                        blank=True,
+                                                        default=False, help_text="子宫腺肌症")
+    pasthistory_penqiangyan = models.BooleanField(verbose_name=u'盆腔炎',
+                                                  blank=True,
+                                                  default=False, help_text="盆腔炎")
+    pasthistory_zigongjiliu = models.BooleanField(verbose_name=u'子宫肌瘤',
+                                                  blank=True,
+                                                  default=False, help_text="子宫肌瘤")
+    pasthistory_luancaonangzhong = models.BooleanField(verbose_name=u'卵巢囊肿',
+                                                       blank=True,
+                                                       default=False, help_text="卵巢囊肿")
+    pasthistory_ruxianzengsheng = models.BooleanField(verbose_name=u'乳腺增生',
+                                                      blank=True,
+                                                      default=False, help_text="乳腺增生")
+    pasthistory_jiazhuangxian = models.BooleanField(verbose_name=u'甲状腺相关疾病',
+                                                    blank=True,
+                                                    default=False, help_text="甲状腺相关疾病")
+    pasthistory_shengzhiyichang = models.BooleanField(verbose_name=u'生殖器官发育异常',
+                                                      blank=True,
+                                                      default=False, help_text="生殖器发育异常")
+    pasthistory_naochuitiliu = models.BooleanField(verbose_name=u'脑垂体瘤',
+                                                   blank=True,
+                                                   default=False, help_text="脑垂体瘤")
+    pasthistory_feipang = models.BooleanField(verbose_name=u'肥胖',
+                                              blank=True,
+                                              default=False, help_text="肥胖")
+    pasthistory_ganyan = models.BooleanField(verbose_name=u'肝炎',
+                                             blank=True,
+                                             default=False, help_text="肝炎")
+    pasthistory_jiehe = models.BooleanField(verbose_name=u'结核',
+                                            blank=True,
+                                            default=False, help_text="结核")
     pasthistory_qita = models.CharField(verbose_name=u'其它病史',
                                         blank=True,
                                         null=True,
@@ -1261,27 +1261,27 @@ class Other(models.Model):
     ##############################################################################################
     # 其它-月经不调病史
     # past_mens = models.ForeignKey(OtherPastMenstruation, on_delete=models.CASCADE)
-    pastmens_zhouqiwenluan = models.NullBooleanField(verbose_name=u'月经周期紊乱',
-                                                     blank=True,
-                                                     default=False, help_text="月经周期紊乱")
-    pastmens_liangduo = models.NullBooleanField(verbose_name=u'月经量多',
-                                                blank=True,
-                                                default=False, help_text="月经量多")
-    pastmens_zhouqisuoduan = models.NullBooleanField(verbose_name=u'月经周期缩短',
-                                                     blank=True,
-                                                     default=False, help_text="月经周期缩短")
-    pastmens_yanhou = models.NullBooleanField(verbose_name=u'月经延后',
-                                              blank=True,
-                                              default=False, help_text="月经延后")
-    pastmens_yanchang = models.NullBooleanField(verbose_name=u'行经期延长',
-                                                blank=True,
-                                                default=False, help_text="行经期延长")
-    pastmens_tingbi = models.NullBooleanField(verbose_name=u'月经停闭',
-                                              blank=True,
-                                              default=False, help_text="月经停闭")
-    pastmens_chuxie = models.NullBooleanField(verbose_name=u'经间期出血',
-                                              blank=True,
-                                              default=False, help_text="经间期出血")
+    pastmens_zhouqiwenluan = models.BooleanField(verbose_name=u'月经周期紊乱',
+                                                 blank=True,
+                                                 default=False, help_text="月经周期紊乱")
+    pastmens_liangduo = models.BooleanField(verbose_name=u'月经量多',
+                                            blank=True,
+                                            default=False, help_text="月经量多")
+    pastmens_zhouqisuoduan = models.BooleanField(verbose_name=u'月经周期缩短',
+                                                 blank=True,
+                                                 default=False, help_text="月经周期缩短")
+    pastmens_yanhou = models.BooleanField(verbose_name=u'月经延后',
+                                          blank=True,
+                                          default=False, help_text="月经延后")
+    pastmens_yanchang = models.BooleanField(verbose_name=u'行经期延长',
+                                            blank=True,
+                                            default=False, help_text="行经期延长")
+    pastmens_tingbi = models.BooleanField(verbose_name=u'月经停闭',
+                                          blank=True,
+                                          default=False, help_text="月经停闭")
+    pastmens_chuxie = models.BooleanField(verbose_name=u'经间期出血',
+                                          blank=True,
+                                          default=False, help_text="经间期出血")
 
     womb_blood = models.CharField(verbose_name=u'一级亲属（母亲、姐妹、女儿）异常子宫出血史',
                                   choices=WOMBBLOOD,
@@ -1294,24 +1294,24 @@ class Other(models.Model):
                                  choices=OVULATION, max_length=10, help_text="是否为排卵障碍性")
     # 其它-家族史- 一级亲属（父母、兄弟姐妹、子女）其他疾病史
     # past_family = models.ForeignKey(OtherPastFamily, on_delete=models.CASCADE)
-    pastfamily_wu = models.NullBooleanField(verbose_name=u'无',
-                                            blank=True,
-                                            default=False, help_text="无")
-    pastfamily_gaoxueya = models.NullBooleanField(verbose_name=u'高血压',
+    pastfamily_wu = models.BooleanField(verbose_name=u'无',
+                                        blank=True,
+                                        default=False, help_text="无")
+    pastfamily_gaoxueya = models.BooleanField(verbose_name=u'高血压',
+                                              blank=True,
+                                              default=False, help_text="高血压")
+    pastfamily_tangniaobing = models.BooleanField(verbose_name=u'糖尿病',
                                                   blank=True,
-                                                  default=False, help_text="高血压")
-    pastfamily_tangniaobing = models.NullBooleanField(verbose_name=u'糖尿病',
-                                                      blank=True,
-                                                      default=False, help_text="糖尿病")
-    pastfamily_xinzangbing = models.NullBooleanField(verbose_name=u'心脏病',
-                                                     blank=True,
-                                                     default=False, help_text="心脏病")
-    pastfamily_duonangluanchao = models.NullBooleanField(verbose_name=u'多囊卵巢综合征',
-                                                         blank=True,
-                                                         default=False, help_text="多囊卵巢综合征")
-    pastfamily_buxiang = models.NullBooleanField(verbose_name=u'不详',
+                                                  default=False, help_text="糖尿病")
+    pastfamily_xinzangbing = models.BooleanField(verbose_name=u'心脏病',
                                                  blank=True,
-                                                 default=False, help_text="不详")
+                                                 default=False, help_text="心脏病")
+    pastfamily_duonangluanchao = models.BooleanField(verbose_name=u'多囊卵巢综合征',
+                                                     blank=True,
+                                                     default=False, help_text="多囊卵巢综合征")
+    pastfamily_buxiang = models.BooleanField(verbose_name=u'不详',
+                                             blank=True,
+                                             default=False, help_text="不详")
     pastfamily_qita = models.CharField(verbose_name=u'其它',
                                        null=True,
                                        max_length=50, default=u'无', help_text="其他")
@@ -1340,18 +1340,18 @@ class Other(models.Model):
 
     # 其它-避孕措施
     # prevent_method = models.ForeignKey(OtherPrevent, on_delete=models.CASCADE)
-    prevent_jieza = models.NullBooleanField(verbose_name=u'结扎',
-                                            blank=True,
-                                            default=False, help_text="结扎")
-    prevent_jieyuqi = models.NullBooleanField(verbose_name=u'宫内节育器',
-                                              blank=True,
-                                              default=False, help_text="宫内节育器")
-    prevent_biyuntao = models.NullBooleanField(verbose_name=u'避孕套',
-                                               blank=True,
-                                               default=False, help_text="避孕套")
-    prevent_biyunyao = models.NullBooleanField(verbose_name=u'口服避孕药',
-                                               blank=True,
-                                               default=False, help_text="口服避孕药")
+    prevent_jieza = models.BooleanField(verbose_name=u'结扎',
+                                        blank=True,
+                                        default=False, help_text="结扎")
+    prevent_jieyuqi = models.BooleanField(verbose_name=u'宫内节育器',
+                                          blank=True,
+                                          default=False, help_text="宫内节育器")
+    prevent_biyuntao = models.BooleanField(verbose_name=u'避孕套',
+                                           blank=True,
+                                           default=False, help_text="避孕套")
+    prevent_biyunyao = models.BooleanField(verbose_name=u'口服避孕药',
+                                           blank=True,
+                                           default=False, help_text="口服避孕药")
 
     prevent_biyunyao_time = models.DecimalField(verbose_name=u'末次口服避孕药时间',
                                                 max_digits=3,
@@ -1359,26 +1359,26 @@ class Other(models.Model):
                                                 blank=True,
                                                 null=True,
                                                 help_text="末次口服避孕药时间")  # 距离末次性行为之后多长时间服药
-    prevent_mafulong = models.NullBooleanField(verbose_name=u'去氧孕烯炔雌片（妈富隆）',
-                                               default=False,
-                                               blank=True,
-                                               help_text="去氧孕烯炔雌片（妈富隆）")
-    prevent_daying = models.NullBooleanField(verbose_name=u'炔雌醇环丙孕酮片（达英-35）',
-                                             default=False,
-                                             blank=True,
-                                             help_text="炔雌醇环丙孕酮片（达英-35）")
-    prevent_yousiming = models.NullBooleanField(verbose_name=u'屈螺酮炔雌醇片（优思明）',
-                                                default=False,
-                                                blank=True,
-                                                help_text="屈螺酮炔雌醇片（优思明）")
-    prevent_zuoque = models.NullBooleanField(verbose_name=u'左炔诺孕酮',
-                                             blank=True,
-                                             default=False,
-                                             help_text="左炔诺孕酮")
-    prevent_fufang = models.NullBooleanField(verbose_name=u'复方左炔诺孕酮',
-                                             blank=True,
-                                             default=False,
-                                             help_text="复方左炔诺孕酮")
+    prevent_mafulong = models.BooleanField(verbose_name=u'去氧孕烯炔雌片（妈富隆）',
+                                           default=False,
+                                           blank=True,
+                                           help_text="去氧孕烯炔雌片（妈富隆）")
+    prevent_daying = models.BooleanField(verbose_name=u'炔雌醇环丙孕酮片（达英-35）',
+                                         default=False,
+                                         blank=True,
+                                         help_text="炔雌醇环丙孕酮片（达英-35）")
+    prevent_yousiming = models.BooleanField(verbose_name=u'屈螺酮炔雌醇片（优思明）',
+                                            default=False,
+                                            blank=True,
+                                            help_text="屈螺酮炔雌醇片（优思明）")
+    prevent_zuoque = models.BooleanField(verbose_name=u'左炔诺孕酮',
+                                         blank=True,
+                                         default=False,
+                                         help_text="左炔诺孕酮")
+    prevent_fufang = models.BooleanField(verbose_name=u'复方左炔诺孕酮',
+                                         blank=True,
+                                         default=False,
+                                         help_text="复方左炔诺孕酮")
     prevent_qita = models.CharField(verbose_name=u'其它口服',
                                     max_length=100,
                                     blank=True,
@@ -1439,52 +1439,52 @@ class ClinicalConclusion(models.Model):
 
     # 临床诊断-中医诊断
     # chinese_conclusion = models.ForeignKey(ChineseConclusion, on_delete=models.CASCADE)
-    benglou = models.NullBooleanField(verbose_name=u'崩漏', default=False, help_text="崩漏")
-    yuejingguoduo = models.NullBooleanField(verbose_name=u'月经过多',
-                                            blank=True,
-                                            default=False, help_text="月经过多")
-    yuejingxianqi = models.NullBooleanField(verbose_name=u'月经先期',
-                                            blank=True,
-                                            default=False, help_text="月经先期")
-    jingqiyanchang = models.NullBooleanField(verbose_name=u'经期延长',
-                                             blank=True,
-                                             default=False, help_text="经期延长")
-    jingjianqichuxie = models.NullBooleanField(verbose_name=u'经间期出血',
-                                               blank=True,
-                                               default=False, help_text="经间期出血")
+    benglou = models.BooleanField(verbose_name=u'崩漏', default=False, help_text="崩漏")
+    yuejingguoduo = models.BooleanField(verbose_name=u'月经过多',
+                                        blank=True,
+                                        default=False, help_text="月经过多")
+    yuejingxianqi = models.BooleanField(verbose_name=u'月经先期',
+                                        blank=True,
+                                        default=False, help_text="月经先期")
+    jingqiyanchang = models.BooleanField(verbose_name=u'经期延长',
+                                         blank=True,
+                                         default=False, help_text="经期延长")
+    jingjianqichuxie = models.BooleanField(verbose_name=u'经间期出血',
+                                           blank=True,
+                                           default=False, help_text="经间期出血")
 
     # 临床诊断-辩证分型-虚证
     # asthenic = models.ForeignKey(Asthenic, on_delete=models.CASCADE)
-    shenyin = models.NullBooleanField(verbose_name=u'肾阴虚证',
+    shenyin = models.BooleanField(verbose_name=u'肾阴虚证',
+                                  blank=True,
+                                  default=False, help_text="肾阴虚证")
+    shenyang = models.BooleanField(verbose_name=u'肾阳虚证',
+                                   blank=True,
+                                   default=False, help_text="肾阳虚证")
+    shenqi = models.BooleanField(verbose_name=u'肾气虚证',
+                                 blank=True,
+                                 default=False, help_text="肾气虚证")
+    piqi = models.BooleanField(verbose_name=u'脾气虚证',
+                               blank=True,
+                               default=False, help_text="脾气虚证")
+    qixuxiaxian = models.BooleanField(verbose_name=u'气虚下陷证',
                                       blank=True,
-                                      default=False, help_text="肾阴虚证")
-    shenyang = models.NullBooleanField(verbose_name=u'肾阳虚证',
+                                      default=False, help_text="气虚下陷证")
+    xure = models.BooleanField(verbose_name=u'虚热证',
+                               blank=True,
+                               default=False, help_text="虚热证")
+    xinpiliangxu = models.BooleanField(verbose_name=u'心脾两虚证',
                                        blank=True,
-                                       default=False, help_text="肾阳虚证")
-    shenqi = models.NullBooleanField(verbose_name=u'肾气虚证',
+                                       default=False, help_text="心脾两虚证")
+    pishenyangxu = models.BooleanField(verbose_name=u'脾肾阳虚证',
+                                       blank=True,
+                                       default=False, help_text="脾肾阳虚证")
+    qixuekuixu = models.BooleanField(verbose_name=u'气血亏虚症',
                                      blank=True,
-                                     default=False, help_text="肾气虚证")
-    piqi = models.NullBooleanField(verbose_name=u'脾气虚证',
-                                   blank=True,
-                                   default=False, help_text="脾气虚证")
-    qixuxiaxian = models.NullBooleanField(verbose_name=u'气虚下陷证',
-                                          blank=True,
-                                          default=False, help_text="气虚下陷证")
-    xure = models.NullBooleanField(verbose_name=u'虚热证',
-                                   blank=True,
-                                   default=False, help_text="虚热证")
-    xinpiliangxu = models.NullBooleanField(verbose_name=u'心脾两虚证',
-                                           blank=True,
-                                           default=False, help_text="心脾两虚证")
-    pishenyangxu = models.NullBooleanField(verbose_name=u'脾肾阳虚证',
-                                           blank=True,
-                                           default=False, help_text="脾肾阳虚证")
-    qixuekuixu = models.NullBooleanField(verbose_name=u'气血亏虚症',
-                                         blank=True,
-                                         default=False, help_text="气血亏虚症")
-    ganshenyinxu = models.NullBooleanField(verbose_name=u'肝肾阴虚证',
-                                           blank=True,
-                                           default=False, help_text="肝肾阴虚证")
+                                     default=False, help_text="气血亏虚症")
+    ganshenyinxu = models.BooleanField(verbose_name=u'肝肾阴虚证',
+                                       blank=True,
+                                       default=False, help_text="肝肾阴虚证")
     qita_asthenic = models.CharField(verbose_name=u'其它虚证',
                                      max_length=50,
                                      null=True,
@@ -1493,43 +1493,43 @@ class ClinicalConclusion(models.Model):
 
     # 临床诊断-辩证分型-实证
     # demonstration = models.ForeignKey(Demonstration, on_delete=models.CASCADE)
-    ganyuxuere = models.NullBooleanField(verbose_name=u'肝郁血热证',
+    ganyuxuere = models.BooleanField(verbose_name=u'肝郁血热证',
+                                     blank=True,
+                                     default=False, help_text="肝郁血热证")
+    yangshengxuere = models.BooleanField(verbose_name=u'阳盛血热证',
                                          blank=True,
-                                         default=False, help_text="肝郁血热证")
-    yangshengxuere = models.NullBooleanField(verbose_name=u'阳盛血热证',
-                                             blank=True,
-                                             default=False, help_text="阳盛血热证")
-    ganjingshire = models.NullBooleanField(verbose_name=u'肝经湿热证',
-                                           blank=True,
-                                           default=False, help_text="肝经湿热证")
-    tanreyuzu = models.NullBooleanField(verbose_name=u'痰热瘀阻证',
-                                        blank=True,
-                                        default=False,
-                                        help_text="痰热瘀阻证")
-    tanshizuzhi = models.NullBooleanField(verbose_name=u'痰湿阻滞证',
-                                          blank=True,
-                                          default=False,
-                                          help_text="痰湿阻滞证")
-    tanyuzuzhi = models.NullBooleanField(verbose_name=u'痰瘀阻滞证',
-                                         blank=True,
-                                         default=False,
-                                         help_text="痰瘀阻滞证")
-    yurehujie = models.NullBooleanField(verbose_name=u'瘀热互结证',
-                                        blank=True,
-                                        default=False,
-                                        help_text="瘀热互结证")
-    xueyu = models.NullBooleanField(verbose_name=u'血瘀证',
+                                         default=False, help_text="阳盛血热证")
+    ganjingshire = models.BooleanField(verbose_name=u'肝经湿热证',
+                                       blank=True,
+                                       default=False, help_text="肝经湿热证")
+    tanreyuzu = models.BooleanField(verbose_name=u'痰热瘀阻证',
                                     blank=True,
                                     default=False,
-                                    help_text="血瘀证")
-    qizhixueyu = models.NullBooleanField(verbose_name=u'气滞血瘀证',
-                                         blank=True,
-                                         default=False,
-                                         help_text="气滞血瘀证")
-    hanningxueyu = models.NullBooleanField(verbose_name=u'寒凝血淤症',
-                                           blank=True,
-                                           default=False,
-                                           help_text="寒凝血淤症")
+                                    help_text="痰热瘀阻证")
+    tanshizuzhi = models.BooleanField(verbose_name=u'痰湿阻滞证',
+                                      blank=True,
+                                      default=False,
+                                      help_text="痰湿阻滞证")
+    tanyuzuzhi = models.BooleanField(verbose_name=u'痰瘀阻滞证',
+                                     blank=True,
+                                     default=False,
+                                     help_text="痰瘀阻滞证")
+    yurehujie = models.BooleanField(verbose_name=u'瘀热互结证',
+                                    blank=True,
+                                    default=False,
+                                    help_text="瘀热互结证")
+    xueyu = models.BooleanField(verbose_name=u'血瘀证',
+                                blank=True,
+                                default=False,
+                                help_text="血瘀证")
+    qizhixueyu = models.BooleanField(verbose_name=u'气滞血瘀证',
+                                     blank=True,
+                                     default=False,
+                                     help_text="气滞血瘀证")
+    hanningxueyu = models.BooleanField(verbose_name=u'寒凝血淤症',
+                                       blank=True,
+                                       default=False,
+                                       help_text="寒凝血淤症")
     qita_demonstration = models.CharField(verbose_name=u'其它实证',
                                           blank=True,
                                           null=True,
@@ -1539,34 +1539,34 @@ class ClinicalConclusion(models.Model):
 
     # 临床诊断-辩证分型-虚实夹杂证
     # deficiency_excess = models.ForeignKey(DeficiencyExcess, on_delete=models.CASCADE)
-    shenxuxueyu = models.NullBooleanField(verbose_name=u'肾虚血瘀证',
-                                          blank=True,
-                                          default=False,
-                                          help_text="肾虚血瘀证")
-    shenxuyure = models.NullBooleanField(verbose_name=u'肾虚瘀热证',
-                                         blank=True,
-                                         default=False,
-                                         help_text="肾虚瘀热证")
-    shenxuganyu = models.NullBooleanField(verbose_name=u'肾虚肝郁证',
-                                          blank=True,
-                                          default=False,
-                                          help_text="肾虚肝郁证")
-    qixuxueyu = models.NullBooleanField(verbose_name=u'气虚血瘀证',
-                                        blank=True,
-                                        default=False,
-                                        help_text="气虚血瘀证")
-    yinxuxueyu = models.NullBooleanField(verbose_name=u'阴虚血瘀证',
-                                         blank=True,
-                                         default=False,
-                                         help_text="阴虚血瘀证")
-    yinxuhuowang = models.NullBooleanField(verbose_name=u'阴虚火旺证',
-                                           blank=True,
-                                           default=False,
-                                           help_text="阴虚火旺证")
-    ganyupixu = models.NullBooleanField(verbose_name=u'肝郁脾虚证',
-                                        blank=True,
-                                        default=False,
-                                        help_text="肝郁脾虚证")
+    shenxuxueyu = models.BooleanField(verbose_name=u'肾虚血瘀证',
+                                      blank=True,
+                                      default=False,
+                                      help_text="肾虚血瘀证")
+    shenxuyure = models.BooleanField(verbose_name=u'肾虚瘀热证',
+                                     blank=True,
+                                     default=False,
+                                     help_text="肾虚瘀热证")
+    shenxuganyu = models.BooleanField(verbose_name=u'肾虚肝郁证',
+                                      blank=True,
+                                      default=False,
+                                      help_text="肾虚肝郁证")
+    qixuxueyu = models.BooleanField(verbose_name=u'气虚血瘀证',
+                                    blank=True,
+                                    default=False,
+                                    help_text="气虚血瘀证")
+    yinxuxueyu = models.BooleanField(verbose_name=u'阴虚血瘀证',
+                                     blank=True,
+                                     default=False,
+                                     help_text="阴虚血瘀证")
+    yinxuhuowang = models.BooleanField(verbose_name=u'阴虚火旺证',
+                                       blank=True,
+                                       default=False,
+                                       help_text="阴虚火旺证")
+    ganyupixu = models.BooleanField(verbose_name=u'肝郁脾虚证',
+                                    blank=True,
+                                    default=False,
+                                    help_text="肝郁脾虚证")
     qita_def_ex = models.CharField(verbose_name=u'其它虚实',
                                    blank=True,
                                    null=True,
@@ -1576,18 +1576,18 @@ class ClinicalConclusion(models.Model):
 
     # 临床诊断-西医诊断
     # west_conclusion = models.ForeignKey(WestConclusion, on_delete=models.CASCADE)
-    duonangluanchao = models.NullBooleanField(verbose_name=u'多囊卵巢综合征',
-                                              blank=True,
-                                              default=False,
-                                              help_text="多囊卵巢综合征")
-    gaomirusu = models.NullBooleanField(verbose_name=u'高泌乳素血症',
-                                        blank=True,
-                                        default=False,
-                                        help_text="高泌乳素血症")
-    dicuxingxianjisu = models.NullBooleanField(verbose_name=u'低促行线激素疾病',
-                                               blank=True,
-                                               default=False,
-                                               help_text="低促行线激素疾病")
+    duonangluanchao = models.BooleanField(verbose_name=u'多囊卵巢综合征',
+                                          blank=True,
+                                          default=False,
+                                          help_text="多囊卵巢综合征")
+    gaomirusu = models.BooleanField(verbose_name=u'高泌乳素血症',
+                                    blank=True,
+                                    default=False,
+                                    help_text="高泌乳素血症")
+    dicuxingxianjisu = models.BooleanField(verbose_name=u'低促行线激素疾病',
+                                           blank=True,
+                                           default=False,
+                                           help_text="低促行线激素疾病")
     qita_west = models.CharField(verbose_name=u'其它西医诊断',
                                  max_length=50,
                                  null=True,

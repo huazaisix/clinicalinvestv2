@@ -220,7 +220,7 @@ class MenstruationViewSet(viewsets.ModelViewSet):
 
 
 #######################################################################
-class SymptomViewSet(viewsets.ModelViewSet):
+class SymptomViewSet(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIView):
     """
         list:
         获取所有 全身症状 的列表
