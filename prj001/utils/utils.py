@@ -120,7 +120,7 @@ def validate_person(sf, obj, obj_o, data):
     if not p_id:
         raise serializers.ValidationError("表内容填写不完整")
 
-    if sf.context["view"].request.method == "post":
+    if sf.context["view"].request.method == "POST":
 
         try:
             obj_obj = obj.objects.filter(id=p_id.id)
