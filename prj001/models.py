@@ -1400,42 +1400,60 @@ class Other(models.Model):
                                            blank=True,
                                            null=True,
                                            help_text="血红蛋白值")
-    accessory_quanxuexibaojishu = models.BooleanField(verbose_name=u'全血细胞计数',
-                                                      blank=True,
-                                                      default=False,
-                                                      help_text="全血细胞计数")
-    accessory_chuxuexingjibing = models.BooleanField(verbose_name=u'出血性疾病筛查（如女性血管性血友病）',
-                                                     default=False,
-                                                     blank=True,
-                                                     help_text="出血性疾病筛查")
-    accessory_ningxue = models.BooleanField(verbose_name=u'凝血功能检查',
-                                            blank=True,
-                                            default=False,
-                                            help_text="凝血功能检查")
-    accessory_jiazhuangxian = models.BooleanField(verbose_name=u'甲状腺功能检测',
-                                                  default=False,
+    accessory_quanxuexibaojishu = models.CharField(verbose_name=u'全血细胞计数',
+                                                   blank=True,
+                                                   null=True,
+                                                   max_length=150,
+                                                   default='无',
+                                                   help_text="全血细胞计数")
+    accessory_chuxuexingjibing = models.CharField(verbose_name=u'出血性疾病筛查（如女性血管性血友病）',
                                                   blank=True,
-                                                  help_text="甲状腺功能检测")
-    accessory_niaorenshen = models.BooleanField(verbose_name=u'尿妊娠试验',
-                                                default=False,
-                                                blank=True,
-                                                help_text="尿妊娠试验")
-    accessory_penqiangchaosheng = models.BooleanField(verbose_name=u'盆腔超声检查',
-                                                      default=False,
-                                                      blank=True,
-                                                      help_text="盆腔超声检查")
-    accessory_jichutiwen = models.BooleanField(verbose_name=u'基础体温测定',
-                                               default=False,
+                                                  null=True,
+                                                  max_length=150,
+                                                  default='无',
+                                                  help_text="出血性疾病筛查")
+    accessory_ningxue = models.CharField(verbose_name=u'凝血功能检查',
+                                         blank=True,
+                                         null=True,
+                                         max_length=150,
+                                         default='无',
+                                         help_text="凝血功能检查")
+    accessory_jiazhuangxian = models.CharField(verbose_name=u'甲状腺功能检测',
                                                blank=True,
-                                               help_text="基础体温测定")
-    accessory_jisushuiping = models.BooleanField(verbose_name=u'激素水平测定',
-                                                 blank=True,
-                                                 default=False,
-                                                 help_text="激素水平测定")
-    accessory_guagong = models.BooleanField(verbose_name=u'诊断性刮宫或宫腔镜下刮宫',
-                                            default=False,
+                                               null=True,
+                                               max_length=150,
+                                               default='无',
+                                               help_text="甲状腺功能检测")
+    accessory_niaorenshen = models.CharField(verbose_name=u'尿妊娠试验',
+                                             default='无',
+                                             blank=True,
+                                             null=True,
+                                             max_length=150,
+                                             help_text="尿妊娠试验")
+    accessory_penqiangchaosheng = models.CharField(verbose_name=u'盆腔超声检查',
+                                                   blank=True,
+                                                   null=True,
+                                                   max_length=150,
+                                                   default='无',
+                                                   help_text="盆腔超声检查")
+    accessory_jichutiwen = models.CharField(verbose_name=u'基础体温测定',
                                             blank=True,
-                                            help_text="诊断性刮宫或宫腔镜下刮宫")
+                                            null=True,
+                                            max_length=150,
+                                            default='无',
+                                            help_text="基础体温测定")
+    accessory_jisushuiping = models.CharField(verbose_name=u'激素水平测定',
+                                              blank=True,
+                                              null=True,
+                                              max_length=150,
+                                              default='无',
+                                              help_text="激素水平测定")
+    accessory_guagong = models.CharField(verbose_name=u'诊断性刮宫或宫腔镜下刮宫',
+                                         blank=True,
+                                         null=True,
+                                         max_length=150,
+                                         default='无',
+                                         help_text="诊断性刮宫或宫腔镜下刮宫")
     accessory_qita = models.CharField(verbose_name=u'其它辅助检查', max_length=150, default=u'无',
                                       blank=True, null=True, help_text="其它辅助检查")
 

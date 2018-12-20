@@ -13,25 +13,31 @@ obj_str = {
 table_title = {
     'fg_color': '#D7E4BC',
     'bold': True,
-    'font_size': '23',
 }
 
 inner_table_key = {
     'fg_color': '#ABEBC6',
-    'font_size': '18',
-    'align': 'center',
-    'bottom': 1,
+    'left': 1,
+    'right': 1,
     'font_charset': 'utf-8'
 }
 
 inner_table_value = {
     'fg_color': '#AED6F1',
-    'font_size': '18',
     'align': 'center',
-    'bottom': 1,
+    'left': 1,
+    'right': 1,
     'font_charset': 'utf-8'
 }
 
+important_value = {
+    'fg_color': '#AED6F1',
+    'font_color': 'red',
+    'align': 'center',
+    'left': 1,
+    'right': 1,
+    'font_charset': 'utf-8'
+}
 
 def save_excel(s):
     """s是序列化器对象"""
@@ -44,19 +50,20 @@ def save_excel(s):
 
     for index, item in enumerate(data_json):
 
-        p, q = 0, 1
-        m, n = 0, 4
+        p, q = 1, 1
+        m, n = 1, 4
         for key, value in list(item.items()):
             sheet_name = item['name']
             df.to_excel(writer, sheet_name=sheet_name, index=False)
             ws = writer.sheets[sheet_name]
             wb = writer.book
 
-            format01 = wb.add_format()
-            format01.set_bold(True)
             table_title_style = wb.add_format(table_title)
             inner_table_key_style = wb.add_format(inner_table_key)
             inner_table_value_style = wb.add_format(inner_table_value)
+            important_value_style = wb.add_format(important_value)
+
+            help(ws)
 
             ws.write(0, 0, obj_str['geninfo'], table_title_style)
             if isinstance(value, type(None)):
@@ -67,7 +74,7 @@ def save_excel(s):
             else:
                 if isinstance(value, str) or isinstance(value, bool) or isinstance(value, int):
                     # 保存正常的key,value
-                    ws.write(p, q, excel_key.get(key), format01)
+                    ws.write(p, q, excel_key.get(key), inner_table_key_style)
                     if isinstance(value, bool):
                         if value:
                             ws.write(p, q + 1, '有', inner_table_value_style)
@@ -86,6 +93,12 @@ def save_excel(s):
                     _obj = item.pop(key)
 
                     for ks, vs in list(_obj.items()):
+                        if m > 40 and n <= 19:
+                            m, n = 1, n+3
+                        if n > 19:
+                            m = 41
+                            n = 1
+
                         dict_demo.append(key)
                         if ks in ('url', 'person', 'owner'):
                             _obj.pop(ks)
@@ -94,15 +107,13 @@ def save_excel(s):
 
                         if isinstance(vs, bool):
                             if vs:
-                                ws.write(m, n + 1, '有', inner_table_value_style)
+                                ws.write(m, n + 1, '有', important_value_style)
                             else:
                                 ws.write(m, n + 1, '无', inner_table_value_style)
                         else:
                             ws.write(m, n + 1, vs, inner_table_value_style)
 
-                        m += 1
-
-                    m, n = 0, n+3
+                    m, n = 1, n+3
     writer.save()
 
 

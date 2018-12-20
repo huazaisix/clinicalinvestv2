@@ -140,11 +140,10 @@ class GeneralListView(generics.ListAPIView):
     permission_classes = [TokenHasScope, CheckOperationPerm]
     required_scopes = ['prj001']
 
-    def get_queryset(self):
-        # self.request.user 获取对象
-        return GeneralInfo.objects.filter(owner_id=self.request.user.id)
+    queryset = GeneralInfo.objects.all()
 
     serializer_class = InfoSerializer
+
     # filter_backends = (filters.SearchFilter,)
     # search_fields = ('$name', '$nation')
 
@@ -372,23 +371,14 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 class GetPatientInfoView(generics.GenericAPIView):
     """
     get:
-        获取患者的各项详细信息
+        获取单个患者的各项详细信息
     """
-    # permission_classes = [TokenHasScope, ]  # IsOwnerOrReadOnly
-
-    def get_permissions(self):
-        print(self.request.method)
-
-        if self.request.method == "GET":
-            self.permission_classes = [TokenHasScope, ]
-        else:
-            self.permission_classes = [TokenHasScope, CheckOperationPerm]
-
-        return super().get_permissions()
+    permission_classes = [TokenHasScope, CheckOperationPerm]  # IsOwnerOrReadOnly
 
     required_scopes = ['prj001']
 
-    def get(self, request, pk):
+    @staticmethod
+    def get(request, pk):
 
         if not pk:
             return Response({"msg": "请重新选择患者"})
@@ -398,7 +388,9 @@ class GetPatientInfoView(generics.GenericAPIView):
         if not gen_obj:
             return Response({"msg": "该病患还没有录入信息"})
 
-        serializer = InfoSerializer(instance=gen_obj, many=True)
+        serializer = InfoSerializer(instance=gen_obj,
+                                    many=True,
+                                    context={'request': request})
 
         return Response(serializer.data)
 
@@ -412,10 +404,13 @@ class FileDownloadView(generics.GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         #
+        return_dict = {}
         try:
             excel_data = request.session[str(request.user.id)]
         except KeyError:
-            return ValueError('并没有需要保存的值')
+            return_dict['msg'] = '并没有需要保存的值'
+
+            return Response(return_dict)
         id_list = []
         # 抽离id
         for item in excel_data:
