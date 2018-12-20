@@ -23,7 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'o#es9z+lcnw%mhvzvr#igbz05wa8%f-@3frln%&fwqr6oyg^-x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+from .constants import DEBUG
+DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
@@ -152,7 +153,7 @@ OAUTH2_PROVIDER = {
 }
 
 # 每页数目
-GEN_PAGE_SIZE = 10
+GEN_PAGE_SIZE = 2
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -168,5 +169,9 @@ REST_FRAMEWORK = {
 
 UPLOAD_FILE_TYPE = ("xls", "xlsx", )
 
+from .constants import nginx_setting
+NGINX_EXCEL_FILES = nginx_setting['NGINX_EXCEL_FILES']
+NGINX_IP = nginx_setting['NGINX_IP'].join(['http://', ':'])
+NGINX_PORT = nginx_setting['NGINX_PORT']
 
 

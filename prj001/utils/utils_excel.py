@@ -1,6 +1,9 @@
 import pandas as pd
+import time
+import math
 
 from .constants import excel_key
+from django.conf import settings
 
 obj_str = {
     'clinicalconclusion': '临床诊断',
@@ -39,21 +42,31 @@ important_value = {
     'font_charset': 'utf-8'
 }
 
-def save_excel(s):
+
+def save_excel(s, u_id):
     """s是序列化器对象"""
     data_json = s.data
     dict_demo = []
 
     # 创建一个表
     df = pd.DataFrame()
-    writer = pd.ExcelWriter('excel_name.xlsx', engine='xlsxwriter')
+    time_ = str(math.ceil(time.time()))
+    file_name = '{0}-{1}.xlsx'.format(time_, u_id)
+    file_path = ''.join([settings.NGINX_EXCEL_FILES, file_name])
 
+    writer = pd.ExcelWriter(file_path,
+                            engine='xlsxwriter')
+
+    kk = 0
     for index, item in enumerate(data_json):
+        kk += 1
+        sheet_name = ''.join([item['name'], '-{}'.format(kk)])
 
         p, q = 1, 1
         m, n = 1, 4
+
         for key, value in list(item.items()):
-            sheet_name = item['name']
+
             df.to_excel(writer, sheet_name=sheet_name, index=False)
             ws = writer.sheets[sheet_name]
             wb = writer.book
@@ -62,8 +75,6 @@ def save_excel(s):
             inner_table_key_style = wb.add_format(inner_table_key)
             inner_table_value_style = wb.add_format(inner_table_value)
             important_value_style = wb.add_format(important_value)
-
-            help(ws)
 
             ws.write(0, 0, obj_str['geninfo'], table_title_style)
             if isinstance(value, type(None)):
@@ -93,11 +104,9 @@ def save_excel(s):
                     _obj = item.pop(key)
 
                     for ks, vs in list(_obj.items()):
-                        if m > 40 and n <= 19:
+
+                        if m >= 40:
                             m, n = 1, n+3
-                        if n > 19:
-                            m = 41
-                            n = 1
 
                         dict_demo.append(key)
                         if ks in ('url', 'person', 'owner'):
@@ -113,11 +122,12 @@ def save_excel(s):
                         else:
                             ws.write(m, n + 1, vs, inner_table_value_style)
 
+                        m += 1
+
                     m, n = 1, n+3
     writer.save()
 
-
-
+    return file_name
 
 
 

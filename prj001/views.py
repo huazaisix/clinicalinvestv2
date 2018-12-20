@@ -3,11 +3,9 @@ import math
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from oauth2_provider.contrib.rest_framework import TokenHasScope
-from rest_framework import filters
 from rest_framework import generics
 from rest_framework import viewsets, views
 from rest_framework.response import Response
-from urllib.parse import unquote, quote, urlencode
 
 from myusers.models import MyUser
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
@@ -66,8 +64,10 @@ class GeneralInfoList(generics.ListCreateAPIView):
         if search_index:
             search_pages = math.ceil(len(queryset) / settings.GEN_PAGE_SIZE)
             resp_dict['total_pages'] = search_pages
+            resp_dict['totalCount'] = len(queryset)
         else:
             resp_dict["total_pages"] = total_pages
+            resp_dict['totalCount'] = total_num
 
         page = get_and_post(request, queryset=queryset)
 
@@ -79,13 +79,13 @@ class GeneralInfoList(generics.ListCreateAPIView):
 
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            resp_dict['totalCount'] = total_num
-            resp_dict['count'] = len(queryset)
+            # resp_dict['count'] = len(queryset)
             resp_dict["results"] = serializer.data
 
+            # 为下载问价做准备
             request.session[str(request.user.id)] = serializer.data
 
-            print(request.user.id)
+            # print(request.user.id)
 
             return Response(resp_dict)
 
@@ -96,10 +96,6 @@ class GeneralInfoList(generics.ListCreateAPIView):
                                          context=context,
                                          many=True)
 
-        # 总记录数
-        resp_dict['totalCount'] = total_num
-        # 符合search 的数
-        resp_dict['count'] = len(queryset)
         resp_dict["results"] = serializer.data
 
         request.session[str(request.user.id)] = serializer.data
@@ -408,7 +404,8 @@ class FileDownloadView(generics.GenericAPIView):
         try:
             excel_data = request.session[str(request.user.id)]
         except KeyError:
-            return_dict['msg'] = '并没有需要保存的值'
+            return_dict['msg'] = '未选择导出的患者'
+            return_dict['url'] = None
 
             return Response(return_dict)
         id_list = []
@@ -422,6 +419,9 @@ class FileDownloadView(generics.GenericAPIView):
                                     context={'request': request},
                                     many=True)
 
-        save_excel(serializer)
+        file_path = save_excel(serializer, self.request.user.id)
 
-        return Response(serializer.data)
+        return_dict['url'] = ''.join([settings.NGINX_IP, settings.NGINX_PORT, '/', file_path])
+        return_dict['msg'] = 'success'
+
+        return Response(return_dict)
