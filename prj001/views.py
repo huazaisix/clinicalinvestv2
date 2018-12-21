@@ -20,6 +20,7 @@ from .utils.utils import group_permission_show
 from .utils.utils import perform_create_content, create_file_view
 from .utils.utils_excel import save_excel
 from .utils.search_util import OwnSearchFilter
+from .utils.deny_data import deny_permission
 
 
 class MyUserGenInfoDetail(generics.RetrieveAPIView):
@@ -177,6 +178,11 @@ class GeneralInfoDetails(generics.RetrieveUpdateDestroyAPIView):
     queryset = GeneralInfo.objects.all()
     serializer_class = GeneralInfoDetailSerializer
 
+    def permission_denied(self, request, message=None):
+        msg = super().get_parser_context(request)
+
+        deny_permission(msg, request, GeneralInfo)
+
 
 #######################################################################
 class MenstruationViewSet(viewsets.ModelViewSet):
@@ -201,14 +207,13 @@ class MenstruationViewSet(viewsets.ModelViewSet):
     """
     permission_classes = [TokenHasScope, CheckOperationPerm]  # CheckOperationPerm
     required_scopes = ['prj001']
-    # queryset = Menstruation.objects.all()
+    queryset = Menstruation.objects.all()
     serializer_class = MenstruationSerializer
 
-    def get_queryset(self):
-        # print(self.request.user.get_all_permissions(), "用户的所有权限")
-        # print(self.request.user.get_group_permissions(), "用户的组权限")
+    def permission_denied(self, request, message=None):
+        msg = super().get_parser_context(request)
 
-        return Menstruation.objects.all()
+        deny_permission(msg, request, Menstruation)
 
     def perform_create(self, serializer):
         perform_create_content(self, GeneralInfo, serializer)
@@ -239,6 +244,11 @@ class SymptomViewSet(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIVi
     required_scopes = ['prj001']
     queryset = Symptom.objects.all()
     serializer_class = SymptomSerializer
+
+    def permission_denied(self, request, message=None):
+        msg = super().get_parser_context(request)
+
+        deny_permission(msg, request, Symptom)
 
     def perform_create(self, serializer):
 
@@ -271,6 +281,11 @@ class OtherViewSet(viewsets.ModelViewSet):
     queryset = Other.objects.all()
     serializer_class = OtherSerializer
 
+    def permission_denied(self, request, message=None):
+        msg = super().get_parser_context(request)
+
+        deny_permission(msg, request, Other)
+
     def perform_create(self, serializer):
         perform_create_content(self, GeneralInfo, serializer)
 
@@ -300,6 +315,11 @@ class ClinicalConclusionViewSet(viewsets.ModelViewSet):
     required_scopes = ['prj001']
     queryset = ClinicalConclusion.objects.all()
     serializer_class = ClinicalConclusionSerializer
+
+    def permission_denied(self, request, message=None):
+        msg = super().get_parser_context(request)
+
+        deny_permission(msg, request, ClinicalConclusion)
 
     def perform_create(self, serializer):
         perform_create_content(self, GeneralInfo, serializer)
