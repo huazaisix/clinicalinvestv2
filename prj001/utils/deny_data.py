@@ -29,7 +29,7 @@ def deny_permission(msg, request, own_obj):
         raise exceptions.PermissionDenied(detail=data)
 
     data = {
-        'detail': '您目前对该信息无修改权限, 如需修改请联系%s' % owner.user_name,
+        'detail': '您目前对该信息无修改权限, 如需修改请联系%s' % owner.email,
         'name': owner.email,
     }
     raise exceptions.PermissionDenied(detail=data)
