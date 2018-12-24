@@ -6,6 +6,7 @@ from django.db import transaction
 
 from rest_framework import serializers, status
 from rest_framework.response import Response
+from rest_framework import exceptions
 
 # 引入读取离线文件的工具包
 from utils.read_file_util.questionairetojson import readQuestionaireExcel
@@ -147,20 +148,28 @@ def validate_person(sf, obj, obj_o, data):
 def perform_create_content(sf, obj, s):
     """
     :param sf:  self参数
-    :param obj:  对象
+    :param obj:  GenInfo固定对象
     :param s: 序列化对象
     :return:
     """
     person_id = s.validated_data["person"]
-
-    # print(person_id, '===>')
 
     try:
         person = obj.objects.get(id=person_id.id)
     except obj.DoesNotExist:
         raise
 
-    s.save(owner=sf.request.user, person=person)
+    owner = person.owner
+
+    if sf.request.user == owner:
+        s.save(owner=sf.request.user, person=person)
+    else:
+        # print(sf.request.user, person.owner)
+        data = {
+            'detail': '您目前对该信息无修改权限, 如需修改请联系%s' % owner.email,
+            'name': owner.email,
+        }
+        raise exceptions.PermissionDenied(detail=data)
 
 
 def create_file_view(s, data):
