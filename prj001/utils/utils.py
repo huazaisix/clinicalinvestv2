@@ -5,8 +5,8 @@ from django.conf import settings
 from django.db import transaction
 
 from rest_framework import serializers, status
-from rest_framework.response import Response
 from rest_framework import exceptions
+from datetime import datetime
 
 # 引入读取离线文件的工具包
 from utils.read_file_util.questionairetojson import readQuestionaireExcel
@@ -17,10 +17,9 @@ import urllib.parse
 import json
 
 
-def save_table_data(data_dict):
+def save_table_data(data_dict, request):
     """
     保存表格中的数据至数据库
-    :return:
     """
     info = data_dict.get("general_info")
     menstruation = data_dict.get("menstruation")
@@ -30,52 +29,88 @@ def save_table_data(data_dict):
 
     owner_id = data_dict.get("owner_id")
 
-    # 1.一般情况
-    #######
-    info.pop("recdate")
-    with transaction.atomic(savepoint=True):
-        point = transaction.savepoint()
+    serial = info.get('serial')
 
-        try:
-            gen_info = GeneralInfo(owner_id=owner_id, **info)
-            gen_info.save()
+    try:
+        obj_of_info = GeneralInfo.objects.filter(serial=serial)
 
-            info_id = gen_info.id
+    except GeneralInfo.DoesNotExist:
+        raise
 
-            # 2.月经情况
-            men_info = Menstruation(owner_id=owner_id, person_id=info_id, **menstruation)
-            # 3.全身情况
-            sy_info = Symptom(owner_id=owner_id, person_id=info_id, **symptom)
-            # 4.其他情况
-            ot_info = Other(owner_id=owner_id, person_id=info_id, **other)
-            # 5.临床诊断
-            con_info = ClinicalConclusion(owner_id=owner_id, person_id=info_id, **conclusion)
+    recdate = info.pop("recdate")
 
-
+    ii = datetime.strptime(recdate, '%Y/%m/%d')
+    info['recdate'] = ii
+    if not obj_of_info:
+        with transaction.atomic(savepoint=True):
+            point = transaction.savepoint()
             try:
-                men_info.save()
+                gen_info = GeneralInfo(owner_id=owner_id, **info)
+                gen_info.save()
+
+                info_id = gen_info.id
+
+                men_info = Menstruation(
+                    owner_id=owner_id,
+                    person_id=info_id,
+                    **menstruation)
+
+                sy_info = Symptom(
+                    owner_id=owner_id,
+                    person_id=info_id,
+                    **symptom)
+
+                ot_info = Other(
+                    owner_id=owner_id,
+                    person_id=info_id,
+                    **other)
+
+                con_info = ClinicalConclusion(
+                    owner_id=owner_id,
+                    person_id=info_id,
+                    **conclusion)
+
+                save_table(men_info)
+                save_table(sy_info)
+                save_table(con_info)
+                save_table(ot_info)
+
             except Exception as e:
+                transaction.savepoint_rollback(point)
                 raise e
 
-            try:
-                sy_info.save()
-            except Exception as e:
-                raise e
+            transaction.savepoint_commit(point)
+    else:
+        # 存在, 修改
+        if len(obj_of_info) == 1:
+            owner = obj_of_info[0].owner
+            if request.user == owner:
+                with transaction.atomic(savepoint=True):
+                    point_update = transaction.savepoint()
 
-            try:
-                ot_info.save()
-            except Exception as e:
-                raise e
+                    try:
+                        obj_of_info.update(**info)
+                        person_id = obj_of_info[0].id
+                        num_men = Menstruation.objects.filter(person_id=person_id).update(**menstruation)
+                        num_sym = Symptom.objects.filter(person_id=person_id).update(**symptom)
+                        num_oth = Other.objects.filter(person_id=person_id).update(**other)
+                        num_cli = ClinicalConclusion.objects.filter(person_id=person_id).update(**conclusion)
+                        if not (num_cli == 1 and num_men == 1 and num_oth == 1 and num_sym == 1):
+                            raise ValueError('update error')
+                    except Exception as e:
+                        transaction.savepoint_rollback(point_update)
+                        raise ValueError('数据库更新错误%s' % e)
 
-            try:
-                con_info.save()
-            except Exception as e:
-                raise e
-        except Exception as e:
-            transaction.savepoint_rollback(point)
-            raise e
-
-        transaction.savepoint_commit(point)
+                    transaction.savepoint_commit(point_update)
+            else:
+                data = {
+                    'detail': '您目前对该信息无修改权限, 如需修改请联系%s' % owner.email,
+                    'name': owner.email,
+                }
+                exceptions.PermissionDenied.default_detail = data
+                raise exceptions.PermissionDenied
+        else:
+            raise ValueError('数据库中编码不唯一')
 
 
 def validate_file(data):
@@ -172,7 +207,7 @@ def perform_create_content(sf, obj, s):
         raise exceptions.PermissionDenied(detail=data)
 
 
-def create_file_view(s, data):
+def create_file_view(s, data, request):
     """
     上传文件视图的数据分析实现方式
     :param s: serializer序列化对象
@@ -184,17 +219,13 @@ def create_file_view(s, data):
     tmp_str = file_path.split('/', 2)
     file_path = settings.MEDIA_ROOT + "/" + tmp_str[2]
     de_path = urllib.parse.unquote(file_path)
-    # print(de_path, "+++++++++++")
 
-    # if "Microsoft Excel" in :
-    #
-    # 参数是文件路径
     try:
         file_data = readQuestionaireExcel(de_path)
         # print(file_data, type(file_data), "file_data--->>>>")
     except Exception as e:
         data["code"] = 1441
-        data["msg"] = "文件数据无法分析,查看上传文件是否为模板文件"
+        data["msg"] = "文件数据无法分析,查看上传文件是否为模板文件%s" % e
         return data
 
     # 去除文字内容两边的空格
@@ -205,8 +236,6 @@ def create_file_view(s, data):
         # print(type(json_data_dict))
         for index, item in json_data_dict.items():
             for i, value in json_data_dict[index].items():
-
-                # print(i, value, "-------/n")
                 if isinstance(value, str):
                     inner_dict[i] = value.strip()
                 else:
@@ -214,62 +243,33 @@ def create_file_view(s, data):
                 
             outer_dict[index] = inner_dict
             inner_dict = dict()
-
-        # print("filedata--->>>>changed", outer_dict)
     except Exception as e:
         data["code"] = 1442
         data["msg"] = e
         return data 
 
-    #
-    #     # #########old v
-    #     # # 读取文件内容，进行处理
-    #     # wb = xlrd.open_workbook(de_path)
-    #     # table = wb.sheets()[0]
-    #     # row = table.nrows
-    #     # for i in range(1, row):
-    #     #     col = table.row_values(i)
-    #     #     print(col)
-    # else:
-    #     resp_data["code"] = status.HTTP_415_UNSUPPORTED_MEDIA_TYPE
-    #     resp_data["msg"] = "文件格式不是Excel"
-    #     return Response(resp_data)
-
-    # if "ASCII text" in checkresult:
-    #     file_object = open('test.txt')
-    #     try:
-    #         file_context = file_object.read()
-    #         print(file_context)
-    #         # file_context是一个list，每行文本内容是list中的一个元素
-    #         # file_context = open(file).read().splitlines()
-    #     finally:
-    #         file_object.close()
-    # else:
-    #     return Response(data="上传文件不是文本文件！", status=status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
     data_str = json.dumps(s.data)
 
     try:
         data_dict = json.loads(data_str)
     except Exception as e:
         data["code"] = status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE
-        data["msg"] = "数据转化发生错误"
+        data["msg"] = "数据转化发生错误 %s" % e
         return data
 
     # 返回的整体的json数据
     data_dict.update(outer_dict)
 
-    # print("返回的全部数据---->>>", data_dict)
-
     try:
-        save_table_data(data_dict)
+        save_table_data(data_dict, request)
+    except exceptions.PermissionDenied:
+        return exceptions.PermissionDenied.default_detail
     except Exception as e:
         data["code"] = 1400
-        data["msg"] = "数据保存失败！！"
+        data["msg"] = "数据保存失败 %s！！" % e
         return data
 
     data["code"] = status.HTTP_200_OK
-    # resp_data["msg"] = data_dict
-
     data["msg"] = "文件上传成功"
     return data
 
@@ -299,7 +299,6 @@ def group_permission_show(data):
 
 def get_and_post(request, queryset):
     """GET/POST请求页面关于page"""
-
     gen_page = GenPage()
 
     every_data = gen_page.paginate_queryset(queryset=queryset, request=request)
@@ -331,3 +330,9 @@ def get_and_post(request, queryset):
 #             return True
 #         else:
 #             return False
+
+def save_table(table_name):
+    try:
+        table_name.save()
+    except Exception as e:
+        raise e

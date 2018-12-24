@@ -356,7 +356,7 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 
         resp_data = {
             "code": 0,
-            "msg": "",
+            "msg": '',
         }
 
         serial = InvestFileUploadSerializer(data=file)
@@ -364,13 +364,10 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
         serial.is_valid(raise_exception=True)
         # print(serial.errors)
 
-        # 如果此时处理文件，则应形如：
-        # wb = xlrd.open_workbook(file_contents=file['ivfile'].read())
-
         serial.save(owner=request.user)
 
         try:
-            resp_data = create_file_view(serial, resp_data)
+            resp_data = create_file_view(serial, resp_data, request)
         except Exception as e:
             resp_data["msg"] = e
             return Response(resp_data)
@@ -380,7 +377,6 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 
         # TODO: 返回自己上传的列表,还是所有数据
         self.queryset = InvestFileUpload.objects.all()
-
         return super(InvestFileUploadViewSet, self).list(request)
 
 
