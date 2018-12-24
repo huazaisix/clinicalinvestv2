@@ -205,7 +205,7 @@ class MenstruationViewSet(viewsets.ModelViewSet):
         delete:
         删除该 月经情况
     """
-    permission_classes = [TokenHasScope, CheckOperationPerm]  # CheckOperationPerm
+    permission_classes = [TokenHasScope, CheckOperationPerm]
     required_scopes = ['prj001']
     queryset = Menstruation.objects.all()
     serializer_class = MenstruationSerializer

@@ -26,52 +26,6 @@ class UserView(generics.CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 
-# class UserLoginView(generics.GenericAPIView):
-#     """
-#     post - 用户登录
-#     """
-#     permission_classes = [permissions.AllowAny]
-#     serializer_class = UserLoginSerializers
-#
-#     def post(self, request):
-#         request_dict = request.data
-#
-#         serializer = UserLoginSerializers(data=request_dict)
-#
-#         serializer.is_valid(raise_exception=True)
-#
-#         # 查询登录用户的权限
-#         token_obj = AccessToken.objects.get(token=request_dict.get("token"))
-#
-#         # 根据token查询对应的scope
-#         scope_list = token_obj.scope.split(" ")
-#
-#         index = ""
-#
-#         for i, value in enumerate(scope_list):
-#             if value == "users":
-#                 index = i
-#                 break
-
-        # if type(index) == int:
-        #     scope_list[index] = "user"
-        #
-        # user = token_obj.user
-        #
-        # for value in scope_list:
-        #     permissions_list = Permission.objects.filter(codename__contains=value)
-        #
-        #     # print(permissions_list)
-        #
-        #     user.user_permissions.add(*[p_id for p_id in permissions_list])
-        #
-        # serializer = UserLoginSerializers(data=request_dict)
-        #
-        # serializer.is_valid(raise_exception=True)
-        #
-        # return Response(serializer.data)
-
-
 class MyUserList(generics.ListAPIView):
     """
         get:

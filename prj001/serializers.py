@@ -35,6 +35,7 @@ class GeneralListSerializer(serializers.ModelSerializer):
     """
     信息列表序列化器
     """
+    owner = serializers.StringRelatedField(label='用户对应邮箱')
     menstruation = serializers.HyperlinkedRelatedField(label="月经信息",
                                                        read_only=True,
                                                        view_name='menstruation-detail')
@@ -53,19 +54,21 @@ class GeneralListSerializer(serializers.ModelSerializer):
 
         fields = ("url", "id", "menstruation", "other", "clinicalconclusion",
                   "symptom", "name", "nation", "age", "height", "weight",
-                  "blood_type", "culture", "marriage", "career", "owner_id",)
+                  "blood_type", "culture", "marriage", "career", "owner",)
 
 
 class GeneralInfoCreateSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.ReadOnlyField(source='owner.email')
+    # owner = serializers.ReadOnlyField(source='owner.email')
 
     class Meta:
         model = GeneralInfo
-        fields = ('url', 'owner', 'id', 'recdate', 'serial', 'hospital', 'expert', 'title', 'name', 'telephone', 'age',
-                  'height', 'weight', 'blood_type', 'nation', 'career',
-                  'gaokong', 'diwen', 'zaosheng', 'fushe', 'huagongyinran', 'julieyundong', 'qiyou', 'wu',
-                  'address', 'entrance', 'culture', 'marriage',
-                  'wuteshu', 'sushi', 'suan', 'tian', 'xian', 'xinla', 'you', 'shengleng', 'kafei', 'qita')
+        # fields = ('url', 'owner', 'id', 'recdate', 'serial', 'hospital', 'expert', 'title', 'name', 'telephone', 'age',
+        #           'height', 'weight', 'blood_type', 'nation', 'career',
+        #           'gaokong', 'diwen', 'zaosheng', 'fushe', 'huagongyinran', 'julieyundong', 'qiyou', 'wu',
+        #           'address', 'entrance', 'culture', 'marriage',
+        #           'wuteshu', 'sushi', 'suan', 'tian', 'xian', 'xinla', 'you', 'shengleng', 'kafei', 'qita')
+        fields = '__all__'
+        read_only_fields = ('owner', )
 
 
 class GeneralInfoDetailSerializer(serializers.HyperlinkedModelSerializer):
