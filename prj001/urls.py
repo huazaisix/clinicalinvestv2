@@ -81,7 +81,7 @@ urlpatterns = [
 
     path("patientInfo/<pk>/", patient_view, name="patient-info"),
 
-    path('download/',FileDownloadView.as_view(), name='download-csv'),
+    path('download/', FileDownloadView.as_view(), name='download-csv'),
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)

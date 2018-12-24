@@ -215,7 +215,6 @@ def readConclusionInfo(file, dictname):
 
 def readQuestionaireExcel(excelfilepath, jsonfilepath=None):
     xlsmfile = xlrd.open_workbook(excelfilepath)
-    # jsonfile = open(jsonfilepath, mode='w')
 
     general_dict = {}
     menstruation_dict = {}

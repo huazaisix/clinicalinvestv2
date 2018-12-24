@@ -104,8 +104,8 @@ def save_table_data(data_dict, request):
                     transaction.savepoint_commit(point_update)
             else:
                 data = {
+                    'code': status.HTTP_403_FORBIDDEN,
                     'detail': '您目前对该信息无修改权限, 如需修改请联系%s' % owner.email,
-                    'name': owner.email,
                 }
                 exceptions.PermissionDenied.default_detail = data
                 raise exceptions.PermissionDenied

@@ -12,8 +12,6 @@ urlpatterns = [
     path('', MyUserList.as_view(), name='myuser-list'),
     path('<pk>/', MyUserDetail.as_view(), name='myuser-detail'),
     path('<pk>/changepassword/', UpdatePassword.as_view(), name='myuser-changepassword'),
-
-
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)
