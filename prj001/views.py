@@ -3,7 +3,7 @@ import math
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from oauth2_provider.contrib.rest_framework import TokenHasScope
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework import viewsets, views
 from rest_framework.response import Response
 
@@ -13,7 +13,8 @@ from .models import InvestFileUpload
 from .permissions import IsOwnerOrReadOnly, CheckOperationPerm
 from .serializers import GeneralInfoCreateSerializer, GeneralInfoDetailSerializer
 from .serializers import GeneralListSerializer, GeneralInfoPageSeriaializer
-from .serializers import MenstruationSerializer, SymptomSerializer, OtherSerializer, ClinicalConclusionSerializer
+from .serializers import MenstruationSerializer, SymptomSerializer, OtherSerializer
+from .serializers import ClinicalConclusionSerializer, FileDownloadSerializer
 from .serializers import MyUserGenInfoDetailSerializer, InvestFileUploadSerializer, InfoSerializer
 from .utils.utils import get_and_post
 from .utils.utils import group_permission_show
@@ -72,22 +73,9 @@ class GeneralInfoList(generics.ListCreateAPIView):
 
         page = get_and_post(request, queryset=queryset)
 
-        # 清除之前的数据,再设置
-        try:
-            del request.session[str(request.user.id)]
-        except KeyError:
-            pass
-
         if page is not None:
             serializer = self.get_serializer(page, many=True)
-            # resp_dict['count'] = len(queryset)
             resp_dict["results"] = serializer.data
-
-            # 为下载问价做准备
-            request.session[str(request.user.id)] = serializer.data
-
-            # print(request.user.id)
-
             return Response(resp_dict)
 
         context = {
@@ -98,9 +86,6 @@ class GeneralInfoList(generics.ListCreateAPIView):
                                          many=True)
 
         resp_dict["results"] = serializer.data
-
-        request.session[str(request.user.id)] = serializer.data
-
         return Response(resp_dict)
 
     def post(self, request, *args, **kwargs):
@@ -111,9 +96,9 @@ class GeneralInfoList(generics.ListCreateAPIView):
 
         page = serializer.validated_data["page"]
 
-        end_num = (page-1) * settings.GEN_PAGE_SIZE + settings.GEN_PAGE_SIZE
+        end_num = (page - 1) * settings.GEN_PAGE_SIZE + settings.GEN_PAGE_SIZE
 
-        gen_list = self.get_queryset()[(page-1)*settings.GEN_PAGE_SIZE: end_num]
+        gen_list = self.get_queryset()[(page - 1) * settings.GEN_PAGE_SIZE: end_num]
 
         gen_obj_list = get_and_post(request=request, queryset=gen_list)
 
@@ -126,7 +111,7 @@ class GeneralInfoList(generics.ListCreateAPIView):
                                              context=serializer_context)
         resp_data = dict()
         resp_data["results"] = serializer_gen.data
-        
+
         return Response(resp_data)
 
 
@@ -251,7 +236,6 @@ class SymptomViewSet(generics.RetrieveUpdateDestroyAPIView, generics.CreateAPIVi
         deny_permission(msg, request, Symptom)
 
     def perform_create(self, serializer):
-
         perform_create_content(self, GeneralInfo, serializer)
 
 
@@ -409,35 +393,36 @@ class GetPatientInfoView(generics.GenericAPIView):
 
 class FileDownloadView(generics.GenericAPIView):
     """
-    GET - 下载文件
+    POST - 下载文件
     """
     permission_classes = [TokenHasScope, ]
     required_scopes = ['prj001']
+    serializer_class = FileDownloadSerializer
 
-    def get(self, request, *args, **kwargs):
-        #
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
         return_dict = {}
+
+        id_set = serializer.validated_data['id_list']
         try:
-            excel_data = request.session[str(request.user.id)]
-        except KeyError:
-            return_dict['msg'] = '未选择导出的患者'
-            return_dict['url'] = None
+            gen_os = GeneralInfo.objects.filter(id__in=id_set)
+        except GeneralInfo.DoesNotExist:
+            return_dict['msg'] = '患者信息未查询到'
+            return Response(return_dict, status=status.HTTP_404_NOT_FOUND)
 
-            return Response(return_dict)
-        id_list = []
-        # 抽离id
-        for item in excel_data:
-            id_list.append(item.get('id'))
+        if not gen_os:
+            return_dict['msg'] = '患者信息未查询到'
+            return Response(return_dict, status=status.HTTP_404_NOT_FOUND)
 
-        gen_os = GeneralInfo.objects.filter(id__in=id_list)
+        serializer_info = InfoSerializer(instance=gen_os,
+                                         context={'request': request},
+                                         many=True)
 
-        serializer = InfoSerializer(instance=gen_os,
-                                    context={'request': request},
-                                    many=True)
-
-        file_path = save_excel(serializer, self.request.user.id)
+        file_path = save_excel(serializer_info, self.request.user.id)
 
         return_dict['url'] = ''.join([settings.NGINX_IP, settings.NGINX_PORT, '/', file_path])
-        return_dict['msg'] = 'success'
+        return_dict['msg'] = '下载成功'
 
         return Response(return_dict)

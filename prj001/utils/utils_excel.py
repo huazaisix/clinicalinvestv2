@@ -19,26 +19,26 @@ table_title = {
 }
 
 inner_table_key = {
-    'fg_color': '#ABEBC6',
-    'left': 1,
-    'right': 1,
+    # 'fg_color': '#ABEBC6',
+    # 'left': 1,
+    # 'right': 1,
     'font_charset': 'utf-8'
 }
 
 inner_table_value = {
-    'fg_color': '#AED6F1',
+    # 'fg_color': '#AED6F1',
     'align': 'center',
     'left': 1,
-    'right': 1,
+    # 'right': 1,
     'font_charset': 'utf-8'
 }
 
 important_value = {
-    'fg_color': '#AED6F1',
+    # 'fg_color': '#AED6F1',
     'font_color': 'red',
     'align': 'center',
     'left': 1,
-    'right': 1,
+    # 'right': 1,
     'font_charset': 'utf-8'
 }
 

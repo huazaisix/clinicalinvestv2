@@ -174,4 +174,6 @@ NGINX_EXCEL_FILES = nginx_setting['NGINX_EXCEL_FILES']
 NGINX_IP = nginx_setting['NGINX_IP'].join(['http://', ':'])
 NGINX_PORT = nginx_setting['NGINX_PORT']
 
+LIMIT_DOWNLOAD = 10
+
 

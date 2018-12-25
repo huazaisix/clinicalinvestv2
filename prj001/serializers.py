@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.conf import settings
 from myusers.models import MyUser
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
 from .models import InvestFileUpload
@@ -244,3 +245,34 @@ class InfoSerializer(serializers.ModelSerializer):
                   'address', 'entrance', 'culture', 'marriage',
                   'wuteshu', 'sushi', 'suan', 'tian', 'xian', 'xinla', 'you', 'shengleng', 'kafei', 'qita',
                   'menstruation', 'symptom', 'other', 'clinicalconclusion')
+
+
+class FileDownloadSerializer(serializers.Serializer):
+
+    id_list = serializers.CharField(
+        help_text='选择下载病患的列表ID',
+        max_length=150,
+        required=True,
+    )
+
+    def validate(self, data):
+        ids = data['id_list']
+        if not ids:
+            raise serializers.ValidationError('未选择病患, 请重新勾选')
+
+        try:
+            ids_l = ids.lstrip('[')
+            ids_r = ids_l.rstrip(']')
+            ids_result = ids_r.split(',')
+            id_list = list(ids_result)
+        except Exception as e:
+            raise serializers.ValidationError('数据传输格式不正确')
+
+        id_num_list = set([v.strip() for v in id_list if v.strip().isdigit()])
+
+        if len(id_num_list) > settings.LIMIT_DOWNLOAD:
+            raise serializers.ValidationError('选择数目过多, 请选择不超过%s条' % settings.LIMIT_DOWNLOAD)
+
+        data['id_list'] = id_num_list
+
+        return data
