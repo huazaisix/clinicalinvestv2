@@ -12,6 +12,7 @@ from datetime import datetime
 from utils.read_file_util.questionairetojson import readQuestionaireExcel
 from utils.read_file_util.exception import UploadFileException
 from prj001.pagination import GenPage
+from .constants import qita_
 
 import urllib.parse
 import json
@@ -39,7 +40,9 @@ def save_table_data(data_dict, request):
 
     recdate = info.pop("recdate")
 
-    print(recdate)
+    qt_update('info', info)
+    qt_update('symptom', symptom)
+    qt_update('other', other)
 
     iii = datetime.strptime(recdate, '%Y-%m-%d')
     ii = iii.strftime('%Y-%m-%d')
@@ -341,3 +344,13 @@ def save_table(table_name):
         table_name.save()
     except Exception as e:
         raise e
+
+
+def qt_update(st, obj):
+    value = qita_[st]
+    if isinstance(obj[value], bool) and obj[value]:
+        obj[value] = '无'
+    elif isinstance(obj[value], bool):
+        obj[value] = '其他'
+    else:
+        obj[value] = value

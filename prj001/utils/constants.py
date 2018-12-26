@@ -376,4 +376,9 @@ excel_key = {
     'qita_west': '其它西医诊断',
 }
 
+qita_ = {
+    'info': 'qita',
+    'symptom': 'mood_qita',
+    'other': 'hobbies_qita'
+}
 
