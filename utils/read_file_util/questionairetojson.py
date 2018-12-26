@@ -2,6 +2,7 @@
 # coding=utf-8
 
 from utils.read_file_util import readexcel
+from .exception import UploadFileException
 import xlrd
 import json
 
@@ -231,6 +232,13 @@ def readQuestionaireExcel(excelfilepath, jsonfilepath=None):
     }
 
     readGeniralInfo(xlsmfile, general_dict)
+
+    from .constants import table_required
+    for key in table_required:
+        # print(general_dict[key])
+        if general_dict[key] in ['无', 'null', ' ', '', None]:
+            raise UploadFileException
+
     readMenstruationInfo(xlsmfile, menstruation_dict)
     readSymptomInfo(xlsmfile, symptom_dict)
     readOtherInfo(xlsmfile, other_dict)

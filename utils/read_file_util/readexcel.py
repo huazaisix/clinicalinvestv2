@@ -46,7 +46,7 @@ def readStrInfoToDict(currentsheet, dictname,  paracolno, valuecolno, startrowno
 		#单元格格式为日期，则转换成%Y/%d/%m格式的字符串
 		elif ctype2 == 3:
 			data = datetime(*xldate_as_tuple(tmp, 0))
-			cell2 = data.strftime('%Y/%d/%m')
+			cell2 = data.strftime('%Y-%m-%d')
 		else:
 			cell2 = str(tmp)
 		dictname[cell1] = cell2

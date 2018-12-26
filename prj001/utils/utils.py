@@ -10,7 +10,7 @@ from datetime import datetime
 
 # 引入读取离线文件的工具包
 from utils.read_file_util.questionairetojson import readQuestionaireExcel
-
+from utils.read_file_util.exception import UploadFileException
 from prj001.pagination import GenPage
 
 import urllib.parse
@@ -39,7 +39,10 @@ def save_table_data(data_dict, request):
 
     recdate = info.pop("recdate")
 
-    ii = datetime.strptime(recdate, '%Y/%m/%d')
+    print(recdate)
+
+    iii = datetime.strptime(recdate, '%Y-%m-%d')
+    ii = iii.strftime('%Y-%m-%d')
     info['recdate'] = ii
     if not obj_of_info:
         with transaction.atomic(savepoint=True):
@@ -223,6 +226,8 @@ def create_file_view(s, data, request):
     try:
         file_data = readQuestionaireExcel(de_path)
         # print(file_data, type(file_data), "file_data--->>>>")
+    except UploadFileException:
+        raise UploadFileException
     except Exception as e:
         data["code"] = 1441
         data["msg"] = "文件数据无法分析,查看上传文件是否为模板文件%s" % e

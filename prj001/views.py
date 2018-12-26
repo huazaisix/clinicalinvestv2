@@ -6,6 +6,7 @@ from oauth2_provider.contrib.rest_framework import TokenHasScope
 from rest_framework import generics, status
 from rest_framework import viewsets, views
 from rest_framework.response import Response
+from utils.read_file_util.exception import UploadFileException
 
 from myusers.models import MyUser
 from .models import GeneralInfo, Menstruation, Symptom, Other, ClinicalConclusion
@@ -352,6 +353,10 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
 
         try:
             resp_data = create_file_view(serial, resp_data, request)
+        except UploadFileException:
+            return Response(
+                status=status.HTTP_204_NO_CONTENT,
+                data={'msg': UploadFileException.default_detail})
         except Exception as e:
             resp_data["msg"] = e
             return Response(resp_data)
