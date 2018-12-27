@@ -355,6 +355,4 @@ def qt_update(st, obj):
             obj[value] = '其他'
         elif isinstance(obj[value], bool):
             obj[value] = ''
-        elif obj[value] == '':
-            obj[value] = '其他'
 

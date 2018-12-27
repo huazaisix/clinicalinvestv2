@@ -118,16 +118,13 @@ def readOtherInfo(file, dictname):
     readexcel.readBoolInfoToDict(sheet3, dictname, 1, 2, 1, 5)
     # 3~6项
     readexcel.readStrInfoToDict(sheet0, dictname, 4, 1, 116, 121)
-    # print('==>>>>>L121', dictname)
     # 减肥情况
     # “有”则包含运动减肥等参数，“无”则没有这些键值对
     if sheet0.cell(120, 1).value == "有":
         dictname["reducefat_ever"] = True
         readexcel.readBoolInfoToDict(sheet3, dictname, 4, 5, 1, 5)
         # “其他”方式不填写则默认为“无”
-        if sheet0.cell(125, 1).ctype == 0:
-            dictname["reducefat_qita"] = "无"
-        else:
+        if dictname['reducefat_qita']:
             dictname["reducefat_qita"] = sheet0.cell(125, 1).value
         readexcel.readIntInfoToDict(sheet0, dictname, 4, 1, 126, 127)
     else:
@@ -146,26 +143,27 @@ def readOtherInfo(file, dictname):
     # 一级亲属其他疾病史
     readexcel.readBoolInfoToDict(sheet3, dictname, 16, 17, 1, 8)
     # 一级亲属其他疾病史最后一项其他
-    # dictname["reducefat_qita"] = "无"
     # ---孕育史
     readexcel.readStrInfoToDict(sheet0, dictname, 4, 1, 144, 154)
     # ---避孕措施
     readexcel.readBoolInfoToDict(sheet3, dictname, 19, 20, 1, 5)
-    if sheet3.cell(4, 20).value == True:
+    if dictname.get('prevent_biyunyao'):
         # 末次口服避孕药时间
         readexcel.readFloatInfoToDict(sheet0, dictname, 4, 1, 160, 161)
         # 避孕药
         readexcel.readBoolInfoToDict(sheet3, dictname, 22, 23, 1, 7)
         # “其他”方式不填写则默认为“无”
-        if sheet0.cell(167, 1).ctype == 0:
-            dictname["reducefat_qita"] = "无"
-        else:
-            dictname["reducefat_qita"] = sheet0.cell(125, 1).value
+        if dictname['prevent_qita']:
+            dictname["prevent_qita"] = sheet0.cell(167, 1).value
+    else:
+        dictname['prevent_biyunyao_time'] = 0
+        for i in range(1, 7):
+            dictname[sheet3.cell(i, 22).value] = False
     # ---相关辅助检查
     readexcel.readStrInfoToDict(sheet0, dictname, 4, 1, 169, 179)
     # “其他”方式不填写则默认为“无”
     if sheet0.cell(167, 1).ctype == 0:
-        dictname["accessory_qita"] = "无"
+        dictname["accessory_qita"] = '无'
     else:
         dictname["accessory_qita"] = sheet0.cell(179, 1).value
 
@@ -178,8 +176,7 @@ def readConclusionInfo(file, dictname):
     readexcel.readBoolInfoToDict(sheet4, dictname, 1, 2, 1, 6)
     # ---辨证分型
     # 1.虚证
-    readexcel.readBoolInfoToDict(sheet4, dictname, 4, 5, 1, 11)
-    dictname["qita_asthenic"] = ""
+    readexcel.readBoolInfoToDict(sheet4, dictname, 4, 5, 1, 12)
     # “其他”方式不填写则默认为“无”
     '''
     if sheet0.cell(167, 1).ctype == 0:
@@ -188,9 +185,8 @@ def readConclusionInfo(file, dictname):
         dictname["qita_asthenic"] = "待修改"
     '''
     # 2.实证
-    readexcel.readBoolInfoToDict(sheet4, dictname, 7, 8, 1, 11)
+    readexcel.readBoolInfoToDict(sheet4, dictname, 7, 8, 1, 12)
     # “其他”方式不填写则默认为“无”
-    dictname["qita_demonstration"] = ""
     '''
     if sheet0.cell(167, 1).ctype == 0:
         dictname["qita_demonstration"] = "无"
@@ -198,9 +194,8 @@ def readConclusionInfo(file, dictname):
         dictname["qita_demonstration"] = "待修改"
     '''
     # 3.虚实夹杂证
-    readexcel.readBoolInfoToDict(sheet4, dictname, 10, 11, 1, 8)
+    readexcel.readBoolInfoToDict(sheet4, dictname, 10, 11, 1, 9)
     # “其他”方式不填写则默认为“无”
-    dictname["qita_def_ex"] = ""
     '''
     if sheet0.cell(167, 1).ctype == 0:
         dictname["qita_def_ex"] = "无"
