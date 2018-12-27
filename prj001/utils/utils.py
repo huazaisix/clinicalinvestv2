@@ -350,7 +350,7 @@ def save_table(table_name):
 def qt_update(st, obj):
     v = qita_[st]
     for value in v:
-        print(obj[value])
+        # print(obj[value])
         if isinstance(obj[value], bool) and obj[value]:
             obj[value] = '其他'
         elif isinstance(obj[value], bool):
