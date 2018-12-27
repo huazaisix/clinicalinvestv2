@@ -369,31 +369,15 @@ class InvestFileUploadViewSet(viewsets.ModelViewSet):
         return super(InvestFileUploadViewSet, self).list(request)
 
 
-class GetPatientInfoView(generics.GenericAPIView):
+class GetPatientInfoView(generics.RetrieveAPIView):
     """
     get:
         获取单个患者的各项详细信息
     """
     permission_classes = [TokenHasScope, CheckOperationPerm]  # IsOwnerOrReadOnly
-
     required_scopes = ['prj001']
-
-    @staticmethod
-    def get(request, pk):
-
-        if not pk:
-            return Response({"msg": "请重新选择患者"})
-
-        gen_obj = GeneralInfo.objects.filter(id=pk)
-
-        if not gen_obj:
-            return Response({"msg": "该病患还没有录入信息"})
-
-        serializer = InfoSerializer(instance=gen_obj,
-                                    many=True,
-                                    context={'request': request})
-
-        return Response(serializer.data)
+    queryset = GeneralInfo.objects.select_related().all()
+    serializer_class = InfoSerializer
 
 
 class FileDownloadView(generics.GenericAPIView):

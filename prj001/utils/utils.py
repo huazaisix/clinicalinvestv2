@@ -43,6 +43,7 @@ def save_table_data(data_dict, request):
     qt_update('info', info)
     qt_update('symptom', symptom)
     qt_update('other', other)
+    qt_update('conclusion', conclusion)
 
     iii = datetime.strptime(recdate, '%Y-%m-%d')
     ii = iii.strftime('%Y-%m-%d')
@@ -347,10 +348,13 @@ def save_table(table_name):
 
 
 def qt_update(st, obj):
-    value = qita_[st]
-    if isinstance(obj[value], bool) and obj[value]:
-        obj[value] = '无'
-    elif isinstance(obj[value], bool):
-        obj[value] = '其他'
-    else:
-        obj[value] = value
+    v = qita_[st]
+    for value in v:
+        print(obj[value])
+        if isinstance(obj[value], bool) and obj[value]:
+            obj[value] = '其他'
+        elif isinstance(obj[value], bool):
+            obj[value] = ''
+        elif obj[value] == '':
+            obj[value] = '其他'
+

@@ -377,8 +377,9 @@ excel_key = {
 }
 
 qita_ = {
-    'info': 'qita',
-    'symptom': 'mood_qita',
-    'other': 'hobbies_qita'
+    'info': ['qita'],
+    'symptom': ['mood_qita'],
+    'other': ['hobbies_qita', 'reducefat_qita', 'pastfamily_qita', 'prevent_qita', 'pasthistory_qita'],
+    'conclusion': ['qita_asthenic', 'qita_demonstration', 'qita_def_ex', 'qita_west', ]
 }
 

@@ -123,7 +123,7 @@ def readOtherInfo(file, dictname):
     # “有”则包含运动减肥等参数，“无”则没有这些键值对
     if sheet0.cell(120, 1).value == "有":
         dictname["reducefat_ever"] = True
-        readexcel.readBoolInfoToDict(sheet3, dictname, 4, 5, 1, 4)
+        readexcel.readBoolInfoToDict(sheet3, dictname, 4, 5, 1, 5)
         # “其他”方式不填写则默认为“无”
         if sheet0.cell(125, 1).ctype == 0:
             dictname["reducefat_qita"] = "无"
@@ -137,27 +137,25 @@ def readOtherInfo(file, dictname):
     # 8.平素带下情况
     readexcel.readBoolInfoToDict(sheet3, dictname, 7, 8, 1, 9)
     # 9.既往病史
-    readexcel.readBoolInfoToDict(sheet3, dictname, 10, 11, 1, 17)
+    readexcel.readBoolInfoToDict(sheet3, dictname, 10, 11, 1, 18)
     # ---月经不调病史
     readexcel.readBoolInfoToDict(sheet3, dictname, 13, 14, 1, 8)
     # ---家族史
     # 一级亲属疾病史
     readexcel.readStrInfoToDict(sheet0, dictname, 4, 1, 133, 135)
     # 一级亲属其他疾病史
-    readexcel.readBoolInfoToDict(sheet3, dictname, 16, 17, 1, 7)
+    readexcel.readBoolInfoToDict(sheet3, dictname, 16, 17, 1, 8)
     # 一级亲属其他疾病史最后一项其他
-    dictname["reducefat_qita"] = "无"
+    # dictname["reducefat_qita"] = "无"
     # ---孕育史
     readexcel.readStrInfoToDict(sheet0, dictname, 4, 1, 144, 154)
     # ---避孕措施
     readexcel.readBoolInfoToDict(sheet3, dictname, 19, 20, 1, 5)
-    print(sheet3.cell(4, 20).value)
     if sheet3.cell(4, 20).value == True:
         # 末次口服避孕药时间
-        print(sheet0.cell(160, 1).value)
         readexcel.readFloatInfoToDict(sheet0, dictname, 4, 1, 160, 161)
         # 避孕药
-        readexcel.readBoolInfoToDict(sheet3, dictname, 22, 23, 1, 6)
+        readexcel.readBoolInfoToDict(sheet3, dictname, 22, 23, 1, 7)
         # “其他”方式不填写则默认为“无”
         if sheet0.cell(167, 1).ctype == 0:
             dictname["reducefat_qita"] = "无"
