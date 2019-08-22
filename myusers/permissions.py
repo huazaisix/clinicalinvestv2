@@ -19,6 +19,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
 class CheckOperationPerm(permissions.BasePermission):  # for details
     """
+    zai branch
     Custom permission to only allow owners of an object to edit it.
     """
 
