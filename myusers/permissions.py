@@ -17,8 +17,9 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         return obj == request.user
 
 
-class CheckOperationPerm(permissions.BasePermission):# for details
+class CheckOperationPerm(permissions.BasePermission):  # for details
     """
+    test
     Custom permission to only allow owners of an object to edit it.
     """
 
